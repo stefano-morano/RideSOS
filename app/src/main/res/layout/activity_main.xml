@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <!-- Contenuto della MainActivity -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:layout_centerInParent="true"
-        android:textSize="24sp" />
+        <!-- TextView for initial message -->
+        <TextView
+            android:id="@+id/noRideText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Record new ride"
+            android:textSize="24sp" />
+
+        <!-- Switch for toggling -->
+        <Switch
+            android:id="@+id/switchRide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/custom_thumb_off"
+            android:track="@drawable/custom_track"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <!-- TextView for safe ride message -->
+        <TextView
+            android:id="@+id/textViewSafeRide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Have a safe ride"
+            android:textSize="24sp"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

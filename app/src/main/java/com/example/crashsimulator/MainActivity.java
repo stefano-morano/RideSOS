@@ -1,20 +1,40 @@
 package com.example.crashsimulator;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Switch;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    BottomNavigationView bottomNavigationView;
+    TextView noRideText;
+    TextView rideText;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch rideSwitch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home); // Seleziona l'elemento Home
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+
+        noRideText = findViewById(R.id.noRideText);
+        rideText = findViewById(R.id.textViewSafeRide);
+
+        rideSwitch = findViewById(R.id.switchRide);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -38,5 +58,17 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        rideSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                noRideText.setVisibility(View.GONE);
+                rideText.setVisibility(View.VISIBLE);
+            } else {
+                noRideText.setVisibility(View.VISIBLE);
+                rideText.setVisibility(View.GONE);
+            }
+        });
+
+
     }
 }
