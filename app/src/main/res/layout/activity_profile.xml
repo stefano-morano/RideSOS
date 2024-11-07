@@ -3,69 +3,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D6CACA"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#D6CACA"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
 
-       <!-- <android.support.v7.widget.CardView
-            android:id="@+id/view2"
-            android:layout_width="77dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:elevation="12dp"
-            android:innerRadius="0dp"
-            android:shape="ring"
-            android:thicknessRatio="1.9"
-            app:cardCornerRadius="40dp">
+        <!-- Profile Image and Edit Icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
 
+            <!-- Profile Image -->
             <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:src="@drawable/cv"></ImageView>
+                android:id="@+id/profileImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/ic_profile"
+                android:contentDescription="Profile Picture" />
 
-        </android.support.v7.widget.CardView> -->
+            <!-- Edit Icon -->
+            <ImageView
+                android:id="@+id/editIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_profile"
+                android:contentDescription="Edit Profile" />
 
+        </LinearLayout>
+
+        <!-- Name -->
         <TextView
-            android:id="@+id/nameView"
+            android:id="@+id/profileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stefano Morano"
-            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="Miguel Cervantes"
+            android:textColor="#333333"
             android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif" />
+
+        <!-- PhoneNumber -->
+        <LinearLayout
+            android:id="@+id/phoneContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_corners"
+            android:padding="12dp"
+            android:elevation="2dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/phoneNumberLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/phoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+34 123-45678"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Gender and Blood Type -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <!-- Gender -->
+            <LinearLayout
+                android:id="@+id/genderContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corners"
+                android:padding="12dp"
+                android:elevation="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/genderLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Blood Type -->
+            <LinearLayout
+                android:id="@+id/bloodTypeContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corners"
+                android:padding="12dp"
+                android:elevation="2dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/bloodTypeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood Type"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/bloodType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A+"
+                    android:textColor="#333333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Birthdate -->
+        <LinearLayout
+            android:id="@+id/birthdateContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_corners"
+            android:padding="12dp"
+            android:elevation="2dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/birthdateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthdate"
+                android:textColor="#888888"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/birthdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23 October 1964"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <!-- Safety Questions Button -->
+        <Button
+            android:id="@+id/safetyQuestionsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="48dp"
+            android:paddingVertical="18dp"
+            android:background="@drawable/rounded_button"
+            android:text="Safety Questions"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
             android:textStyle="bold" />
+
     </LinearLayout>
-
-    <!-- CountryCodePicker per selezionare la bandiera e il prefisso -->
-  <!--  <com.hbb20.CountryCodePicker
-        android:id="@+id/ccp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:ccpDialogBackgroundColor="@android:color/white"
-        app:ccpShowFlag="true"
-        app:ccpShowFullName="false"
-        app:ccpShowNameCode="false"
-        app:ccpShowPhoneCode="true" /> -->
-
-    <!-- EditText per inserire il numero di telefono con sfondo ovale -->
-    <EditText
-        android:id="@+id/phoneEditText"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:hint="Numero di telefono"
-        android:inputType="phone"
-        android:background="@drawable/rounded_edittext"
-        android:padding="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

@@ -3,4 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Hospital</string>
     <string name="title_notifications">Profile</string>
+    <string name="activeText">We’ll use phone’s sensors to ensure your safety.</string>
+    <string name="activeTitle">Have a safe ride!</string>
+    <string name="disactiveText">Switch on to start monitoring your ride.</string>
+    <string name="disactiveTitle">Record new ride</string>
 </resources>

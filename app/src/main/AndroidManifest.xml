@@ -24,6 +24,7 @@
         <activity android:name=".ProfileActivity" />
         <!-- Dichiarazione del servizio -->
         <service android:name=".AccelerometerService"
+            android:foregroundServiceType="health"
             android:enabled="true"
             android:exported="false"/>
     </application>

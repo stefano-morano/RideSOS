@@ -18,8 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    TextView noRideText;
-    TextView rideText;
+    TextView noRideTitle, noRideText, rideTitle, rideText;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
     private AccelerometerSensor accelerometerSensor;
@@ -33,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
-        noRideText = findViewById(R.id.noRideText);
-        rideText = findViewById(R.id.textViewSafeRide);
+        noRideTitle = findViewById(R.id.textViewTitleDisactive);
+        noRideText = findViewById(R.id.textViewMessageDisactive);
+        rideTitle = findViewById(R.id.textViewTitleActive);
+        rideText = findViewById(R.id.textViewMessageActive);
 
         rideSwitch = findViewById(R.id.switchRide);
 
@@ -65,9 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
         rideSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                noRideText.setVisibility(View.GONE);
+                noRideTitle.setVisibility(View.INVISIBLE);
+                noRideText.setVisibility(View.INVISIBLE);
+                rideTitle.setVisibility(View.VISIBLE);
                 rideText.setVisibility(View.VISIBLE);
-                accelerometerSensor.start();
                 new Thread(() -> {
                     while (true) {
                         runOnUiThread(() -> {
@@ -83,8 +85,10 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
             } else {
                 stopAccelerometerService();
+                noRideTitle.setVisibility(View.VISIBLE);
                 noRideText.setVisibility(View.VISIBLE);
-                rideText.setVisibility(View.GONE);
+                rideTitle.setVisibility(View.INVISIBLE);
+                rideText.setVisibility(View.INVISIBLE);
             }
         });
     }

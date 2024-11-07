@@ -9,14 +9,33 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
+        android:paddingHorizontal="32dp"
         android:background="#D6CACA">
-        <!-- TextView for initial message -->
+
+        <!-- Bold Text Disactive -->
         <TextView
-            android:id="@+id/noRideText"
+            android:id="@+id/textViewTitleDisactive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Record new ride"
-            android:textSize="24sp" />
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:text="@string/disactiveTitle"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
+            android:visibility="visible" />
+
+        <!-- Main Text Disactive -->
+        <TextView
+            android:id="@+id/textViewMessageDisactive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:text="@string/disactiveText"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif"
+            android:visibility="visible" />
 
         <!-- Switch for toggling -->
         <Switch
@@ -27,15 +46,30 @@
             android:track="@drawable/custom_track"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-        <!-- TextView for safe ride message -->
+        <!-- Main Text Active -->
         <TextView
-            android:id="@+id/textViewSafeRide"
+            android:id="@+id/textViewMessageActive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Have a safe ride"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:text="@string/activeText"
             android:textSize="24sp"
-            android:visibility="gone" /> <!-- Initially hidden -->
+            android:fontFamily="sans-serif"
+            android:visibility="invisible" />
 
+        <!-- Bold Text Active -->
+        <TextView
+            android:id="@+id/textViewTitleActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/activeTitle"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
