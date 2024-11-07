@@ -8,14 +8,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#D6CACA"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
+       <!-- <android.support.v7.widget.CardView
+            android:id="@+id/view2"
+            android:layout_width="77dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:elevation="12dp"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.9"
+            app:cardCornerRadius="40dp">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:src="@drawable/cv"></ImageView>
+
+        </android.support.v7.widget.CardView> -->
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:text="Stefano Morano"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <!-- CountryCodePicker per selezionare la bandiera e il prefisso -->
+  <!--  <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:ccpDialogBackgroundColor="@android:color/white"
+        app:ccpShowFlag="true"
+        app:ccpShowFullName="false"
+        app:ccpShowNameCode="false"
+        app:ccpShowPhoneCode="true" /> -->
+
+    <!-- EditText per inserire il numero di telefono con sfondo ovale -->
+    <EditText
+        android:id="@+id/phoneEditText"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:hint="Numero di telefono"
+        android:inputType="phone"
+        android:background="@drawable/rounded_edittext"
+        android:padding="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

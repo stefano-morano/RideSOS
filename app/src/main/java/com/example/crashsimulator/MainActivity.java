@@ -71,9 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 new Thread(() -> {
                     while (true) {
                         runOnUiThread(() -> {
-                            float[] values = accelerometerSensor.getAccelerometerValues();
-                            String accelerometerText = String.format("X: %.2f\nY: %.2f\nZ: %.2f", values[0], values[1], values[2]);
-                            rideText.setText(accelerometerText);
+                            startAccelerometerService();
+                            rideText.setText("Have a safe ride!");
                         });
                         try {
                             Thread.sleep(500); // Update every 500 milliseconds
@@ -83,12 +82,33 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).start();
             } else {
-                accelerometerSensor.stop();
+                stopAccelerometerService();
                 noRideText.setVisibility(View.VISIBLE);
                 rideText.setVisibility(View.GONE);
             }
         });
+    }
 
+    private void startAccelerometerService() {
+        Intent serviceIntent = new Intent(this, AccelerometerService.class);
+        startService(serviceIntent);
+    }
 
+    private void stopAccelerometerService() {
+        Intent serviceIntent = new Intent(this, AccelerometerService.class);
+        stopService(serviceIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        accelerometerSensor.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent serviceIntent = new Intent(this, AccelerometerService.class);
+        startService(serviceIntent);
     }
 }
