@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     TextView rideText;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
+    private AccelerometerSensor accelerometerSensor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         rideText = findViewById(R.id.textViewSafeRide);
 
         rideSwitch = findViewById(R.id.switchRide);
+
+        accelerometerSensor = new AccelerometerSensor(this);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -63,7 +67,23 @@ public class MainActivity extends AppCompatActivity {
             if (isChecked) {
                 noRideText.setVisibility(View.GONE);
                 rideText.setVisibility(View.VISIBLE);
+                accelerometerSensor.start();
+                new Thread(() -> {
+                    while (true) {
+                        runOnUiThread(() -> {
+                            float[] values = accelerometerSensor.getAccelerometerValues();
+                            String accelerometerText = String.format("X: %.2f\nY: %.2f\nZ: %.2f", values[0], values[1], values[2]);
+                            rideText.setText(accelerometerText);
+                        });
+                        try {
+                            Thread.sleep(500); // Update every 500 milliseconds
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
             } else {
+                accelerometerSensor.stop();
                 noRideText.setVisibility(View.VISIBLE);
                 rideText.setVisibility(View.GONE);
             }

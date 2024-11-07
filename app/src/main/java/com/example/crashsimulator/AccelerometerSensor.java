@@ -7,7 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class AccelerometerSensor implements SensorEventListener {
+public class AccelerometerSensor implements SensorEventListener{
 
     private final SensorManager sensorManager;
     private Sensor accelerometer;
@@ -24,7 +24,7 @@ public class AccelerometerSensor implements SensorEventListener {
     // Metodo per iniziare a registrare l'accelerometro
     public void start() {
         if (accelerometer != null) {
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, accelerometer, 5000);
         }
     }
 

@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
-
+        android:gravity="center"
+        android:background="#D6CACA">
         <!-- TextView for initial message -->
         <TextView
             android:id="@+id/noRideText"
