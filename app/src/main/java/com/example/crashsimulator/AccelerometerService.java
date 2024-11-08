@@ -35,7 +35,6 @@ public class AccelerometerService extends Service {
                 .setSmallIcon(R.drawable.ic_profile)
                 .build();
         startForeground(1, notification);
-
         return START_STICKY;
     }
 
@@ -58,6 +57,8 @@ public class AccelerometerService extends Service {
                     "Accelerometer Service Channel",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
+            serviceChannel.setVibrationPattern(new long[]{0});
+            serviceChannel.enableVibration(false);
             NotificationManager manager = getSystemService(NotificationManager.class);
             if (manager != null) {
                 manager.createNotificationChannel(serviceChannel);

@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     TextView rideText;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
-    private AccelerometerSensor accelerometerSensor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
         rideText = findViewById(R.id.textViewSafeRide);
 
         rideSwitch = findViewById(R.id.switchRide);
-
-        accelerometerSensor = new AccelerometerSensor(this);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -67,11 +63,10 @@ public class MainActivity extends AppCompatActivity {
             if (isChecked) {
                 noRideText.setVisibility(View.GONE);
                 rideText.setVisibility(View.VISIBLE);
-                accelerometerSensor.start();
                 new Thread(() -> {
                     while (true) {
                         runOnUiThread(() -> {
-                            startAccelerometerService();
+                            //startAccelerometerService();
                             rideText.setText("Have a safe ride!");
                         });
                         try {
@@ -102,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        accelerometerSensor.stop();
+        //stopAccelerometerService();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Intent serviceIntent = new Intent(this, AccelerometerService.class);
-        startService(serviceIntent);
+        //Intent serviceIntent = new Intent(this, AccelerometerService.class);
+        //startService(serviceIntent);
     }
 }
