@@ -85,7 +85,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         /* Assign the name array to that adapter and
         also choose a simple layout for the list items */
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, myValues);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.item_dropdown, myValues);
 
         MaterialAutoCompleteTextView tv = findViewById(autocompleteTextViewId);
 

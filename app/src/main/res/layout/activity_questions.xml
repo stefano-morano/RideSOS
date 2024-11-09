@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation"
         android:orientation="vertical"
-        android:divider="@drawable/my_divider_normal"
+        android:divider="@drawable/divider_normal"
         android:showDividers="middle"
         android:gravity="center_horizontal"
         android:padding="@dimen/my_big_margin" >
@@ -30,7 +30,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:contentDescription="@string/edit_description"
-                android:src="@drawable/baseline_arrow_back_24"
+                android:src="@drawable/ic_arrow_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:divider="@drawable/my_divider_normal"
+            android:divider="@drawable/divider_normal"
             android:showDividers="middle"
             android:gravity="center_horizontal"
             android:layout_marginVertical="@dimen/my_small_margin" >
