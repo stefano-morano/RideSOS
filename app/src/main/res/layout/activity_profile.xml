@@ -54,7 +54,7 @@
             android:id="@+id/profileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/full_name"
+            android:text=""
             android:textColor="@color/text_primary_alt"
             android:textSize="@dimen/normal_text_size"
             android:textStyle="bold"
@@ -153,11 +153,11 @@
 
         <!-- Birthdate -->
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/birthdate_label"
-            app:boxBackgroundColor="@color/card_bg"
+            app:boxBackgroundColor="@color/card_bg_editable"
             app:boxCornerRadiusBottomStart="@dimen/default_radius"
             app:boxCornerRadiusBottomEnd="@dimen/default_radius"
             app:boxCornerRadiusTopStart="@dimen/default_radius"
@@ -165,11 +165,9 @@
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             android:enabled="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             >
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/birthdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

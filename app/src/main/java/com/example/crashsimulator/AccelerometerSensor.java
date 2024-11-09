@@ -32,8 +32,12 @@ public class AccelerometerSensor implements SensorEventListener{
     // Method for starting registering values
     public void start() {
         if (accelerometer != null) {
-            sensorManager.registerListener(this, accelerometer, sensorDelayMs*1000);
-            // TODO: Check return value of registerListener to know if listener was actually registered or not. If true, the sensor is available and the listening has started. If false, the sensor may not be available (for whatever reason).
+            boolean done = sensorManager.registerListener(this, accelerometer, sensorDelayMs*1000);
+            // Check return value of registerListener to know if listener was actually registered or not.
+            // If true, the sensor is available and the listening has started. If false, the sensor may not be available (for whatever reason).
+            if (!done) {
+                throw new RuntimeException("Accelerometer sensor is not available.");
+            }
         }
     }
 

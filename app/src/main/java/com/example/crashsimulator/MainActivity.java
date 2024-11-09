@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         // Bottom navigation bar
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             final int x = item.getItemId();
 
