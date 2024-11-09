@@ -1,15 +1,12 @@
 package com.example.crashsimulator;
 
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,34 +35,32 @@ public class HospitalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
-        text = findViewById(R.id.text);
+
+        // Bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.navigation_hospital);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                final int x = item.getItemId();
-                if (x == R.id.navigation_home) {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                }
 
-                if (x == R.id.navigation_profile) {
-                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                }
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            final int x = item.getItemId();
 
-                if (x == R.id.navigation_hospital) return true;
-
-                return false;
-            }
+            if (x == R.id.navigation_profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (x == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+            } else return x == R.id.navigation_hospital;
         });
+
+        // Main content
+        text = findViewById(R.id.textView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         es = Executors.newSingleThreadExecutor();
-        // Eseguiamo il parsing del JSON
+
+        // Parse JSON
         loadHospitalData();
     }
 

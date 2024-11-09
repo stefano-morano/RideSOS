@@ -2,4 +2,20 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="my_smallest_margin">8dp</dimen>
+    <dimen name="my_small_margin">12dp</dimen>
+    <dimen name="my_medium_margin">16dp</dimen>
+    <dimen name="my_big_margin">24dp</dimen>
+    <dimen name="my_biggest_margin">48dp</dimen>
+    <dimen name="bold_text_size">36sp</dimen>
+    <dimen name="normal_text_size">24sp</dimen>
+    <dimen name="small_text_size">16sp</dimen>
+    <dimen name="smallest_text_size">12sp</dimen>
+    <dimen name="default_radius">20dp</dimen>
+    <dimen name="default_elevation">2dp</dimen>
+    <dimen name="switch_height">80dp</dimen>
+    <dimen name="switch_length">200dp</dimen>
+    <dimen name="switch_track_radius">@dimen/switch_height</dimen>
+    <dimen name="switch_thumb_stroke_radius">25dp</dimen>
 </resources>

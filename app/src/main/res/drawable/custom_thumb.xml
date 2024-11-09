@@ -4,10 +4,10 @@
         <layer-list>
             <item>
                 <shape android:dither="true" android:shape="rectangle" android:useLevel="false" android:visible="true">
-                    <solid android:color="#808080" />
+                    <solid android:color="@color/switch_thumb_off" />
                     <corners android:radius="100dp" />
-                    <size android:width="24dp" android:height="25dp" />
-                    <stroke android:width="4dp" android:color="#0000ffff" />
+                    <size android:width="@dimen/switch_height" android:height="@dimen/switch_height" />
+                    <stroke android:width="@dimen/switch_thumb_stroke_radius" android:color="#0000ffff" />
                 </shape>
 
             </item>
@@ -22,10 +22,10 @@
         <layer-list>
             <item>
                 <shape android:dither="true" android:shape="rectangle" android:useLevel="true" android:visible="false">
-                    <solid android:color="#ffffff" />
+                    <solid android:color="@color/switch_thumb_on" />
                     <corners android:radius="100dp" />
-                    <size android:width="24dp" android:height="25dp" />
-                    <stroke android:width="4dp" android:color="#0000ffff" />
+                    <size android:width="@dimen/switch_height" android:height="@dimen/switch_height" />
+                    <stroke android:width="@dimen/switch_thumb_stroke_radius" android:color="#0000ffff" />
                 </shape>
 
             </item>

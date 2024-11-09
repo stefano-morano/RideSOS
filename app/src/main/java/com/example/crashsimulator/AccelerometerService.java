@@ -13,21 +13,20 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 public class AccelerometerService extends Service {
-
+    private Thread readingSensorThread;
     private AccelerometerSensor accelerometerSensor;
     public static final String CHANNEL_ID = "AccelerometerServiceChannel";
     private static final String TAG = "AccelerometerService";
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        accelerometerSensor = new AccelerometerSensor(this);
-        accelerometerSensor.start();
-        logAccelerometerData();
-    }
+    public static final int SENSOR_DELAY_MS = 2000;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "service started");
+
+        accelerometerSensor = new AccelerometerSensor(this, SENSOR_DELAY_MS);
+        accelerometerSensor.start();
+        logAccelerometerData();
+
         createNotificationChannel();
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("SOSRide")
@@ -40,8 +39,11 @@ public class AccelerometerService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        accelerometerSensor.stop(); // Ferma il sensore quando il servizio viene distrutto
+        Log.d(TAG, "service stopped");
+
+        accelerometerSensor.stop(); // Stop the sensor when service is destroyed
+        readingSensorThread.interrupt(); // Interrupt the sensor reading thread
+        stopSelf();
     }
 
     @Nullable
@@ -67,18 +69,21 @@ public class AccelerometerService extends Service {
     }
 
     private void logAccelerometerData() {
-        new Thread(() -> {
-            while (true) {
-                float[] values = accelerometerSensor.getAccelerometerValues();
-                String data = String.format("X: %.2f, Y: %.2f, Z: %.2f", values[0], values[1], values[2]);
-                // Logga i dati nella Logcat
-                Log.d(TAG, data);
+        readingSensorThread = new Thread(() -> {
+            boolean isInterrupted = false;
+            while (!isInterrupted) {
                 try {
-                    Thread.sleep(1000); // Log ogni secondo
+                    float[] values = accelerometerSensor.getAccelerometerValues();
+                    String data = String.format("X: %.2f, Y: %.2f, Z: %.2f", values[0], values[1], values[2]);
+                    Log.d(TAG, data);
+                    Thread.sleep(SENSOR_DELAY_MS); // Log every second
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    isInterrupted = true;
                 }
             }
-        }).start();
+        });
+
+        // Launch the thread
+        readingSensorThread.start();
     }
 }

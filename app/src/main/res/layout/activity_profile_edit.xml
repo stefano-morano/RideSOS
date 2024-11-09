@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileActivity"
+    tools:context=".EditProfileActivity"
     >
 
     <!-- Content -->
@@ -46,19 +46,57 @@
                 android:contentDescription="@string/edit_profile_image_description"
                 android:src="@drawable/ic_edit_profile"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="invisible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- FullName -->
-        <TextView
-            android:id="@+id/profileName"
-            android:layout_width="wrap_content"
+        <!-- Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/full_name"
-            android:textColor="@color/text_primary_alt"
-            android:textSize="@dimen/normal_text_size"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif" />
+            android:hint="@string/name_label"
+            app:boxBackgroundColor="@color/card_bg_editable"
+            app:boxCornerRadiusBottomStart="@dimen/default_radius"
+            app:boxCornerRadiusBottomEnd="@dimen/default_radius"
+            app:boxCornerRadiusTopStart="@dimen/default_radius"
+            app:boxCornerRadiusTopEnd="@dimen/default_radius"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            android:enabled="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@string/name_value" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Surname -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/surname_label"
+            app:boxBackgroundColor="@color/card_bg_editable"
+            app:boxCornerRadiusBottomStart="@dimen/default_radius"
+            app:boxCornerRadiusBottomEnd="@dimen/default_radius"
+            app:boxCornerRadiusTopStart="@dimen/default_radius"
+            app:boxCornerRadiusTopEnd="@dimen/default_radius"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            android:enabled="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@string/surname_value" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- PhoneNumber -->
         <com.google.android.material.textfield.TextInputLayout
@@ -66,14 +104,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/phone_number_label"
-            app:boxBackgroundColor="@color/card_bg"
+            app:boxBackgroundColor="@color/card_bg_editable"
             app:boxCornerRadiusBottomStart="@dimen/default_radius"
             app:boxCornerRadiusBottomEnd="@dimen/default_radius"
             app:boxCornerRadiusTopStart="@dimen/default_radius"
             app:boxCornerRadiusTopEnd="@dimen/default_radius"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            android:enabled="false"
+            android:enabled="true"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -102,16 +140,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/gender_label"
-                app:boxBackgroundColor="@color/card_bg"
+                app:boxBackgroundColor="@color/card_bg_editable"
                 app:boxCornerRadiusBottomStart="@dimen/default_radius"
                 app:boxCornerRadiusBottomEnd="@dimen/default_radius"
                 app:boxCornerRadiusTopStart="@dimen/default_radius"
                 app:boxCornerRadiusTopEnd="@dimen/default_radius"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                android:enabled="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
+                android:enabled="true"
                 >
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -129,19 +165,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/blood_type_label"
-                app:boxBackgroundColor="@color/card_bg"
+                app:boxBackgroundColor="@color/card_bg_editable"
                 app:boxCornerRadiusBottomStart="@dimen/default_radius"
                 app:boxCornerRadiusBottomEnd="@dimen/default_radius"
                 app:boxCornerRadiusTopStart="@dimen/default_radius"
                 app:boxCornerRadiusTopEnd="@dimen/default_radius"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                android:enabled="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
+                android:enabled="true"
                 >
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/bloodType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -157,16 +191,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/birthdate_label"
-            app:boxBackgroundColor="@color/card_bg"
+            app:boxBackgroundColor="@color/card_bg_editable"
             app:boxCornerRadiusBottomStart="@dimen/default_radius"
             app:boxCornerRadiusBottomEnd="@dimen/default_radius"
             app:boxCornerRadiusTopStart="@dimen/default_radius"
             app:boxCornerRadiusTopEnd="@dimen/default_radius"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            android:enabled="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
+            android:enabled="true"
             >
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -185,12 +217,12 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/my_biggest_margin"
             android:paddingVertical="@dimen/my_medium_margin"
-            android:background="@drawable/rounded_button"
-            android:text="@string/safety_questions_btn"
+            android:background="@drawable/rounded_button_confirm"
+            android:text="@string/confirm_edit_btn"
             android:textColor="@color/text_button"
             android:textSize="@dimen/small_text_size"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+            android:textAllCaps="false"
+            android:textStyle="normal" />
 
     </LinearLayout>
 

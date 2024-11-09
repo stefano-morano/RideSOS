@@ -3,20 +3,21 @@ package com.example.crashsimulator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class ProfileActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+
+public class EditProfileActivity extends AppCompatActivity {
     Button btn;
-    ImageView editProfileView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profile_edit);
 
         // Bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -37,7 +38,25 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         // Main content
-        editProfileView = findViewById(R.id.editIcon);
-        editProfileView.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), EditProfileActivity.class)));
+        btn = findViewById(R.id.button);
+        btn.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), ProfileActivity.class)));
+
+        // Dropdowns
+        createDropdown(R.id.gender, R.array.gender_values);
+        createDropdown(R.id.bloodType, R.array.blood_type_values);
+    }
+
+    void createDropdown(int autocompleteTextViewId, int valuesId) {
+        // Create an ArrayAdapter that will contain all list items
+        String[] myValues = getResources().getStringArray(valuesId);
+
+        /* Assign the name array to that adapter and
+        also choose a simple layout for the list items */
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, myValues);
+
+        MaterialAutoCompleteTextView tv = findViewById(autocompleteTextViewId);
+
+        // Assign the adapter to the tv
+        tv.setAdapter(arrayAdapter);
     }
 }

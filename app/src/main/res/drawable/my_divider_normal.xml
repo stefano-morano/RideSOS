@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners  android:radius="@dimen/default_radius"/>
-    <solid android:color="@color/card_bg"/>
+    <size
+        android:height="@dimen/my_medium_margin"
+        android:width="0dp"/>
 </shape>

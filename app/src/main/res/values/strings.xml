@@ -1,10 +1,43 @@
 <resources>
-    <string name="app_name">Crash Detector</string>
+    <string name="app_name">RideSOS</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Hospital</string>
-    <string name="title_notifications">Profile</string>
-    <string name="activeText">We’ll use phone’s sensors to ensure your safety.</string>
-    <string name="activeTitle">Have a safe ride!</string>
-    <string name="disactiveText">Switch on to start monitoring your ride.</string>
-    <string name="disactiveTitle">Record new ride</string>
+    <string name="title_hospital">Hospital</string>
+    <string name="title_profile">Profile</string>
+    <string name="rideOnText">We’ll use phone’s sensors to ensure your safety.</string>
+    <string name="rideOnTitle">Have a safe ride!</string>
+    <string name="rideOffText">Switch on to start monitoring your ride.</string>
+    <string name="rideOffTitle">Record new ride</string>
+    <string name="gender_label">Gender</string>
+    <string name="gender_value">Male</string>
+    <string-array name="gender_values">
+        <item>@string/gender_value</item>
+        <item>Female</item>
+        <item>Not specified</item>
+    </string-array>
+    <string name="blood_type_label">Blood Type</string>
+    <string name="blood_type_value">A+</string>
+    <string-array name="blood_type_values">
+        <item>O+</item>
+        <item>O-</item>
+        <item>@string/blood_type_value</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>Unknown</item>
+    </string-array>
+    <string name="birthdate_label">Birthdate</string>
+    <string name="birthdate_value">23 October 1964</string>
+    <string name="safety_questions_btn">Safety Questions</string>
+    <string name="full_name">Miguel Cervantes</string>
+    <string name="phone_number_label">Phone Number</string>
+    <string name="phone_number_value">+34 123–45678</string>
+    <string name="profile_picture_image_description">Profile Picture</string>
+    <string name="edit_profile_image_description">Edit Profile</string>
+    <string name="name_label">Name</string>
+    <string name="name_value">Miguel</string>
+    <string name="surname_label">Surname</string>
+    <string name="surname_value">Cervantes</string>
+    <string name="confirm_edit_btn">Save Changes</string>
 </resources>
