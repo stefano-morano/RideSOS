@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TextView noRideTitle, noRideText, rideTitle, rideText;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         // Bottom navigation bar
         bottomNavigationView = findViewById(R.id.bottom_navigation);

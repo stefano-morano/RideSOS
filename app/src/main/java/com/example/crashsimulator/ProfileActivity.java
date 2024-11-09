@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             } else if (x == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 overridePendingTransition(0, 0);
                 return true;
             } else return x == R.id.navigation_profile;
