@@ -30,7 +30,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@drawable/ic_profile"
-                android:contentDescription="@string/profile_picture_image_description"
+                android:contentDescription="@string/profile_picture_description"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -43,8 +43,8 @@
                 android:id="@+id/editIcon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:contentDescription="@string/edit_profile_image_description"
-                android:src="@drawable/ic_edit_profile"
+                android:contentDescription="@string/edit_description"
+                android:src="@drawable/baseline_edit_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

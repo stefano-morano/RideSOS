@@ -32,12 +32,31 @@
     <string name="safety_questions_btn">Safety Questions</string>
     <string name="phone_number_label">Phone Number</string>
     <string name="phone_number_value">+34 123–45678</string>
-    <string name="profile_picture_image_description">Profile Picture</string>
-    <string name="edit_profile_image_description">Edit Profile</string>
+    <string name="profile_picture_description">Profile Picture</string>
+    <string name="edit_description">Edit Profile</string>
+    <string name="back_description">Go Back</string>
     <string name="name_label">Name</string>
     <string name="name_value">Miguel</string>
     <string name="surname_label">Surname</string>
     <string name="surname_value">Cervantes</string>
     <string name="confirm_edit_btn">Save Changes</string>
     <string name="preference_file_key">PREFERENCE_FILE_KEY</string>
+    <string name="q1_question">What is your favorite food?</string>
+    <string name="q2_question">What was the name of your first pet?</string>
+    <string name="q3_question">What is the name of your mother?</string>
+    <string name="q1_answer">Pizza</string>
+    <string name="q2_answer">Giango</string>
+    <string name="q3_answer">Daria</string>
+    <string-array name="q1_answers">
+        <item>@string/q1_answer</item>
+        <item>Pasta</item>
+    </string-array>
+    <string-array name="q2_answers">
+        <item>@string/q2_answer</item>
+        <item>Fido</item>
+    </string-array>
+    <string-array name="q3_answers">
+        <item>@string/q3_answer</item>
+        <item>Lina</item>
+    </string-array>
 </resources>

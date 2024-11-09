@@ -29,7 +29,7 @@
         <activity
             android:name=".EditProfileActivity"
             android:parentActivityName=".ProfileActivity" />
-        <activity android:name=".QuestionActivity"
+        <activity android:name=".QuestionsActivity"
             android:parentActivityName=".ProfileActivity" />
         <!-- Service declaration -->
         <service

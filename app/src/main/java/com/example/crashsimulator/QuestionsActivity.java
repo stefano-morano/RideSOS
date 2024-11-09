@@ -2,20 +2,20 @@ package com.example.crashsimulator;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionsActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-    TextView backIcon;
+    ImageView backIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question);
+        setContentView(R.layout.activity_questions);
 
         // Bottom navigation bar
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -37,7 +37,7 @@ public class QuestionActivity extends AppCompatActivity {
         // Main content
 
         // Back icon
-        backIcon = findViewById(R.id.textView);
+        backIcon = findViewById(R.id.backIcon);
         backIcon.setOnClickListener(view -> finish());
     }
 }
