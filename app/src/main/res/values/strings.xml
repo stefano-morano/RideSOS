@@ -59,4 +59,6 @@
         <item>@string/q3_answer</item>
         <item>Lina</item>
     </string-array>
+    <string name="channel_name">Accelerometer Service Channel</string>
+    <string name="channel_description">Accelerometer monitoring for crash detection</string>
 </resources>
