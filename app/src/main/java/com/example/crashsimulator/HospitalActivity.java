@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,11 +24,12 @@ import java.util.concurrent.Executors;
 
 public class HospitalActivity extends AppCompatActivity {
 
+    private Button btn;
     private RecyclerView recyclerView;
     private HospitalAdapter hospitalAdapter;
     private static List<Hospital> hospitalList = new ArrayList<>();
     private static final String CONTENT_TYPE_JSON = "application/json";
-    private final String URL_JSON = "https://datos.madrid.es/egob/catalogo/200761-0-parques-jardines.json";
+    private static final String URL_JSON = "https://datos.madrid.es/egob/catalogo/200761-0-parques-jardines.json";
     ExecutorService es;
     TextView text;
 
@@ -55,13 +57,16 @@ public class HospitalActivity extends AppCompatActivity {
         });
 
         // Main content
+        btn = findViewById(R.id.button);
         text = findViewById(R.id.textView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        es = Executors.newSingleThreadExecutor();
 
         // Parse JSON
-        loadHospitalData();
+        btn.setOnClickListener(view -> {
+            es = Executors.newSingleThreadExecutor();
+            loadHospitalData();
+        });
     }
 
     Handler handler = new Handler(Looper.getMainLooper()) {
