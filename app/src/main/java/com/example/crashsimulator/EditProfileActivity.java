@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,7 +23,6 @@ public class EditProfileActivity extends AppCompatActivity {
     Button btn;
     TextInputEditText name, surname, phone_number, birthdate;
     AutoCompleteTextView gender, blood_type;
-    ArrayList<String> genderList, bloodTypeList;
 
     private final static String TAG = "EditProfileActivity";
 
@@ -52,8 +53,8 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         // Dropdowns
-        createDropdown(R.id.gender, R.array.gender_values);
-        createDropdown(R.id.bloodType, R.array.blood_type_values);
+        AppHelper.CreateDropdown(this, findViewById(R.id.gender), R.array.gender_values);
+        AppHelper.CreateDropdown(this, findViewById(R.id.bloodType), R.array.blood_type_values);
 
         // Bind UI
         name = findViewById(R.id.name);
@@ -66,6 +67,7 @@ public class EditProfileActivity extends AppCompatActivity {
         // Save changes button
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {
+            // TODO: Sanify input
             saveChanges();
             finish();
         });
@@ -79,45 +81,19 @@ public class EditProfileActivity extends AppCompatActivity {
         readSharedPreferences();
     }
 
-    void createDropdown(int autocompleteTextViewId, int valuesId) {
-        // Create an ArrayAdapter that will contain all list items
-        String[] myValues = getResources().getStringArray(valuesId);
-
-        /* Assign the name array to that adapter and
-        also choose a simple layout for the list items */
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.item_dropdown, myValues);
-
-        MaterialAutoCompleteTextView tv = findViewById(autocompleteTextViewId);
-
-        // Assign the adapter to the tv
-        tv.setAdapter(arrayAdapter);
-    }
-
     void readSharedPreferences() {
-        String defaultValue;
+        String nameValue = sharedPref.getString(getString(R.string.name_label), getString(R.string.name_value));
+        String surnameValue = sharedPref.getString(getString(R.string.surname_label), getString(R.string.surname_value));
+        String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), getString(R.string.phone_number_value));
+        String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
+        String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
+        String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
 
-        defaultValue = getString(R.string.name_value);
-        String nameValue = sharedPref.getString(getString(R.string.name_label), defaultValue);
         name.setText(nameValue);
-
-        defaultValue = getString(R.string.surname_value);
-        String surnameValue = sharedPref.getString(getString(R.string.surname_label), defaultValue);
         surname.setText(surnameValue);
-
-        defaultValue = getString(R.string.phone_number_value);
-        String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), defaultValue);
         phone_number.setText(phoneNumberValue);
-
-        defaultValue = getString(R.string.gender_value);
-        String genderValue = sharedPref.getString(getString(R.string.gender_label), defaultValue);
         gender.setText(genderValue, false);
-
-        defaultValue = getString(R.string.blood_type_value);
-        String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), defaultValue);
         blood_type.setText(bloodTypeValue, false);
-
-        defaultValue = getString(R.string.birthdate_value);
-        String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), defaultValue);
         birthdate.setText(birthdateValue);
     }
 
@@ -125,12 +101,12 @@ public class EditProfileActivity extends AppCompatActivity {
         // Save values of everything that changed pushing it in the sharedPreferences
         SharedPreferences.Editor editor = sharedPref.edit();
 
-        editor.putString(getString(R.string.name_label), String.valueOf(name.getText()));
-        editor.putString(getString(R.string.surname_label), String.valueOf(surname.getText()));
-        editor.putString(getString(R.string.phone_number_label), String.valueOf(phone_number.getText()));
-        editor.putString(getString(R.string.gender_label), String.valueOf(gender.getText()));
-        editor.putString(getString(R.string.blood_type_label), String.valueOf(blood_type.getText()));
-        editor.putString(getString(R.string.birthdate_label), String.valueOf(birthdate.getText()));
+        AppHelper.PutString(editor, getString(R.string.name_label), name);
+        AppHelper.PutString(editor, getString(R.string.surname_label), surname);
+        AppHelper.PutString(editor, getString(R.string.phone_number_label), phone_number);
+        AppHelper.PutString(editor, getString(R.string.gender_label), gender);
+        AppHelper.PutString(editor, getString(R.string.blood_type_label), blood_type);
+        AppHelper.PutString(editor, getString(R.string.birthdate_label), birthdate);
 
         // Confirm
         editor.apply();

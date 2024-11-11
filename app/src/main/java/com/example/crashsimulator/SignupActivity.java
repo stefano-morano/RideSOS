@@ -1,7 +1,10 @@
 package com.example.crashsimulator;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -10,16 +13,56 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 public class SignupActivity extends AppCompatActivity {
+    SharedPreferences sharedPref;
     Button btn;
+    TextInputEditText name, surname, phone_number, birthdate;
+    AutoCompleteTextView gender, blood_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        // SharedPreferences
+        sharedPref = this.getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        // Dropdowns
+        AppHelper.CreateDropdown(this, findViewById(R.id.gender), R.array.gender_values);
+        AppHelper.CreateDropdown(this, findViewById(R.id.bloodType), R.array.blood_type_values);
+
+        // Bind UI
+        name = findViewById(R.id.name);
+        surname = findViewById(R.id.surname);
+        phone_number = findViewById(R.id.phoneNumber);
+        birthdate = findViewById(R.id.birthdate);
+        gender = findViewById(R.id.gender);
+        blood_type = findViewById(R.id.bloodType);
+
         // Main content
         btn = findViewById(R.id.button);
-        btn.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), SetQuestionsActivity.class)));
+        btn.setOnClickListener(view -> {
+            // TODO: Sanify input
+            saveChanges();
+            startActivity(new Intent(getApplicationContext(), SetQuestionsActivity.class));
+        });
+    }
+
+    void saveChanges() {
+        // Save values of everything that changed pushing it in the sharedPreferences
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        AppHelper.PutString(editor, getString(R.string.name_label), name);
+        AppHelper.PutString(editor, getString(R.string.surname_label), surname);
+        AppHelper.PutString(editor, getString(R.string.phone_number_label), phone_number);
+        AppHelper.PutString(editor, getString(R.string.gender_label), gender);
+        AppHelper.PutString(editor, getString(R.string.blood_type_label), blood_type);
+        AppHelper.PutString(editor, getString(R.string.birthdate_label), birthdate);
+
+        // Confirm
+        editor.apply();
     }
 }

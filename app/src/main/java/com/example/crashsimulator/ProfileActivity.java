@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -72,29 +73,17 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     void readSharedPreferences() {
-        String defaultValue;
+        String nameValue = sharedPref.getString(getString(R.string.name_label), getString(R.string.name_value));
+        String surnameValue = sharedPref.getString(getString(R.string.surname_label), getString(R.string.surname_value));
+        String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), getString(R.string.phone_number_value));
+        String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
+        String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
+        String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
 
-        // Full name
-        defaultValue = getString(R.string.name_value);
-        String nameValue = sharedPref.getString(getString(R.string.name_label), defaultValue);
-        defaultValue = getString(R.string.surname_value);
-        String surnameValue = sharedPref.getString(getString(R.string.surname_label), defaultValue);
         profile_name.setText(String.format("%s %s", nameValue, surnameValue));
-
-        defaultValue = getString(R.string.phone_number_value);
-        String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), defaultValue);
         phone_number.setText(phoneNumberValue);
-
-        defaultValue = getString(R.string.gender_value);
-        String genderValue = sharedPref.getString(getString(R.string.gender_label), defaultValue);
         gender.setText(genderValue, false);
-
-        defaultValue = getString(R.string.blood_type_value);
-        String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), defaultValue);
         blood_type.setText(bloodTypeValue, false);
-
-        defaultValue = getString(R.string.birthdate_value);
-        String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), defaultValue);
         birthdate.setText(birthdateValue);
     }
 }

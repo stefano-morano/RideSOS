@@ -100,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="@string/q1_question" />
+                        android:text="" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <!-- A1 -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -159,7 +159,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="@string/q2_question" />
+                        android:text="" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <!-- A2 -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -218,7 +218,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        android:text="@string/q3_question" />
+                        android:text="" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <!-- A3 -->
                 <com.google.android.material.textfield.TextInputLayout

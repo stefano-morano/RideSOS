@@ -59,6 +59,12 @@
         <item>@string/q3_answer</item>
         <item>Lina</item>
     </string-array>
+    <string-array name="questions">
+        <item>@string/q1_question</item>
+        <item>@string/q2_question</item>
+        <item>@string/q3_question</item>
+    </string-array>
+
     <string name="channel_name">Accelerometer Service Channel</string>
     <string name="channel_description">Accelerometer monitoring for crash detection</string>
     <string name="logo_description">App Logo</string>
@@ -69,4 +75,14 @@
     <string name="set_questions_description">You will be asked them in case of accidents.</string>
     <string name="q_hint1">Question</string>
     <string name="q_hint2">Answer</string>
+    <string-array name="question_keys">
+        <item>Q1</item>
+        <item>Q2</item>
+        <item>Q3</item>
+    </string-array>
+    <string-array name="answer_keys">
+        <item>A1</item>
+        <item>A2</item>
+        <item>A3</item>
+    </string-array>
 </resources>
