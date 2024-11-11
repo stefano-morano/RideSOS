@@ -2,6 +2,6 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <size
-        android:height="@dimen/my_smallest_margin"
-        android:width="0dp"/>
+        android:width="@dimen/my_smallest_margin"
+        android:height="0dp"/>
 </shape>

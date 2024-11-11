@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 
 public class HospitalActivity extends AppCompatActivity {
 
-    private Button btn;
+    private Button testBtn1, testBtn2;
     private RecyclerView recyclerView;
     private HospitalAdapter hospitalAdapter;
     private static List<Hospital> hospitalList = new ArrayList<>();
@@ -57,15 +57,20 @@ public class HospitalActivity extends AppCompatActivity {
         });
 
         // Main content
-        btn = findViewById(R.id.button);
+        testBtn1 = findViewById(R.id.button1);
+        testBtn2 = findViewById(R.id.button2);
         text = findViewById(R.id.textView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Parse JSON
-        btn.setOnClickListener(view -> {
+        testBtn1.setOnClickListener(view -> {
             es = Executors.newSingleThreadExecutor();
             loadHospitalData();
+        });
+        // Test signup
+        testBtn2.setOnClickListener(view -> {
+            startActivity(new Intent(getApplicationContext(), SignupActivity.class));
         });
     }
 

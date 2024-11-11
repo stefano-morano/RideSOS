@@ -24,12 +24,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Edit Icon -->
+            <!-- Back Icon -->
             <ImageView
                 android:id="@+id/backIcon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:contentDescription="@string/edit_description"
+                android:contentDescription="@string/back_description"
                 android:src="@drawable/ic_arrow_back"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

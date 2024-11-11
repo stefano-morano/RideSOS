@@ -61,4 +61,12 @@
     </string-array>
     <string name="channel_name">Accelerometer Service Channel</string>
     <string name="channel_description">Accelerometer monitoring for crash detection</string>
+    <string name="logo_description">App Logo</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_register">Done!</string>
+    <string name="welcome">"Let's meet!"</string>
+    <string name="set_questions_title">Set your questions</string>
+    <string name="set_questions_description">You will be asked them in case of accidents.</string>
+    <string name="q_hint1">Question</string>
+    <string name="q_hint2">Answer</string>
 </resources>

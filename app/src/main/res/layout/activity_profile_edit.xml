@@ -130,7 +130,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:showDividers="middle"
-            android:divider="@drawable/divider_small"
+            android:divider="@drawable/divider_small_horizontal"
             android:weightSum="2">
 
             <!-- Gender -->

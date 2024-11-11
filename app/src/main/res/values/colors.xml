@@ -23,6 +23,7 @@
     <color name="switch_thumb_on">@color/white</color>
     <color name="switch_thumb_icon_off">@color/switch_track_off</color>
     <color name="switch_thumb_icon_on">#FF4F378A</color>
-
+    <color name="continue_button">#FF057674</color>
+    <color name="questions_bg">#FFECE8F5</color>
 
 </resources>

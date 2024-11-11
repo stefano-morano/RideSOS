@@ -17,19 +17,41 @@
         android:gravity="center"
         >
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-            android:elevation="@dimen/default_elevation"
-            android:layout_width="wrap_content"
+        <!-- Just for testing, don't delete for now-->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/my_biggest_margin"
-            android:paddingVertical="@dimen/my_medium_margin"
-            android:background="@drawable/rounded_button_confirm"
-            android:text="Parse Hospitals (test)"
-            android:textColor="@color/text_button"
-            android:textSize="@dimen/small_text_size"
-            android:textAllCaps="false"
-            android:textStyle="normal" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button1"
+                android:elevation="@dimen/default_elevation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/my_biggest_margin"
+                android:paddingVertical="@dimen/my_medium_margin"
+                android:background="@drawable/rounded_button_confirm"
+                android:text="ParseJSONtest"
+                android:textColor="@color/text_button"
+                android:textSize="@dimen/small_text_size"
+                android:textAllCaps="false"
+                android:textStyle="normal" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button2"
+                android:elevation="@dimen/default_elevation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/my_biggest_margin"
+                android:paddingVertical="@dimen/my_medium_margin"
+                android:background="@drawable/rounded_button_confirm"
+                android:text="SignupTest"
+                android:textColor="@color/text_button"
+                android:textSize="@dimen/small_text_size"
+                android:textAllCaps="false"
+                android:textStyle="normal" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
