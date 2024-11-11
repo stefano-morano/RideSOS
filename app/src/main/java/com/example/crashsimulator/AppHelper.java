@@ -2,8 +2,6 @@ package com.example.crashsimulator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.Editable;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
@@ -11,11 +9,11 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 
 public class AppHelper {
     static boolean HasText(EditText text) {
-        return text.getText() == null || text.getText().length() == 0;
+        return text.getText() != null && text.getText().length() != 0;
     }
 
     static void PutString(SharedPreferences.Editor editor, String entry_key, EditText text) {
-        if (! HasText(text)) {
+        if (HasText(text)) {
             editor.putString(entry_key, String.valueOf(text.getText()));
         }
     }

@@ -42,6 +42,7 @@
 
         <!-- Name -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,6 +56,7 @@
             app:boxStrokeWidthFocused="0dp"
             android:enabled="true"
             >
+<!--            app:errorTextAppearance="@style/error_appearance"-->
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name"
@@ -66,6 +68,7 @@
 
         <!-- Surname -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/surnameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,6 +81,7 @@
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             android:enabled="true"
+            
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -90,6 +94,7 @@
 
         <!-- PhoneNumber -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneNumberLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,6 +107,7 @@
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             android:enabled="true"
+            
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -125,6 +131,7 @@
 
             <!-- Gender -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/genderLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -139,6 +146,7 @@
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
                 android:enabled="true"
+                
                 >
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -151,6 +159,7 @@
 
             <!-- Blood type -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bloodTypeLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -164,6 +173,7 @@
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
                 android:enabled="true"
+                
                 >
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -178,6 +188,7 @@
 
         <!-- Birthdate -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birthdateLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -190,6 +201,7 @@
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             android:enabled="true"
+            
             >
 
             <com.google.android.material.textfield.TextInputEditText
