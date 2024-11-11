@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
+
+    MQTTClient client;
     BottomNavigationView bottomNavigationView;
     TextView noRideTitle, noRideText, rideTitle, rideText;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -40,6 +42,10 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             } else return x == R.id.navigation_home;
         });
+
+
+        // Create MQTT Client
+        client = new MQTTClient();
 
         // Main content
         noRideTitle = findViewById(R.id.textViewTitleOff);
@@ -79,12 +85,20 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStart() {
+        super.onStart();
+
+        // Connect client to broker
+        // TODO: Think where it is better to put this, when we should connect to the broker?
+        client.connectToBroker();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Disconnect client from the broker
+        // TODO: Think where it is better to put this, when we should disconnect to the broker?
+        client.disconnectFromBroker();
     }
 }
