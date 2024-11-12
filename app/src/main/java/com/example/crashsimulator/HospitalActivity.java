@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 public class HospitalActivity extends AppCompatActivity {
 
     ExecutorService es;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

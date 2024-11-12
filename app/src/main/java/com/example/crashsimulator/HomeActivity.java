@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String HOSPITALS_URL_JSON = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=212769-0-atencion-medica&mgmtid=da7437ac37efb410VgnVCM2000000c205a0aRCRD&preview=full";
     HospitalDatabase hospitalDatabase;
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPref;
     ExecutorService es;
 
     @Override
@@ -40,20 +40,23 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // SharedPreferences
+        sharedPref = this.getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
         hospitalDatabase = HospitalDatabase.getInstance(this);
         es = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean("hospitalsDownloaded", true);
-                editor.commit();
+                editor.apply();
             }
         };
 
         // check if the hospitals list is already downloaded and stored in DB
-        sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        //if (!sharedPreferences.getBoolean("hospitalsDownloaded", false)) {
+        //if (!sharedPref.getBoolean("hospitalsDownloaded", false)) {
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
         //}
 
