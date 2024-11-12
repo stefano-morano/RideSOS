@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("hospitalsDownloaded", true);
+                editor.putBoolean(getString(R.string.hospitals_status_key), true);
                 editor.apply();
             }
         };

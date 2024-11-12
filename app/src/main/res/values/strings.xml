@@ -85,4 +85,5 @@
         <item>A2</item>
         <item>A3</item>
     </string-array>
+    <string name="hospitals_status_key">hospitalsDownloaded</string>
 </resources>
