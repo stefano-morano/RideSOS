@@ -1,6 +1,8 @@
 package com.example.crashsimulator;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +47,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
         executorService.execute(() -> {
             List<HospitalEntity> hospitals = hospitalDatabase.hospitalDAO().getAllHospitals();
             hospitalList.addAll(hospitals);
-            notifyDataSetChanged();
+            new Handler(Looper.getMainLooper()).post(this::notifyDataSetChanged);
         });
     }
 

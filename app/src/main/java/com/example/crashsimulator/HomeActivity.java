@@ -4,28 +4,23 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.room.Room;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
+public class HomeActivity extends AppCompatActivity {
     MQTTClient client;
     BottomNavigationView bottomNavigationView;
     TextView noRideTitle, noRideText, rideTitle, rideText;
@@ -45,23 +40,8 @@ import java.util.concurrent.atomic.AtomicInteger;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Bottom navigation bar
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            final int x = item.getItemId();
-
-        noRideTitle = findViewById(R.id.textViewTitleDisactive);
-        noRideText = findViewById(R.id.textViewMessageDisactive);
-        rideTitle = findViewById(R.id.textViewTitleActive);
-        rideText = findViewById(R.id.textViewMessageActive);
-
-        rideSwitch = findViewById(R.id.switchRide);
-
         hospitalDatabase = HospitalDatabase.getInstance(this);
-
         es = Executors.newSingleThreadExecutor();
-
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -73,14 +53,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
         // check if the hospitals list is already downloaded and stored in DB
         sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        if (!sharedPreferences.getBoolean("hospitalsDownloaded", false)) {
+        //if (!sharedPreferences.getBoolean("hospitalsDownloaded", false)) {
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
-        }
+        //}
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                final int x = item.getItemId();
+        // Bottom navigation bar
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            final int x = item.getItemId();
 
             if (x == R.id.navigation_hospital) {
                 startActivity(new Intent(getApplicationContext(), HospitalActivity.class));
