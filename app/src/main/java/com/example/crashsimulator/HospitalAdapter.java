@@ -1,13 +1,24 @@
 package com.example.crashsimulator;
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.HospitalViewHolder> {
-    private List<Hospital> hospitalList;
+    private final List<HospitalEntity> hospitalList = new ArrayList<>();
+
 
     public static class HospitalViewHolder extends RecyclerView.ViewHolder {
         public TextView hospitalName;
@@ -18,12 +29,27 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             hospitalName = itemView.findViewById(R.id.hospitalName);
             hospitalAddress = itemView.findViewById(R.id.hospitalAddress);
         }
+
+        void bindValues(HospitalEntity hospital) {
+            hospitalName.setText(hospital.getName());
+            hospitalAddress.setText(hospital.getAddress());
+
+        }
     }
 
-    public HospitalAdapter(List<Hospital> hospitalList) {
-        this.hospitalList = hospitalList;
+    @SuppressLint("NotifyDataSetChanged")
+    public HospitalAdapter(HospitalDatabase hospitalDatabase) {
+        super();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        executorService.execute(() -> {
+            List<HospitalEntity> hospitals = hospitalDatabase.hospitalDAO().getAllHospitals();
+            hospitalList.addAll(hospitals);
+            notifyDataSetChanged();
+        });
     }
 
+    @NonNull
     @Override
     public HospitalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -33,9 +59,10 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
     @Override
     public void onBindViewHolder(HospitalViewHolder holder, int position) {
-        Hospital hospital = hospitalList.get(position);
+        HospitalEntity hospital = hospitalList.get(position);
         holder.hospitalName.setText(hospital.getName());
         holder.hospitalAddress.setText(hospital.getAddress());
+        holder.bindValues(hospital);
     }
 
     @Override

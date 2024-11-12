@@ -8,61 +8,17 @@
     tools:context=".HospitalActivity"
     >
 
-    <!-- Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
-
-        <!-- Just for testing, don't delete for now-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button1"
-                android:elevation="@dimen/default_elevation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/my_biggest_margin"
-                android:paddingVertical="@dimen/my_medium_margin"
-                android:background="@drawable/rounded_button_confirm"
-                android:text="ParseJSONtest"
-                android:textColor="@color/text_button"
-                android:textSize="@dimen/small_text_size"
-                android:textAllCaps="false"
-                android:textStyle="normal" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button2"
-                android:elevation="@dimen/default_elevation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/my_biggest_margin"
-                android:paddingVertical="@dimen/my_medium_margin"
-                android:background="@drawable/rounded_button_confirm"
-                android:text="SignupTest"
-                android:textColor="@color/text_button"
-                android:textSize="@dimen/small_text_size"
-                android:textAllCaps="false"
-                android:textStyle="normal" />
-        </LinearLayout>
+        android:layout_height="679dp"
+        android:background="#D6CACA"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
     </LinearLayout>
 
     <!-- Navigation Bar -->

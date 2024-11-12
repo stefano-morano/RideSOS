@@ -1,17 +1,21 @@
 package com.example.crashsimulator;
 
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Button;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,19 +28,12 @@ import java.util.concurrent.Executors;
 
 public class HospitalActivity extends AppCompatActivity {
 
-    private Button testBtn1, testBtn2;
-    private RecyclerView recyclerView;
-    private HospitalAdapter hospitalAdapter;
-    private static List<Hospital> hospitalList = new ArrayList<>();
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String URL_JSON = "https://datos.madrid.es/egob/catalogo/200761-0-parques-jardines.json";
     ExecutorService es;
-    TextView text;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
+
 
         // Bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -56,22 +53,16 @@ public class HospitalActivity extends AppCompatActivity {
             } else return x == R.id.navigation_hospital;
         });
 
-        // Main content
-        testBtn1 = findViewById(R.id.button1);
-        testBtn2 = findViewById(R.id.button2);
-        text = findViewById(R.id.textView);
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                return false;
+            }
+        });
 
-        // Parse JSON
-        testBtn1.setOnClickListener(view -> {
-            es = Executors.newSingleThreadExecutor();
-            loadHospitalData();
-        });
-        // Test signup
-        testBtn2.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), SignupActivity.class));
-        });
+        HospitalDatabase database = HospitalDatabase.getInstance(this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        HospitalAdapter hospitalAdapter = new HospitalAdapter(database);
+        recyclerView.setAdapter(hospitalAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     Handler handler = new Handler(Looper.getMainLooper()) {

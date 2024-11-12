@@ -1,18 +1,30 @@
 package com.example.crashsimulator;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.room.Room;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HomeActivity extends AppCompatActivity {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
     MQTTClient client;
     BottomNavigationView bottomNavigationView;
@@ -20,6 +32,13 @@ public class HomeActivity extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
     private static final String TAG = "HomeActivity";
+
+    private static final String CONTENT_TYPE_HOSPITALS_JSON = "application/json";
+    private static final String HOSPITALS_URL_JSON = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=212769-0-atencion-medica&mgmtid=da7437ac37efb410VgnVCM2000000c205a0aRCRD&preview=full";
+    HospitalDatabase hospitalDatabase;
+
+    SharedPreferences sharedPreferences;
+    ExecutorService es;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +50,37 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             final int x = item.getItemId();
+
+        noRideTitle = findViewById(R.id.textViewTitleDisactive);
+        noRideText = findViewById(R.id.textViewMessageDisactive);
+        rideTitle = findViewById(R.id.textViewTitleActive);
+        rideText = findViewById(R.id.textViewMessageActive);
+
+        rideSwitch = findViewById(R.id.switchRide);
+
+        hospitalDatabase = HospitalDatabase.getInstance(this);
+
+        es = Executors.newSingleThreadExecutor();
+
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("hospitalsDownloaded", true);
+                editor.commit();
+            }
+        };
+
+        // check if the hospitals list is already downloaded and stored in DB
+        sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        if (!sharedPreferences.getBoolean("hospitalsDownloaded", false)) {
+            es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
+        }
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                final int x = item.getItemId();
 
             if (x == R.id.navigation_hospital) {
                 startActivity(new Intent(getApplicationContext(), HospitalActivity.class));
