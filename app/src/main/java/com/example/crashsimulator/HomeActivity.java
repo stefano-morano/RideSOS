@@ -1,8 +1,10 @@
 package com.example.crashsimulator;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,13 +29,14 @@ public class HomeActivity extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
     private static final String TAG = "HomeActivity";
-
     private static final String CONTENT_TYPE_HOSPITALS_JSON = "application/json";
     private static final String HOSPITALS_URL_JSON = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=212769-0-atencion-medica&mgmtid=da7437ac37efb410VgnVCM2000000c205a0aRCRD&preview=full";
     HospitalDatabase hospitalDatabase;
 
     SharedPreferences sharedPref;
     ExecutorService es;
+
+    private BroadcastReceiver crash_receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,20 @@ public class HomeActivity extends AppCompatActivity {
                 rideText.setVisibility(View.INVISIBLE);
             }
         });
+
+        // Configura il BroadcastReceiver
+        crash_receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if ("com.example.CRASH_DETECTED".equals(intent.getAction())) {
+                    rideSwitch.setChecked(false);
+                }
+            }
+        };
+
+        // Registra il receiver
+        IntentFilter filter = new IntentFilter("com.example.CRASH_DETECTED");
+        registerReceiver(crash_receiver, filter);
     }
 
     private void startAccelerometerService() {
@@ -135,4 +152,5 @@ public class HomeActivity extends AppCompatActivity {
         // TODO: Think where it is better to put this, when we should disconnect to the broker?
         client.disconnectFromBroker();
     }
+
 }

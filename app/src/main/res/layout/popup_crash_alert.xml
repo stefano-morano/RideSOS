@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="8dp" >
+<LinearLayout
+    android:id="@+id/popup_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/popup_background_white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Titolo e icona di avviso in alto a destra -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/crash_alert_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crash Detected"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/warning_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_warning"
+            app:tint="#000000" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/crash_alert_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp"
+        android:text="@string/alert_text"
+        android:textColor="#666666"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_im_fine"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#4CAF50"
+        android:drawableLeft="@drawable/thumb_up"
+        android:drawableTint="@color/white"
+        android:drawablePadding="8dp"
+        android:drawableRight="@drawable/thumb_up"
+        android:text="@string/okay_button_text"
+        android:textSize = "20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btn_im_not_okay"
+        android:layout_width="match_parent"
+        android:layout_height="81dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#F44336"
+        android:drawableLeft="@drawable/thumb_down"
+        android:drawableTint="@color/white"
+        android:drawablePadding="8dp"
+        android:drawableRight="@drawable/thumb_down"
+        android:text="@string/not_okay_button_text"
+        android:textSize = "20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+
