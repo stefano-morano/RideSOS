@@ -62,6 +62,14 @@ public class SetQuestionsActivity extends AppCompatActivity {
         l_a2 = findViewById(R.id.q2_answerLayout);
         l_a3 = findViewById(R.id.q3_answerLayout);
 
+        // Check input as the user types
+        AppHelper.SetTextChangedListener(q1, l_q1);
+        AppHelper.SetTextChangedListener(q2, l_q2);
+        AppHelper.SetTextChangedListener(q3, l_q3);
+        AppHelper.SetTextChangedListener(a1, l_a1);
+        AppHelper.SetTextChangedListener(a2, l_a2);
+        AppHelper.SetTextChangedListener(a3, l_a3);
+
         // Save changes button
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {

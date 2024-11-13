@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -73,6 +75,14 @@ public class EditProfileActivity extends AppCompatActivity {
         l_gender = findViewById(R.id.genderLayout);
         l_blood_type = findViewById(R.id.bloodTypeLayout);
 
+        // Check input as the user types
+        AppHelper.SetTextChangedListener(name, l_name);
+        AppHelper.SetTextChangedListener(surname, l_surname);
+        AppHelper.SetTextChangedListener(phone_number, l_phone_number);
+        AppHelper.SetTextChangedListener(birthdate, l_birthdate);
+        AppHelper.SetTextChangedListener(gender, l_gender);
+        AppHelper.SetTextChangedListener(blood_type, l_blood_type);
+
         // Save changes button
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {
@@ -110,6 +120,13 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     boolean checkInput() {
+//        return !l_name.isErrorEnabled() &&
+//                !l_surname.isErrorEnabled() &&
+//                !l_phone_number.isErrorEnabled() &&
+//                !l_gender.isErrorEnabled() &&
+//                !l_blood_type.isErrorEnabled() &&
+//                !l_birthdate.isErrorEnabled();
+
         return AppHelper.CheckText(name, l_name) &
                 AppHelper.CheckText(surname, l_surname) &
                 AppHelper.CheckText(phone_number, l_phone_number) &

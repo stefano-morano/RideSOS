@@ -2,6 +2,9 @@ package com.example.crashsimulator;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
@@ -11,7 +14,11 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class AppHelper {
     static boolean HasText(EditText text) {
-        return text.getText() != null && text.getText().length() != 0;
+        return hasTextEditable(text.getText());
+    }
+
+    static private boolean hasTextEditable(Editable s) {
+        return s != null && s.length() != 0;
     }
 
     static void PutString(SharedPreferences.Editor editor, String entry_key, EditText text) {
@@ -46,5 +53,24 @@ public class AppHelper {
         }
 
         return saneInput;
+    }
+
+    static void SetTextChangedListener(EditText editText, TextInputLayout layout) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("HELPER", "aftertextchanged: " + s);
+                CheckText(editText, layout);
+            }
+        });
     }
 }

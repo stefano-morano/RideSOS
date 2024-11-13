@@ -47,6 +47,14 @@ public class SignupActivity extends AppCompatActivity {
         l_gender = findViewById(R.id.genderLayout);
         l_blood_type = findViewById(R.id.bloodTypeLayout);
 
+        // Check input as the user types
+        AppHelper.SetTextChangedListener(name, l_name);
+        AppHelper.SetTextChangedListener(surname, l_surname);
+        AppHelper.SetTextChangedListener(phone_number, l_phone_number);
+        AppHelper.SetTextChangedListener(birthdate, l_birthdate);
+        AppHelper.SetTextChangedListener(gender, l_gender);
+        AppHelper.SetTextChangedListener(blood_type, l_blood_type);
+
         // Main content
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {
