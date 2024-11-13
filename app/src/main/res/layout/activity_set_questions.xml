@@ -81,6 +81,7 @@
 
                 <!-- Q1 -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/q1_questionLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,6 +105,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
                 <!-- A1 -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/q1_answerLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,6 +142,7 @@
 
                 <!-- Q2 -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/q2_questionLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,6 +166,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
                 <!-- A2 -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/q2_answerLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,6 +203,7 @@
 
                 <!-- Q3 -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/q3_questionLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -222,6 +227,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
                 <!-- A3 -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/q3_answerLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

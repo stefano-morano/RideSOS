@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+
 
 public class AppHelper {
     static boolean HasText(EditText text) {
@@ -30,4 +32,19 @@ public class AppHelper {
         autocompleteTextView.setAdapter(arrayAdapter);
     }
 
+    static boolean CheckText(EditText value, TextInputLayout layout) {
+        // TODO: We need also to sanify input
+        String errorText = "Mandatory";
+        boolean saneInput = true;
+
+        if (!HasText(value)) {
+            layout.setError(errorText);
+            saneInput = false;
+        } else {
+            layout.setError(null);
+            layout.setErrorEnabled(false);
+        }
+
+        return saneInput;
+    }
 }

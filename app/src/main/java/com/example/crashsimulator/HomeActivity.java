@@ -44,6 +44,20 @@ public class HomeActivity extends AppCompatActivity {
         sharedPref = this.getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
+        // Check if it is first time signup
+        // TODO: Maybe it would be better to put this in a separate helperActivity
+        // https://stackoverflow.com/questions/8703065/showing-the-setup-screen-only-on-first-launch-in-android
+        if(sharedPref.getBoolean(getString(R.string.first_start_key), true)){
+            // Update sharedPref - another start won't be the first
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(getString(R.string.first_start_key), false);
+            editor.apply(); // apply changes
+
+            // first start, show your dialog
+            startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+            finish();
+        }
+
         hospitalDatabase = HospitalDatabase.getInstance(this);
         es = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper()) {

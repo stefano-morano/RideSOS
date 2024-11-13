@@ -17,8 +17,8 @@ public class SignupActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     Button btn;
     TextInputEditText name, surname, phone_number, birthdate;
-    TextInputLayout l_name, l_surname, l_phone_number, l_birthdate, l_gender, l_blood_type;
     AutoCompleteTextView gender, blood_type;
+    TextInputLayout l_name, l_surname, l_phone_number, l_birthdate, l_gender, l_blood_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,6 @@ public class SignupActivity extends AppCompatActivity {
         l_gender = findViewById(R.id.genderLayout);
         l_blood_type = findViewById(R.id.bloodTypeLayout);
 
-
-
         // Main content
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {
@@ -61,60 +59,14 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    // TODO: We need also to sanify input
     boolean checkInput() {
-        String errorText = "Mandatory";
-        boolean saneInput = true;
-
-        if (!AppHelper.HasText(name)) {
-            l_name.setError(errorText);
-            saneInput = false;
-        } else {
-            l_name.setError(null);
-            l_name.setErrorEnabled(false);
-        }
-
-        if (!AppHelper.HasText(surname)) {
-            l_surname.setError(errorText);
-            saneInput = false;
-        } else {
-            l_surname.setError(null);
-            l_surname.setErrorEnabled(false);
-        }
-
-        if (!AppHelper.HasText(phone_number)) {
-            l_phone_number.setError(errorText);
-            saneInput = false;
-        } else {
-            l_phone_number.setError(null);
-            l_phone_number.setErrorEnabled(false);
-        }
-
-        if (!AppHelper.HasText(gender)) {
-            l_gender.setError(errorText);
-            saneInput = false;
-        } else {
-            l_gender.setError(null);
-            l_gender.setErrorEnabled(false);
-        }
-
-        if (!AppHelper.HasText(blood_type)) {
-            l_blood_type.setError(errorText);
-            saneInput = false;
-        } else {
-            l_blood_type.setError(null);
-            l_blood_type.setErrorEnabled(false);
-        }
-
-        if (!AppHelper.HasText(birthdate)) {
-            l_birthdate.setError(errorText);
-            saneInput = false;
-        } else {
-            l_birthdate.setError(null);
-            l_birthdate.setErrorEnabled(false);
-        }
-
-        return saneInput;
+        // Just one & to disable java default short-circuiting and let every function to be executed
+        return AppHelper.CheckText(name, l_name) &
+                AppHelper.CheckText(surname, l_surname) &
+                AppHelper.CheckText(phone_number, l_phone_number) &
+                AppHelper.CheckText(gender, l_gender) &
+                AppHelper.CheckText(blood_type, l_blood_type) &
+                AppHelper.CheckText(birthdate, l_birthdate);
     }
 
     void saveChanges() {

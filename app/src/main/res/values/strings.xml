@@ -86,4 +86,5 @@
         <item>A3</item>
     </string-array>
     <string name="hospitals_status_key">hospitalsDownloaded</string>
+    <string name="first_start_key">firstStart</string>
 </resources>
