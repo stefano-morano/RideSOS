@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class SetQuestionsActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
@@ -26,6 +27,7 @@ public class SetQuestionsActivity extends AppCompatActivity {
     ImageView back;
     AutoCompleteTextView q1, q2, q3;
     TextInputEditText a1, a2, a3;
+    TextInputLayout l_q1, l_q2, l_q3, l_a1, l_a2, l_a3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +55,42 @@ public class SetQuestionsActivity extends AppCompatActivity {
         a2 = findViewById(R.id.q2_answer);
         a3 = findViewById(R.id.q3_answer);
 
+        l_q1 = findViewById(R.id.q1_questionLayout);
+        l_q2 = findViewById(R.id.q2_questionLayout);
+        l_q3 = findViewById(R.id.q3_questionLayout);
+        l_a1 = findViewById(R.id.q1_answerLayout);
+        l_a2 = findViewById(R.id.q2_answerLayout);
+        l_a3 = findViewById(R.id.q3_answerLayout);
+
+        // Check input as the user types
+        AppHelper.SetTextChangedListener(q1, l_q1);
+        AppHelper.SetTextChangedListener(q2, l_q2);
+        AppHelper.SetTextChangedListener(q3, l_q3);
+        AppHelper.SetTextChangedListener(a1, l_a1);
+        AppHelper.SetTextChangedListener(a2, l_a2);
+        AppHelper.SetTextChangedListener(a3, l_a3);
+
         // Save changes button
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {
-            // TODO: Sanify input
+            if (!checkInput()) {
+                return;
+            }
+
             saveChanges();
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
+    }
+
+    boolean checkInput() {
+        return AppHelper.CheckText(q1, l_q1) &
+                AppHelper.CheckText(q2, l_q2) &
+                AppHelper.CheckText(q3, l_q3) &
+                AppHelper.CheckText(a1, l_a1) &
+                AppHelper.CheckText(a2, l_a2) &
+                AppHelper.CheckText(a3, l_a3);
     }
 
     void saveChanges() {

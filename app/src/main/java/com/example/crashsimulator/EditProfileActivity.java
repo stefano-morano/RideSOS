@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,8 @@ public class EditProfileActivity extends AppCompatActivity {
     Button btn;
     TextInputEditText name, surname, phone_number, birthdate;
     AutoCompleteTextView gender, blood_type;
+    TextInputLayout l_name, l_surname, l_phone_number, l_birthdate, l_gender, l_blood_type;
+
 
     private final static String TAG = "EditProfileActivity";
 
@@ -63,11 +68,28 @@ public class EditProfileActivity extends AppCompatActivity {
         birthdate = findViewById(R.id.birthdate);
         gender = findViewById(R.id.gender);
         blood_type = findViewById(R.id.bloodType);
+        l_name = findViewById(R.id.nameLayout);
+        l_surname = findViewById(R.id.surnameLayout);
+        l_phone_number = findViewById(R.id.phoneNumberLayout);
+        l_birthdate = findViewById(R.id.birthdateLayout);
+        l_gender = findViewById(R.id.genderLayout);
+        l_blood_type = findViewById(R.id.bloodTypeLayout);
+
+        // Check input as the user types
+        AppHelper.SetTextChangedListener(name, l_name);
+        AppHelper.SetTextChangedListener(surname, l_surname);
+        AppHelper.SetTextChangedListener(phone_number, l_phone_number);
+        AppHelper.SetTextChangedListener(birthdate, l_birthdate);
+        AppHelper.SetTextChangedListener(gender, l_gender);
+        AppHelper.SetTextChangedListener(blood_type, l_blood_type);
 
         // Save changes button
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {
-            // TODO: Sanify input
+            if (!checkInput()) {
+                return;
+            }
+
             saveChanges();
             finish();
         });
@@ -95,6 +117,22 @@ public class EditProfileActivity extends AppCompatActivity {
         gender.setText(genderValue, false);
         blood_type.setText(bloodTypeValue, false);
         birthdate.setText(birthdateValue);
+    }
+
+    boolean checkInput() {
+//        return !l_name.isErrorEnabled() &&
+//                !l_surname.isErrorEnabled() &&
+//                !l_phone_number.isErrorEnabled() &&
+//                !l_gender.isErrorEnabled() &&
+//                !l_blood_type.isErrorEnabled() &&
+//                !l_birthdate.isErrorEnabled();
+
+        return AppHelper.CheckText(name, l_name) &
+                AppHelper.CheckText(surname, l_surname) &
+                AppHelper.CheckText(phone_number, l_phone_number) &
+                AppHelper.CheckText(gender, l_gender) &
+                AppHelper.CheckText(blood_type, l_blood_type) &
+                AppHelper.CheckText(birthdate, l_birthdate);
     }
 
     void saveChanges() {

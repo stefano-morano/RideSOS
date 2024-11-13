@@ -88,4 +88,6 @@
     <string name="okay_button_text">I\'M FINE</string>
     <string name="not_okay_button_text">I\'M NOT OKAY</string>
     <string name="alert_text">Your phone is currently blinking and sounding. Please confirm your conditions in 5 seconds, or we will call an ambulance for you.</string>
+    <string name="hospitals_status_key">hospitalsDownloaded</string>
+    <string name="first_start_key">firstStart</string>
 </resources>
