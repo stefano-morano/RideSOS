@@ -66,18 +66,18 @@ public class QuestionsActivity extends AppCompatActivity {
         String[] q_keys = getResources().getStringArray(R.array.question_keys);
         String[] a_keys = getResources().getStringArray(R.array.answer_keys);
 
-        value = sharedPref.getString(q_keys[0], getString(R.string.q1_question));
+        value = sharedPref.getString(q_keys[0], getString(R.string.q1_question_default));
         q1.setHint(value);
-        value = sharedPref.getString(q_keys[1], getString(R.string.q2_question));
+        value = sharedPref.getString(q_keys[1], getString(R.string.q2_question_default));
         q2.setHint(value);
-        value = sharedPref.getString(q_keys[2], getString(R.string.q3_question));
+        value = sharedPref.getString(q_keys[2], getString(R.string.q3_question_default));
         q3.setHint(value);
 
-        value = sharedPref.getString(a_keys[0], getString(R.string.q1_answer));
+        value = sharedPref.getString(a_keys[0], getString(R.string.q1_answer_default));
         q1.setText(value);
-        value = sharedPref.getString(a_keys[1], getString(R.string.q2_answer));
+        value = sharedPref.getString(a_keys[1], getString(R.string.q2_answer_default));
         q2.setText(value);
-        value = sharedPref.getString(a_keys[2], getString(R.string.q3_answer));
+        value = sharedPref.getString(a_keys[2], getString(R.string.q3_answer_default));
         q3.setText(value);
     }
 

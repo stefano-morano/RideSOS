@@ -1,16 +1,12 @@
 package com.example.crashsimulator;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class QuestionPopupActivity extends Activity {
     private Button anserw_1;
@@ -79,21 +75,21 @@ public class QuestionPopupActivity extends Activity {
         switch (question_counter){
             case 1:
                 question_number.setText("Question 1/3");
-                question_text.setText(getString(R.string.q1_question));
-                right = sharedPref.getString(a_keys[0], getString(R.string.q1_answer));
-                wrong = getResources().getStringArray(R.array.food_type);
+                question_text.setText(getString(R.string.q1_question_default));
+                right = sharedPref.getString(a_keys[0], getString(R.string.q1_answer_default));
+                wrong = getResources().getStringArray(R.array.q1_answers);
                 break;
             case 2:
                 question_number.setText("Question 2/3");
-                question_text.setText(getString(R.string.q2_question));
-                right = sharedPref.getString(a_keys[1], getString(R.string.q2_answer));
-                wrong = getResources().getStringArray(R.array.animal_name);
+                question_text.setText(getString(R.string.q2_question_default));
+                right = sharedPref.getString(a_keys[1], getString(R.string.q2_answer_default));
+                wrong = getResources().getStringArray(R.array.q2_answers);
                 break;
             case 3:
                 question_number.setText("Question 3/3");
-                question_text.setText(getString(R.string.q3_question));
-                right = sharedPref.getString(a_keys[2], getString(R.string.q3_answer));
-                wrong = getResources().getStringArray(R.array.woman_names);
+                question_text.setText(getString(R.string.q3_question_default));
+                right = sharedPref.getString(a_keys[2], getString(R.string.q3_answer_default));
+                wrong = getResources().getStringArray(R.array.q3_answers);
                 break;
         }
 

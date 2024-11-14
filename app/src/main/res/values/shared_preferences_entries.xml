@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preference_file_key">PREFERENCE_FILE_KEY</string>
+
+    <string-array name="question_keys">
+        <item>Q1</item>
+        <item>Q2</item>
+        <item>Q3</item>
+    </string-array>
+    <string-array name="answer_keys">
+        <item>A1</item>
+        <item>A2</item>
+        <item>A3</item>
+    </string-array>
+    <string name="q1_question_default">What is your favorite food?</string>
+    <string name="q2_question_default">What is the brand of your motorbike?</string>
+    <string name="q3_question_default">What is the name of your mother?</string>
+    <string-array name="questions">
+        <item>@string/q1_question_default</item>
+        <item>@string/q2_question_default</item>
+        <item>@string/q3_question_default</item>
+    </string-array>
+
+    <string name="hospitals_status_key">hospitalsDownloaded</string>
+    <string name="first_start_key">firstStart</string>
+
+    <string-array name="q1_answers">
+        <item>@string/q1_answer_default</item>
+        <item>Pasta</item>
+        <item>Ice Cream</item>
+        <item>Tortilla</item>
+        <item>Empanadas</item>
+        <item>Hamburger</item>
+        <item>Fish</item>
+        <item>Sushi</item>
+        <item>Cheese</item>
+        <item>Churros</item>
+    </string-array>
+    <string name="q1_answer_default">Pizza</string>
+
+    <string-array name="q2_answers">
+        <item>@string/q2_answer_default</item>
+        <item>Ducati</item>
+        <item>Honda</item>
+        <item>Harley Davidson</item>
+        <item>BMW</item>
+        <item>Kawasaki</item>
+        <item>Suzuki</item>
+        <item>Triumph</item>
+        <item>KTM</item>
+        <item>Royal Enfield</item>
+    </string-array>
+    <string name="q2_answer_default">Yamaha</string>
+
+    <string-array name="q3_answers">
+        <item>@string/q3_answer_default</item>
+        <item>Julia</item>
+        <item>Daniela</item>
+        <item>Elena</item>
+        <item>Paloma</item>
+        <item>Paula</item>
+        <item>Miranda</item>
+        <item>Serena</item>
+        <item>Marta</item>
+        <item>Sabrina</item>
+    </string-array>
+    <string name="q3_answer_default">Anna</string>
+
+    <string name="name_label">Name</string>
+    <string name="name_value">Miguel</string>
+    <string name="surname_label">Surname</string>
+    <string name="surname_value">Cervantes</string>
+    <string name="gender_label">Gender</string>
+    <string name="gender_value">Male</string>
+    <string-array name="gender_values">
+        <item>@string/gender_value</item>
+        <item>Female</item>
+        <item>Not specified</item>
+    </string-array>
+    <string name="blood_type_label">Blood Type</string>
+    <string name="blood_type_value">A+</string>
+    <string-array name="blood_type_values">
+        <item>O+</item>
+        <item>O-</item>
+        <item>@string/blood_type_value</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>Unknown</item>
+    </string-array>
+    <string name="birthdate_label">Birthdate</string>
+    <string name="birthdate_value">23 October 1964</string>
+    <string name="phone_number_label">Phone Number</string>
+    <string name="phone_number_value">+34 123–45678</string>
+</resources>

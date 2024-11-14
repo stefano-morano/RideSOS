@@ -68,188 +68,80 @@
             android:gravity="center_horizontal"
             android:layout_marginVertical="@dimen/my_small_margin" >
 
-            <!-- Q1 -->
-            <LinearLayout
+            <!-- Question1 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/question1Layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:divider="@drawable/divider_small"
-                android:showDividers="middle"
-                android:background="@drawable/rounded_corners_questions"
-                android:padding="@dimen/my_smallest_margin"
+                app:boxBackgroundColor="@color/card_bg"
+                app:boxCornerRadiusBottomStart="@dimen/default_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/default_radius"
+                app:boxCornerRadiusTopStart="@dimen/default_radius"
+                app:boxCornerRadiusTopEnd="@dimen/default_radius"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:enabled="true"
                 >
 
-                <!-- Q1 -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/q1_questionLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/question1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/q_hint1"
-                    app:boxBackgroundColor="@color/card_bg_editable"
-                    app:boxCornerRadiusBottomStart="@dimen/default_radius"
-                    app:boxCornerRadiusBottomEnd="@dimen/default_radius"
-                    app:boxCornerRadiusTopStart="@dimen/default_radius"
-                    app:boxCornerRadiusTopEnd="@dimen/default_radius"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    android:enabled="true"
-                    >
+                    android:inputType="text"
+                    android:hint="@string/q1_question_default"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/q1_question"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:text="" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- A1 -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/q1_answerLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/q_hint2"
-                    app:boxBackgroundColor="@color/card_bg_editable"
-                    app:boxCornerRadiusBottomStart="@dimen/default_radius"
-                    app:boxCornerRadiusBottomEnd="@dimen/default_radius"
-                    app:boxCornerRadiusTopStart="@dimen/default_radius"
-                    app:boxCornerRadiusTopEnd="@dimen/default_radius"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    android:enabled="true"
-                    >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/q1_answer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <!-- Q2 -->
-            <LinearLayout
+            <!-- Question2 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/question2Layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:divider="@drawable/divider_small"
-                android:showDividers="middle"
-                android:background="@drawable/rounded_corners_questions"
-                android:padding="@dimen/my_smallest_margin"
+                app:boxBackgroundColor="@color/card_bg"
+                app:boxCornerRadiusBottomStart="@dimen/default_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/default_radius"
+                app:boxCornerRadiusTopStart="@dimen/default_radius"
+                app:boxCornerRadiusTopEnd="@dimen/default_radius"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:enabled="true"
                 >
 
-                <!-- Q2 -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/q2_questionLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/question2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/q_hint1"
-                    app:boxBackgroundColor="@color/card_bg_editable"
-                    app:boxCornerRadiusBottomStart="@dimen/default_radius"
-                    app:boxCornerRadiusBottomEnd="@dimen/default_radius"
-                    app:boxCornerRadiusTopStart="@dimen/default_radius"
-                    app:boxCornerRadiusTopEnd="@dimen/default_radius"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    android:enabled="true"
-                    >
+                    android:inputType="text"
+                    android:hint="@string/q2_question_default"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/q2_question"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:text="" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- A2 -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/q2_answerLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/q_hint2"
-                    app:boxBackgroundColor="@color/card_bg_editable"
-                    app:boxCornerRadiusBottomStart="@dimen/default_radius"
-                    app:boxCornerRadiusBottomEnd="@dimen/default_radius"
-                    app:boxCornerRadiusTopStart="@dimen/default_radius"
-                    app:boxCornerRadiusTopEnd="@dimen/default_radius"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    android:enabled="true"
-                    >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/q2_answer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <!-- Q3 -->
-            <LinearLayout
+            <!-- Question3 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/question3Layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:divider="@drawable/divider_small"
-                android:showDividers="middle"
-                android:background="@drawable/rounded_corners_questions"
-                android:padding="@dimen/my_smallest_margin"
+                app:boxBackgroundColor="@color/card_bg"
+                app:boxCornerRadiusBottomStart="@dimen/default_radius"
+                app:boxCornerRadiusBottomEnd="@dimen/default_radius"
+                app:boxCornerRadiusTopStart="@dimen/default_radius"
+                app:boxCornerRadiusTopEnd="@dimen/default_radius"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:enabled="true"
                 >
 
-                <!-- Q3 -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/q3_questionLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/question3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/q_hint1"
-                    app:boxBackgroundColor="@color/card_bg_editable"
-                    app:boxCornerRadiusBottomStart="@dimen/default_radius"
-                    app:boxCornerRadiusBottomEnd="@dimen/default_radius"
-                    app:boxCornerRadiusTopStart="@dimen/default_radius"
-                    app:boxCornerRadiusTopEnd="@dimen/default_radius"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    android:enabled="true"
-                    >
-
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/q3_question"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"
-                        android:text="" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- A3 -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/q3_answerLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/q_hint2"
-                    app:boxBackgroundColor="@color/card_bg_editable"
-                    app:boxCornerRadiusBottomStart="@dimen/default_radius"
-                    app:boxCornerRadiusBottomEnd="@dimen/default_radius"
-                    app:boxCornerRadiusTopStart="@dimen/default_radius"
-                    app:boxCornerRadiusTopEnd="@dimen/default_radius"
-                    app:boxStrokeWidth="0dp"
-                    app:boxStrokeWidthFocused="0dp"
-                    android:enabled="true"
-                    >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/q3_answer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+                    android:inputType="text"
+                    android:hint="@string/q3_question_default"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
