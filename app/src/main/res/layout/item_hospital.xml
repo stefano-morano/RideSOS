@@ -1,25 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
     android:background="@drawable/rounded_edittext">
 
-    <TextView
-        android:id="@+id/hospitalName"
+    <!-- Hospital Info Layout -->
+    <LinearLayout
+        android:id="@+id/hospitalInfoLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hospital Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        />
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <TextView
+            android:id="@+id/hospitalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hospital Name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hospitalAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hospital Address"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Distance TextView aligned to the right -->
     <TextView
-        android:id="@+id/hospitalAddress"
+        android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hospital Address"
-        android:textSize="14sp" />
-
-</LinearLayout>
+        android:text="km"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

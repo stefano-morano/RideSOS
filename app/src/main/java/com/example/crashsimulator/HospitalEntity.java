@@ -21,6 +21,8 @@ public class HospitalEntity {
     @ColumnInfo(name = "longitude")
     public double longitude;
 
+    private double distance;
+
     public HospitalEntity(String name, String address, double latitude, double longitude) {
         this.name = name;
         this.address = address;
@@ -31,16 +33,19 @@ public class HospitalEntity {
     public String getName() {
         return name;
     }
-
     public String getAddress() {
         return address;
     }
-
     public double getLatitude() {
         return latitude;
     }
-
     public double getLongitude() {
         return longitude;
+    }
+    public double getDistance() {
+        return distance;
+    }
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

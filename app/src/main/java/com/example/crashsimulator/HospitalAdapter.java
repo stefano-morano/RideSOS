@@ -13,7 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,17 +27,19 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     public static class HospitalViewHolder extends RecyclerView.ViewHolder {
         public TextView hospitalName;
         public TextView hospitalAddress;
+        public TextView distanceToHospital;
 
         public HospitalViewHolder(View itemView) {
             super(itemView);
             hospitalName = itemView.findViewById(R.id.hospitalName);
             hospitalAddress = itemView.findViewById(R.id.hospitalAddress);
+            distanceToHospital = itemView.findViewById(R.id.distance);
         }
 
         void bindValues(HospitalEntity hospital) {
             hospitalName.setText(hospital.getName());
             hospitalAddress.setText(hospital.getAddress());
-
+            distanceToHospital.setText(hospital.getDistance() + "km");
         }
     }
 
@@ -43,20 +47,25 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     public HospitalAdapter(HospitalDatabase hospitalDatabase, double currentLatitude, double currentLongitude) {
         super();
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-
         executorService.execute(() -> {
             List<HospitalEntity> hospitals = hospitalDatabase.hospitalDAO().getAllHospitals();
-            hospitals.sort((h1, h2) -> {
-                double distanceToH1 = calculateDistance(
+            Log.d("HospitalAdapter", String.valueOf(hospitals.size()));
+
+            hospitals.forEach(hospital -> {
+                Log.d("CalculateDistance", "currentLat: " + currentLatitude +
+                        ", currentLon: " + currentLongitude +
+                        ", hospitalLat: " + hospital.getLatitude() +
+                        ", hospitalLon: " + hospital.getLongitude());
+                double distance = calculateDistance(
                         currentLatitude, currentLongitude,
-                        h1.getLatitude(), h1.getLongitude()
+                        hospital.getLatitude(), hospital.getLongitude()
                 );
-                double distanceToH2 = calculateDistance(
-                        currentLatitude, currentLongitude,
-                        h2.getLatitude(), h2.getLongitude()
-                );
-                return Double.compare(distanceToH1, distanceToH2);
+                DecimalFormat df = new DecimalFormat("#.##");
+                distance = Double.parseDouble(df.format(distance));
+                hospital.setDistance(distance);
             });
+
+            hospitals.sort(Comparator.comparingDouble(HospitalEntity::getDistance));
             hospitalList.addAll(hospitals);
             new Handler(Looper.getMainLooper()).post(this::notifyDataSetChanged);
         });
@@ -75,6 +84,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
         HospitalEntity hospital = hospitalList.get(position);
         holder.hospitalName.setText(hospital.getName());
         holder.hospitalAddress.setText(hospital.getAddress());
+        holder.distanceToHospital.setText(hospital.getDistance() + "km");
         holder.bindValues(hospital);
     }
 

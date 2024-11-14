@@ -21,11 +21,13 @@ import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.atomic.AtomicReference;
+import java.text.DecimalFormat;
 
 import android.Manifest;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 public class HospitalActivity extends AppCompatActivity {
 
@@ -36,6 +38,16 @@ public class HospitalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
 
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
+        HospitalDatabase database = HospitalDatabase.getInstance(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         final double[] currentLatitude = new double[1];
         final double[] currentLongitude = new double[1];
         getCurrentLocation( this, location -> {
@@ -44,6 +56,11 @@ public class HospitalActivity extends AppCompatActivity {
                 currentLongitude[0] = location.getLongitude();
                 Log.d("Location", "Lat: " + currentLatitude[0] +
                                             ", Lon: " + currentLongitude[0]);
+                HospitalAdapter hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0]);
+                recyclerView.setAdapter(hospitalAdapter);
+
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             } else {
                 Log.d("Location", "Failed to get location");
             }
@@ -65,14 +82,6 @@ public class HospitalActivity extends AppCompatActivity {
                 return true;
             } else return x == R.id.navigation_hospital;
         });
-
-        HospitalDatabase database = HospitalDatabase.getInstance(this);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        HospitalAdapter hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0]);
-        recyclerView.setAdapter(hospitalAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     private void getCurrentLocation(Context context, OnSuccessListener<Location> listener) {
