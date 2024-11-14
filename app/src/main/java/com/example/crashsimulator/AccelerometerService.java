@@ -69,7 +69,7 @@ public class AccelerometerService extends Service implements AccelerometerSensor
         accelerometerSensor.stop();
         readingSensorThread.interrupt();
         Intent crashIntent = new Intent(this, CrashAlertActivity.class);
-        crashIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Necessario per avviare l'activity dal Service
+        crashIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(crashIntent);
 
         Intent intent = new Intent("com.example.CRASH_DETECTED");

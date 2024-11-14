@@ -64,7 +64,7 @@ public class CrashAlertActivity extends Activity {
                     finish();
                 }
             });
-            startFlashingBackground();
+            //startFlashingBackground();
             startFlashLight();
         }
 
