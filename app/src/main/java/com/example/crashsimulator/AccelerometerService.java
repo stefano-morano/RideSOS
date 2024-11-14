@@ -13,6 +13,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.example.crashsimulator.activity.CrashAlertActivity;
+
 public class AccelerometerService extends Service implements AccelerometerSensor.CrashListener {
     private static final String TAG = "AccelerometerService";
     private static final String CHANNEL_ID = "AccelerometerServiceChannel";
@@ -59,7 +61,6 @@ public class AccelerometerService extends Service implements AccelerometerSensor
     public void onCrashDetected() {
         Log.d(TAG, "Crash detected, notifying user");
 
-        // Ottieni il PowerManager e accendi temporaneamente lo schermo
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         PowerManager.WakeLock wakeLock = powerManager.newWakeLock(
                 PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,

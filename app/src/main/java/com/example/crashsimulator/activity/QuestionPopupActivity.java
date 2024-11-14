@@ -1,16 +1,23 @@
-package com.example.crashsimulator;
+package com.example.crashsimulator.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.crashsimulator.HomeActivity;
+import com.example.crashsimulator.R;
+
 public class QuestionPopupActivity extends Activity {
     private Button answer_1;
     private Button answer_2;
+    private Button answer_3;
     private ImageButton call_button;
     private TextView question_number;
     private TextView question_text;
@@ -25,25 +32,49 @@ public class QuestionPopupActivity extends Activity {
         setContentView(R.layout.popup_question);
         answer_1 = findViewById(R.id.answer_1);
         answer_2 = findViewById(R.id.answer_2);
+        //answer_3 = findViewById(R.id.answer_3);
         call_button = findViewById(R.id.call_button);
         question_number = findViewById(R.id.question_title);
         question_text = findViewById(R.id.question_text);
 
         sharedPref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
 
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
         set_answer();
 
         answer_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                check_answer(1);
+                if (completed){
+                    Intent intent = new Intent(QuestionPopupActivity.this, HospitalActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else check_answer(1);
             }
         });
 
         answer_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                check_answer(2);
+                if (completed){
+                    Intent intent = new Intent(QuestionPopupActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else check_answer(2);
+            }
+        });
+
+        answer_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (completed){
+                    finish();
+                } else check_answer(3);
             }
         });
     }
@@ -64,12 +95,19 @@ public class QuestionPopupActivity extends Activity {
             else set_answer();
         }
 
+        if (selection == 3 && right_answer == 3){
+            question_counter++;
+            if (question_counter > 3)
+                set_final();
+            else set_answer();
+        }
+
     }
 
     private void set_answer(){
 
-        int index_anserw;
-        right_answer = (int) (Math.random() * 2 + 1);
+        int index_1, index_2;
+        right_answer = (int) (Math.random() * 2) + 1;
         String[] wrong = new String[10];
         String right = "";
         String[] a_keys = getResources().getStringArray(R.array.answer_keys);
@@ -97,18 +135,26 @@ public class QuestionPopupActivity extends Activity {
 
         //check if the three different answers are the different
         do {
-            index_anserw = (int) (Math.random() * 10);
-        } while (wrong[index_anserw].equals(right));
+            index_1 = (int) (Math.random() * 10);
+            index_2 = (int) (Math.random() * 10);
+        } while (wrong[index_1].equals(right) || wrong[index_1].equals(wrong[index_2]) || wrong[index_2].equals(right));
 
         //put the right answer in the right place
         switch (right_answer){
             case 1:
                 answer_1.setText(right);
-                answer_2.setText(wrong[index_anserw]);
+                answer_2.setText(wrong[index_1]);
+                answer_3.setText(wrong[index_2]);
                 break;
             case 2:
-                answer_1.setText(wrong[index_anserw]);
+                answer_1.setText(wrong[index_1]);
                 answer_2.setText(right);
+                answer_3.setText(wrong[index_2]);
+                break;
+            case 3:
+                answer_1.setText(wrong[index_1]);
+                answer_2.setText(wrong[index_2]);
+                answer_3.setText(right);
                 break;
         }
     }
@@ -121,5 +167,6 @@ public class QuestionPopupActivity extends Activity {
         answer_1.setTextColor(getResources().getColor(R.color.white));
         answer_1.setText("Open It");
         answer_2.setText("Ignore");
+        answer_3.setText("Close App");
     }
 }

@@ -1,9 +1,7 @@
-package com.example.crashsimulator;
+package com.example.crashsimulator.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
@@ -15,7 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
+import com.example.crashsimulator.R;
 
 public class CrashAlertActivity extends Activity {
 
@@ -40,7 +38,6 @@ public class CrashAlertActivity extends Activity {
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                     | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-            // Riferimenti alla UI
 
             Button btnImFine = findViewById(R.id.btn_im_fine);
             Button btnImNotOkay = findViewById(R.id.btn_im_not_okay);
