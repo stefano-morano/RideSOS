@@ -13,11 +13,13 @@ public class MQTTClient {
 
     // Set host of “VirtualBox Host-Only Ethernet Adapter” ,
     // To find it, type “ipconfig /all” and look for the adapter with that name
-    String serverHost = "192.168.56.1";
+    //String serverHost = "192.168.56.1";
+    String serverHost = "10.0.2.2";
     int serverPort = 1883;
     String subscriptionTopic = "hospital/dispatch";
     String publishingTopic = "hospital/emergencies";
     Mqtt3AsyncClient client;
+    boolean connected;
     ArrayList<String> messagesSent, messagesReceived;
 
     // Constructor
@@ -37,10 +39,6 @@ public class MQTTClient {
     void connectToBroker() {
         if(client != null) {
             client.connectWith()
-                    //.simpleAuth()
-                    //.username("")
-                    //.password("".getBytes())
-                    //.applySimpleAuth()
                     .send()
                     .whenComplete((connAck, throwable) -> {
                         if (throwable != null) {
@@ -51,7 +49,8 @@ public class MQTTClient {
                             // connected -> setup subscribes and publish a message
                             Log.d(TAG, "Connected to server");
                             subscribeToTopic();
-//                            publishMessage();
+                            connected = true;
+                            //publishMessage("hello");
                         }
                     });
         } else {

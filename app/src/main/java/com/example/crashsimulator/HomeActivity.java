@@ -110,6 +110,9 @@ public class HomeActivity extends AppCompatActivity {
 
         // Create MQTT Client
         client = new MQTTClient();
+        client.connectToBroker();
+        while (!client.connected) {}
+        client.publishMessage("hello");
 
         // Main content
         noRideTitle = findViewById(R.id.textViewTitleOff);
