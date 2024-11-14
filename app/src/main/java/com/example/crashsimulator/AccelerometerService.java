@@ -13,7 +13,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.example.crashsimulator.activity.CrashAlertActivity;
+import com.example.crashsimulator.CrashAlertActivity;
 
 public class AccelerometerService extends Service implements AccelerometerSensor.CrashListener {
     private static final String TAG = "AccelerometerService";

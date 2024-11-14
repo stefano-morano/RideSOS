@@ -1,4 +1,4 @@
-package com.example.crashsimulator.activity;
+package com.example.crashsimulator;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,6 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.crashsimulator.HomeActivity;
-import com.example.crashsimulator.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 

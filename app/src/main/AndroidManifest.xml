@@ -37,18 +37,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HospitalActivity"
+        <activity android:name=".HospitalActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.ProfileActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activity.EditProfileActivity"
-            android:parentActivityName=".activity.ProfileActivity"
+        <activity android:name=".ProfileActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activity.QuestionsActivity"
-            android:parentActivityName=".activity.ProfileActivity" /> <!-- Service declaration -->
-        <activity android:name=".activity.CrashAlertActivity"
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".ProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".QuestionsActivity"
+            android:parentActivityName=".ProfileActivity" /> <!-- Service declaration -->
+        <activity android:name=".CrashAlertActivity"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
         <service
             android:name=".AccelerometerService"
@@ -59,7 +59,7 @@
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="accelerometer_use" />
         </service>
-        <activity android:name=".activity.QuestionPopupActivity"
+        <activity android:name=".QuestionPopupActivity"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
     </application>
 

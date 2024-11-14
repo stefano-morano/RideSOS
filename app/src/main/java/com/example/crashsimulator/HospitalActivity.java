@@ -1,4 +1,4 @@
-package com.example.crashsimulator.activity;
+package com.example.crashsimulator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,10 +12,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.crashsimulator.HomeActivity;
-import com.example.crashsimulator.HospitalAdapter;
-import com.example.crashsimulator.HospitalDatabase;
-import com.example.crashsimulator.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;

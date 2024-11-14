@@ -1,4 +1,4 @@
-package com.example.crashsimulator.activity;
+package com.example.crashsimulator;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,8 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.example.crashsimulator.R;
 
 public class CrashAlertActivity extends Activity {
 
@@ -61,7 +59,7 @@ public class CrashAlertActivity extends Activity {
                     finish();
                 }
             });
-            //startFlashingBackground();
+            startFlashingBackground();
             startFlashLight();
         }
 

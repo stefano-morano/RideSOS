@@ -1,4 +1,4 @@
-package com.example.crashsimulator.activity;
+package com.example.crashsimulator;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,9 +10,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.example.crashsimulator.HomeActivity;
-import com.example.crashsimulator.R;
 
 public class QuestionPopupActivity extends Activity {
     private Button answer_1;
@@ -32,7 +29,7 @@ public class QuestionPopupActivity extends Activity {
         setContentView(R.layout.popup_question);
         answer_1 = findViewById(R.id.answer_1);
         answer_2 = findViewById(R.id.answer_2);
-        //answer_3 = findViewById(R.id.answer_3);
+        answer_3 = findViewById(R.id.answer_3);
         call_button = findViewById(R.id.call_button);
         question_number = findViewById(R.id.question_title);
         question_text = findViewById(R.id.question_text);
@@ -77,6 +74,18 @@ public class QuestionPopupActivity extends Activity {
                 } else check_answer(3);
             }
         });
+
+        call_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send_mqtt();
+            }
+        });
+    }
+
+    private void send_mqtt(){
+        Intent intent = new Intent("com.example.MQTT_DETECTED");
+        sendBroadcast(intent);
     }
 
     private void check_answer(int selection){
@@ -86,21 +95,21 @@ public class QuestionPopupActivity extends Activity {
             if (question_counter > 3)
                 set_final();
             else set_answer();
-        }
+        } else send_mqtt();
 
         if (selection == 2 && right_answer == 2){
             question_counter++;
             if (question_counter > 3)
                 set_final();
             else set_answer();
-        }
+        } else send_mqtt();
 
         if (selection == 3 && right_answer == 3){
             question_counter++;
             if (question_counter > 3)
                 set_final();
             else set_answer();
-        }
+        } else send_mqtt();
 
     }
 
@@ -165,8 +174,8 @@ public class QuestionPopupActivity extends Activity {
         question_text.setText(getString(R.string.completed_warning));
         answer_1.setBackgroundColor(getResources().getColor(R.color.black));
         answer_1.setTextColor(getResources().getColor(R.color.white));
-        answer_1.setText("Open It");
-        answer_2.setText("Ignore");
+        answer_1.setText("Hospital");
+        answer_2.setText("Main");
         answer_3.setText("Close App");
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,11 +19,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.crashsimulator.activity.HospitalActivity;
-import com.example.crashsimulator.activity.ProfileActivity;
+import com.example.crashsimulator.HospitalActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.ExecutorService;
@@ -46,8 +47,9 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ExecutorService es;
 
-    private BroadcastReceiver crash_receiver;
+    private BroadcastReceiver crash_receiver, MQTT_receiver;
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,9 +150,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
+        MQTT_receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if ("com.example.MQTT_MESSAGE".equals(intent.getAction())) {
+                    client.publishMessage("hello");
+                    //TODO create the message
+                }
+            }
+        };
+
         // Registra il receiver
         IntentFilter filter = new IntentFilter("com.example.CRASH_DETECTED");
-        registerReceiver(crash_receiver, filter);
+        registerReceiver(crash_receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        filter = new IntentFilter("com.example.MQTT_MESSAGE");
+        registerReceiver(MQTT_receiver, filter, Context.RECEIVER_NOT_EXPORTED);
     }
 
     private void startAccelerometerService() {
