@@ -36,19 +36,19 @@ public class AppHelper {
     }
 
 
-    static void PutString(SharedPreferences.Editor editor, String entry_key, EditText text) {
+    static  public void PutString(SharedPreferences.Editor editor, String entry_key, EditText text) {
         if (HasText(text)) {
             editor.putString(entry_key, String.valueOf(text.getText()));
         }
     }
 
-    static void PutStringHint(SharedPreferences.Editor editor, String entry_key, EditText text) {
+    static public void PutStringHint(SharedPreferences.Editor editor, String entry_key, EditText text) {
         if (HasTextHint(text)) {
             editor.putString(entry_key, String.valueOf(text.getHint()));
         }
     }
 
-    static void CreateDropdown(Context cxt, MaterialAutoCompleteTextView autocompleteTextView, int valuesId) {
+    static public void CreateDropdown(Context cxt, MaterialAutoCompleteTextView autocompleteTextView, int valuesId) {
         // Create an ArrayAdapter that will contain all list items
         String[] myValues = cxt.getResources().getStringArray(valuesId);
 
@@ -60,7 +60,7 @@ public class AppHelper {
         autocompleteTextView.setAdapter(arrayAdapter);
     }
 
-    static boolean CheckText(EditText value, TextInputLayout layout) {
+    static public boolean CheckText(EditText value, TextInputLayout layout) {
         // TODO: We need also to sanify input
         String errorText = "Mandatory";
         boolean saneInput = true;
@@ -76,7 +76,7 @@ public class AppHelper {
         return saneInput;
     }
 
-    static void SetTextChangedListener(EditText editText, TextInputLayout layout) {
+    static public void SetTextChangedListener(EditText editText, TextInputLayout layout) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

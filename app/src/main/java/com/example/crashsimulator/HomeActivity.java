@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.crashsimulator.activity.HospitalActivity;
+import com.example.crashsimulator.activity.ProfileActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.ExecutorService;

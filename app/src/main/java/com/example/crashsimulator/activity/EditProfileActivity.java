@@ -1,25 +1,20 @@
-package com.example.crashsimulator;
+package com.example.crashsimulator.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.crashsimulator.AppHelper;
+import com.example.crashsimulator.HomeActivity;
+import com.example.crashsimulator.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.util.ArrayList;
 
 public class EditProfileActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
@@ -27,7 +22,6 @@ public class EditProfileActivity extends AppCompatActivity {
     TextInputEditText name, surname, phone_number, birthdate;
     AutoCompleteTextView gender, blood_type;
     TextInputLayout l_name, l_surname, l_phone_number, l_birthdate, l_gender, l_blood_type;
-
 
     private final static String TAG = "EditProfileActivity";
 
