@@ -1,6 +1,11 @@
 package com.example.crashsimulator;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.util.Log;
+
+import androidx.core.app.NotificationManagerCompat;
 
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 import com.hivemq.client.mqtt.MqttClient;
@@ -10,6 +15,7 @@ import java.util.ArrayList;
 public class MQTTClient {
     public static String TAG = "MQTTClient";
     private static final String CHANNEL_ID = "MQTTClientChannel";
+    private static final String CHANNEL_NAME = "Ambulance Updates";
 
     // Set host of “VirtualBox Host-Only Ethernet Adapter” ,
     // To find it, type “ipconfig /all” and look for the adapter with that name
@@ -21,9 +27,11 @@ public class MQTTClient {
     Mqtt3AsyncClient client;
     boolean connected;
     ArrayList<String> messagesSent, messagesReceived;
+    Context ctx;
 
     // Constructor
-    public MQTTClient() {
+    public MQTTClient(Context ctx) {
+        this.ctx = ctx;
         client = MqttClient.builder()
                 .useMqttVersion3()
                 .identifier("my-mqtt-client-id")
@@ -34,6 +42,7 @@ public class MQTTClient {
 
         messagesSent = new ArrayList<>();
         messagesReceived = new ArrayList<>();
+        AppHelper.CreateNotificationChannel(ctx, CHANNEL_ID, CHANNEL_NAME);
     }
 
     void connectToBroker() {
@@ -70,6 +79,10 @@ public class MQTTClient {
                     String received_text = "Message received (topic: "+subscriptionTopic+"): "+msg_payload;
                     Log.d(TAG, received_text);
                     messagesReceived.add(received_text);
+                    Notification notification = AppHelper.CreateNotification(ctx,
+                            CHANNEL_ID, CHANNEL_NAME, msg_payload, R.drawable.ic_profile);
+                    NotificationManager manager = ctx.getSystemService(NotificationManager.class);
+                    manager.notify(1, notification);
                 })
                 .send()
                 .whenComplete((subAck, throwable) -> {
@@ -102,6 +115,11 @@ public class MQTTClient {
                         String published_text = "Message published (topic: "+publishingTopic+"): "+msg_payload;
                         Log.d(TAG, published_text);
                         messagesSent.add(published_text);
+
+                        Notification notification = AppHelper.CreateNotification(ctx,
+                                CHANNEL_ID, CHANNEL_NAME, msg_payload, R.drawable.ic_profile);
+                        NotificationManager manager = ctx.getSystemService(NotificationManager.class);
+                        manager.notify(1, notification);
                     }
                 });
     }

@@ -23,7 +23,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.crashsimulator.HospitalActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.ExecutorService;
@@ -113,7 +112,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         // Create MQTT Client
-        client = new MQTTClient();
+        client = new MQTTClient(this);
 
         // Main content
         noRideTitle = findViewById(R.id.textViewTitleOff);
@@ -202,7 +201,6 @@ public class HomeActivity extends AppCompatActivity {
         // Connect client to broker
         // TODO: Think where it is better to put this, when we should connect to the broker?
         client.connectToBroker();
-        client.publishMessage("hello");
     }
 
     @Override
