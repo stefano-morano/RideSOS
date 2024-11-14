@@ -18,4 +18,7 @@ public interface HospitalDAO {
 
     @Query("SELECT * FROM hospitals_db LIMIT 1 OFFSET :position")
     HospitalEntity getHospitalAtPosition(int position);
+
+    @Query("DELETE FROM hospitals_db")
+    void deleteAllHospitals();
 }

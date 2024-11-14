@@ -54,5 +54,6 @@ dependencies {
     implementation(libs.room.db)
     annotationProcessor(libs.room.db.compiler)
     implementation(libs.hivemq.mqtt.client)
+    implementation(libs.location)
 }
 

@@ -14,6 +14,7 @@ navigationUi = "2.8.1"
 activity = "1.9.3"
 annotation = "1.6.0"
 room_version = "2.6.1"
+location = "21.0.1"
 
 [libraries]
 hivemq-mqtt-client = { module = "com.hivemq:hivemq-mqtt-client", version.ref = "hivemqMqttClient" }
@@ -29,9 +30,10 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 room-db = {group = "androidx.room", name = "room-runtime", version.ref = "room_version"}
 room-db-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room_version"}
-
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+location = {group = "com.google.android.gms", name = "play-services-location", version.ref = "location"}
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 

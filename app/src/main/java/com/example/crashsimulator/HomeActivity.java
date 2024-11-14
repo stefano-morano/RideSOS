@@ -2,10 +2,12 @@ package com.example.crashsimulator;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,10 +19,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import android.Manifest;
 
 public class HomeActivity extends AppCompatActivity {
     MQTTClient client;
@@ -29,11 +35,13 @@ public class HomeActivity extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
     private static final String TAG = "HomeActivity";
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
+
     private static final String CONTENT_TYPE_HOSPITALS_JSON = "application/json";
     private static final String HOSPITALS_URL_JSON = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=212769-0-atencion-medica&mgmtid=da7437ac37efb410VgnVCM2000000c205a0aRCRD&preview=full";
     HospitalDatabase hospitalDatabase;
 
-    SharedPreferences sharedPref;
+    SharedPreferences sharedPreferences;
     ExecutorService es;
 
     private BroadcastReceiver crash_receiver;
@@ -43,16 +51,19 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        if (!hasLocationPermission(this))
+            requestLocationPermission(this);
+
         // SharedPreferences
-        sharedPref = this.getSharedPreferences(
+        sharedPreferences = this.getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         // Check if it is first time signup
         // TODO: Maybe it would be better to put this in a separate helperActivity
         // https://stackoverflow.com/questions/8703065/showing-the-setup-screen-only-on-first-launch-in-android
-        if(sharedPref.getBoolean(getString(R.string.first_start_key), true)){
+        if(sharedPreferences.getBoolean(getString(R.string.first_start_key), true)){
             // Update sharedPref - another start won't be the first
-            SharedPreferences.Editor editor = sharedPref.edit();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(getString(R.string.first_start_key), false);
             editor.apply(); // apply changes
 
@@ -63,19 +74,21 @@ public class HomeActivity extends AppCompatActivity {
 
         hospitalDatabase = HospitalDatabase.getInstance(this);
         es = Executors.newSingleThreadExecutor();
+
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                SharedPreferences.Editor editor = sharedPref.edit();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(getString(R.string.hospitals_status_key), true);
                 editor.apply();
             }
         };
 
         // check if the hospitals list is already downloaded and stored in DB
-        //if (!sharedPref.getBoolean("hospitalsDownloaded", false)) {
+        sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        if (!sharedPreferences.getBoolean(getString(R.string.hospitals_status_key), false)) {
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
-        //}
+        }
 
         // Bottom navigation bar
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -147,6 +160,23 @@ public class HomeActivity extends AppCompatActivity {
     private void stopAccelerometerService() {
         Intent serviceIntent = new Intent(this, AccelerometerService.class);
         stopService(serviceIntent);
+    }
+
+    private boolean hasLocationPermission(Context context) {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermission(Activity activity) {
+        ActivityCompat.requestPermissions(
+                activity,
+                new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                },
+                LOCATION_PERMISSION_REQUEST_CODE
+        );
     }
 
     @Override
