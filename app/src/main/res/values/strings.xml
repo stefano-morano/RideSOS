@@ -90,4 +90,45 @@
     <string name="alert_text">Your phone is currently blinking and sounding. Please confirm your conditions in 5 seconds, or we will call an ambulance for you.</string>
     <string name="hospitals_status_key">hospitalsDownloaded</string>
     <string name="first_start_key">firstStart</string>
+    <string-array name="woman_names">
+        <item>Anna</item>
+        <item>Julia</item>
+        <item>Daniela</item>
+        <item>Elena</item>
+        <item>Paloma</item>
+        <item>Paula</item>
+        <item>Miranda</item>
+        <item>Serena</item>
+        <item>Marta</item>
+        <item>Sabrina</item>
+    </string-array>
+
+    <string-array name="food_type">
+        <item>Pizza</item>
+        <item>Pasta</item>
+        <item>Ice Cream</item>
+        <item>Tortilla</item>
+        <item>Empanadas</item>
+        <item>Hamburger</item>
+        <item>Fish</item>
+        <item>Sushi</item>
+        <item>Cheese</item>
+        <item>Churros</item>
+    </string-array>
+
+    <string-array name="animal_name">
+        <item>Fido</item>
+        <item>Luna</item>
+        <item>Rocky</item>
+        <item>Milo</item>
+        <item>Penny</item>
+        <item>Ziggy</item>
+        <item>Nola</item>
+        <item>Sandy</item>
+        <item>Oreo</item>
+        <item>Snoopy</item>
+    </string-array>
+
+    <string name="completed_warning">We suggest you anyway to check the nearest hospital in the application.</string>
+
 </resources>

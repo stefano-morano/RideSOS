@@ -56,6 +56,8 @@
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="accelerometer_use" />
         </service>
+        <activity android:name=".QuestionPopupActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
     </application>
 
 </manifest>

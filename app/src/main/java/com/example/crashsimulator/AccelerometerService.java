@@ -66,12 +66,12 @@ public class AccelerometerService extends Service implements AccelerometerSensor
                 "CrashSimulator::CrashAlertWakeLock"
         );
         wakeLock.acquire(10000); // Riattiva lo schermo per 3 secondi
-
+        accelerometerSensor.stop();
+        readingSensorThread.interrupt();
         Intent crashIntent = new Intent(this, CrashAlertActivity.class);
         crashIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Necessario per avviare l'activity dal Service
         startActivity(crashIntent);
-        accelerometerSensor.stop();
-        readingSensorThread.interrupt();
+
         Intent intent = new Intent("com.example.CRASH_DETECTED");
         sendBroadcast(intent);
     }

@@ -1,6 +1,7 @@
 package com.example.crashsimulator;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.hardware.camera2.CameraAccessException;
@@ -47,8 +48,9 @@ public class CrashAlertActivity extends Activity {
             btnImFine.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Azione se l'utente sta bene
-                    Toast.makeText(CrashAlertActivity.this, "Glad you're okay!", Toast.LENGTH_SHORT).show();
+                    Intent questionIntent = new Intent(CrashAlertActivity.this, QuestionPopupActivity.class);
+                    questionIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Necessario per avviare l'activity dal Service
+                    startActivity(questionIntent);
                     finish();
                 }
             });
