@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class MQTTClient {
     public static String TAG = "MQTTClient";
 
-    // TODO: Change host and port
+    // Set host of “VirtualBox Host-Only Ethernet Adapter” ,
+    // To find it, type “ipconfig /all” and look for the adapter with that name
     String serverHost = "192.168.56.1";
     int serverPort = 1883;
     String subscriptionTopic = "hospital/dispatch";
