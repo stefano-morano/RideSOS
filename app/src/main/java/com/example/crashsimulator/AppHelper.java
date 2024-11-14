@@ -1,12 +1,18 @@
 package com.example.crashsimulator;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
@@ -18,10 +24,14 @@ public class AppHelper {
     }
 
     static boolean HasTextHint(EditText text) {
-        return hasTextEditable((Editable) text.getHint());
+        return hasTextCharSequence(text.getHint());
     }
 
     static private boolean hasTextEditable(Editable s) {
+        return s != null && s.length() != 0;
+    }
+
+    static private boolean hasTextCharSequence(CharSequence s) {
         return s != null && s.length() != 0;
     }
 
@@ -83,5 +93,26 @@ public class AppHelper {
                 CheckText(editText, layout);
             }
         });
+    }
+
+    static void CreateNotificationChannel(Context ctx, String channel_id, String channel_name) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    channel_id,
+                    channel_name,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            NotificationManager manager = ctx.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
+
+    static Notification CreateNotification(Context ctx, String channel_id, String title, String message, int icon_id) {
+        return new NotificationCompat.Builder(ctx, channel_id)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(icon_id)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build();
     }
 }

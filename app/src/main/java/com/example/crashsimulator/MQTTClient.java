@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class MQTTClient {
     public static String TAG = "MQTTClient";
+    private static final String CHANNEL_ID = "MQTTClientChannel";
 
     // Set host of “VirtualBox Host-Only Ethernet Adapter” ,
     // To find it, type “ipconfig /all” and look for the adapter with that name

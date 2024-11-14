@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat;
 public class AccelerometerService extends Service implements AccelerometerSensor.CrashListener {
     private static final String TAG = "AccelerometerService";
     private static final String CHANNEL_ID = "AccelerometerServiceChannel";
+    private static final String CHANNEL_NAME = "Crash Detection Service Channel";
     private AccelerometerSensor accelerometerSensor;
     private Thread readingSensorThread;
     public static final int SENSOR_DELAY_MS = 500;
@@ -28,32 +29,14 @@ public class AccelerometerService extends Service implements AccelerometerSensor
         accelerometerSensor = new AccelerometerSensor(this, 500, this);
         accelerometerSensor.start();
         readAccelerometerData();
-        createNotificationChannel();
-        startForegroundNotification("Crash Detection activated", "Have a safe ride!");
+        AppHelper.CreateNotificationChannel(this, CHANNEL_ID, CHANNEL_NAME);
+        Notification notification = AppHelper.CreateNotification(this, CHANNEL_ID, "Crash Detection activated", "Have a safe ride!", R.drawable.ic_profile);
+
+        startForeground(1, notification);
+
         return START_STICKY;
     }
 
-    private void startForegroundNotification(String title, String message) {
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setSmallIcon(R.drawable.ic_profile)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .build();
-        startForeground(1, notification);
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Crash Detection Service Channel",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(serviceChannel);
-        }
-    }
 
     @Override
     public void onCrashDetected() {
