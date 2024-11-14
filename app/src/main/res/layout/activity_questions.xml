@@ -69,8 +69,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:hint="@string/q1_question"
-                        android:text="@string/q1_answer" />
+                        android:hint="@string/q1_question_default"
+                        android:text="@string/q1_answer_default" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Question2 -->
@@ -93,8 +93,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:hint="@string/q2_question"
-                        android:text="@string/q2_answer" />
+                        android:hint="@string/q2_question_default"
+                        android:text="@string/q2_answer_default" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Question3 -->
@@ -117,8 +117,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:hint="@string/q3_question"
-                        android:text="@string/q3_answer" />
+                        android:hint="@string/q3_question_default"
+                        android:text="@string/q3_answer_default" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 

@@ -77,7 +77,6 @@ public class MQTTClient {
                         // Handle failure to subscribe
                         Log.d(TAG, "Problem subscribing to topic:");
                         Log.d(TAG, throwable.toString());
-
                     } else {
                         // Handle successful subscription, e.g. logging or incrementing a metric
                         Log.d(TAG, "Subscribed to topic");

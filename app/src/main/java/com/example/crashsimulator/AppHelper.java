@@ -17,13 +17,24 @@ public class AppHelper {
         return hasTextEditable(text.getText());
     }
 
+    static boolean HasTextHint(EditText text) {
+        return hasTextEditable((Editable) text.getHint());
+    }
+
     static private boolean hasTextEditable(Editable s) {
         return s != null && s.length() != 0;
     }
 
+
     static void PutString(SharedPreferences.Editor editor, String entry_key, EditText text) {
         if (HasText(text)) {
             editor.putString(entry_key, String.valueOf(text.getText()));
+        }
+    }
+
+    static void PutStringHint(SharedPreferences.Editor editor, String entry_key, EditText text) {
+        if (HasTextHint(text)) {
+            editor.putString(entry_key, String.valueOf(text.getHint()));
         }
     }
 
