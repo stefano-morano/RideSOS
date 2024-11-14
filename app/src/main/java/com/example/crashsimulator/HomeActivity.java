@@ -86,6 +86,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // check if the hospitals list is already downloaded and stored in DB
         if (!sharedPreferences.getBoolean(getString(R.string.hospitals_status_key), false)) {
+            Log.d("TAG", "downloading hospitals");
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
         }
 
