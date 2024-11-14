@@ -87,7 +87,6 @@ public class HomeActivity extends AppCompatActivity {
         };
 
         // check if the hospitals list is already downloaded and stored in DB
-        sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
         if (!sharedPreferences.getBoolean(getString(R.string.hospitals_status_key), false)) {
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
         }
@@ -188,6 +187,7 @@ public class HomeActivity extends AppCompatActivity {
         // Connect client to broker
         // TODO: Think where it is better to put this, when we should connect to the broker?
         client.connectToBroker();
+        client.publishMessage("hello");
     }
 
     @Override

@@ -51,23 +51,32 @@ public class HospitalActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        final double[] currentLatitude = new double[1];
-        final double[] currentLongitude = new double[1];
-        getCurrentLocation( this, location -> {
-            if (location != null) {
-                currentLatitude[0] = location.getLatitude();
-                currentLongitude[0] = location.getLongitude();
-                Log.d("Location", "Lat: " + currentLatitude[0] +
-                                            ", Lon: " + currentLongitude[0]);
-                HospitalAdapter hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0]);
-                recyclerView.setAdapter(hospitalAdapter);
+        if (!checkLocationPermissionsGuaranteed(this)) {
+            HospitalAdapter hospitalAdapter = new HospitalAdapter(database, 0.0, 0.0);
+            recyclerView.setAdapter(hospitalAdapter);
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            Log.d("Location", "can t read location");
+        } else {
 
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            } else {
-                Log.d("Location", "Failed to get location");
-            }
-        });
+            final double[] currentLatitude = new double[1];
+            final double[] currentLongitude = new double[1];
+            getCurrentLocation(this, location -> {
+                if (location != null) {
+                    currentLatitude[0] = location.getLatitude();
+                    currentLongitude[0] = location.getLongitude();
+                    Log.d("Location", "Lat: " + currentLatitude[0] +
+                            ", Lon: " + currentLongitude[0]);
+                    HospitalAdapter hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0]);
+                    recyclerView.setAdapter(hospitalAdapter);
+
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    Log.d("Location", "Failed to get location");
+                }
+            });
+        }
 
         // Bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -87,6 +96,11 @@ public class HospitalActivity extends AppCompatActivity {
         });
     }
 
+    private boolean checkLocationPermissionsGuaranteed(Context context) {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        }
+
     private void getCurrentLocation(Context context, OnSuccessListener<Location> listener) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -95,9 +109,7 @@ public class HospitalActivity extends AppCompatActivity {
 
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
 
-        LocationRequest locationRequest = new LocationRequest.Builder(
-                Priority.PRIORITY_HIGH_ACCURACY, 1000
-        ).setMaxUpdates(1).build();
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).setMaxUpdates(1).build();
         fusedLocationClient.requestLocationUpdates(
                 locationRequest,
                 new LocationCallback() {
