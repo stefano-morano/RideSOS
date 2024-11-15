@@ -11,6 +11,7 @@
     <color name="container_bg">#FFF3EDF7</color> <!-- or put #FFFFFFFF -->
     <color name="card_bg">#FFEAE8E8</color>
     <color name="card_bg_editable">@color/white</color>
+    <color name="hospital_item_bg">#FFFEF7FF</color>
     <color name="text_primary">@color/black</color>
     <color name="text_primary_alt">#FF333333</color>
     <color name="text_secondary">#FF888888</color>

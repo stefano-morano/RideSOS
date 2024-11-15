@@ -22,18 +22,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.HospitalViewHolder> {
-    private final List<HospitalEntity> hospitalList = new ArrayList<>();
+    private List<HospitalEntity> fullHospitalList = new ArrayList<>();
+    private List<HospitalEntity> hospitalList = new ArrayList<>();
 
     public static class HospitalViewHolder extends RecyclerView.ViewHolder {
+        public View container;
+        public View divider;
         public TextView hospitalName;
         public TextView hospitalAddress;
         public TextView distanceToHospital;
 
         public HospitalViewHolder(View itemView) {
             super(itemView);
+            container = itemView.findViewById(R.id.hospitalInfoLayout);
             hospitalName = itemView.findViewById(R.id.hospitalName);
             hospitalAddress = itemView.findViewById(R.id.hospitalAddress);
             distanceToHospital = itemView.findViewById(R.id.distance);
+            divider = itemView.findViewById(R.id.divider);
         }
 
         void bindValues(HospitalEntity hospital) {
@@ -70,9 +75,25 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
                 hospitals.sort(Comparator.comparingDouble(HospitalEntity::getDistance));
             }
 
+            fullHospitalList.addAll(hospitals);
             hospitalList.addAll(hospitals);
             new Handler(Looper.getMainLooper()).post(this::notifyDataSetChanged);
         });
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setFilteredList(String text) {
+        // Clear hospitalList
+        hospitalList.clear();
+
+        for (HospitalEntity item : fullHospitalList) {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                hospitalList.add(item);
+            }
+        }
+
+        new Handler(Looper.getMainLooper()).post(this::notifyDataSetChanged);
     }
 
     @NonNull
@@ -84,11 +105,25 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     }
 
     @Override
-    public void onBindViewHolder(HospitalViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HospitalViewHolder holder, int position) {
+        if (position == 0 && position == getItemCount()-1) {
+            holder.container.setBackgroundResource(R.drawable.rounded_item_hospitals);
+            holder.divider.setVisibility(View.GONE);
+        } else {
+            if (position == 0) {
+                holder.container.setBackgroundResource(R.drawable.rounded_item_hospitals_top);
+            } else if (position == getItemCount() - 1) {
+                holder.container.setBackgroundResource(R.drawable.rounded_item_hospitals_bottom);
+                holder.divider.setVisibility(View.GONE);
+            } else {
+                holder.container.setBackgroundResource(R.drawable.item_hospitals);
+            }
+        }
+
         HospitalEntity hospital = hospitalList.get(position);
         holder.hospitalName.setText(hospital.getName());
         holder.hospitalAddress.setText(hospital.getAddress());
-        holder.distanceToHospital.setText(hospital.getDistance() + "km");
+        holder.distanceToHospital.setText(hospital.getDistance() + " km");
         holder.bindValues(hospital);
     }
 

@@ -1,0 +1,5 @@
+<!-- res/drawable/rounded_edittext.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/hospital_item_bg" />
+    <corners android:topLeftRadius="@dimen/default_radius" android:topRightRadius="@dimen/default_radius" />
+</shape>

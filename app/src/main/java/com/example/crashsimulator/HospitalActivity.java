@@ -7,8 +7,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +22,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import android.Manifest;
@@ -27,52 +32,79 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class HospitalActivity extends AppCompatActivity {
 
+    HospitalDatabase database;
+    HospitalAdapter hospitalAdapter;
     ExecutorService es;
+
+    SearchView searchView;
+    ProgressBar progressBar;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
 
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        progressBar = findViewById(R.id.progressBar);
+        recyclerView = findViewById(R.id.recyclerView);
 
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
 
-        HospitalDatabase database = HospitalDatabase.getInstance(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        database = HospitalDatabase.getInstance(this);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        if (!checkLocationPermissionsGuaranteed(this)) {
-            HospitalAdapter hospitalAdapter = new HospitalAdapter(database, 0.0, 0.0);
-            recyclerView.setAdapter(hospitalAdapter);
-            progressBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            Log.d("Location", "can t read location");
-        } else {
-
+        // Try to get locations
+        if (AppHelper.CheckLocationPermissionsGuaranteed(this)) {
             final double[] currentLatitude = new double[1];
             final double[] currentLongitude = new double[1];
-            getCurrentLocation(this, location -> {
+            AppHelper.GetCurrentLocation(this, location -> {
                 if (location != null) {
                     currentLatitude[0] = location.getLatitude();
                     currentLongitude[0] = location.getLongitude();
                     Log.d("Location", "Lat: " + currentLatitude[0] +
                             ", Lon: " + currentLongitude[0]);
-                    HospitalAdapter hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0]);
+                    // Create adapter
+                    hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0]);
                     recyclerView.setAdapter(hospitalAdapter);
-
                     progressBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 } else {
                     Log.d("Location", "Failed to get location");
                 }
             });
+        } else {
+            Log.d("Location", "can't read location");
+            // Create adapter
+            hospitalAdapter = new HospitalAdapter(database, 0.0, 0.0);
+            recyclerView.setAdapter(hospitalAdapter);
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
+
+        // Search View
+        searchView = findViewById(R.id.searchView);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                hospitalAdapter.setFilteredList(newText);
+                return false;
+            }
+        });
+
 
         // Bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -91,35 +123,4 @@ public class HospitalActivity extends AppCompatActivity {
             } else return x == R.id.navigation_hospital;
         });
     }
-
-    private boolean checkLocationPermissionsGuaranteed(Context context) {
-        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        }
-
-    private void getCurrentLocation(Context context, OnSuccessListener<Location> listener) {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-
-        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).setMaxUpdates(1).build();
-        fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                new LocationCallback() {
-                    @Override
-                    public void onLocationResult(@NonNull LocationResult locationResult) {
-                        if (!locationResult.getLocations().isEmpty()) {
-                            Location location = locationResult.getLastLocation();
-                            listener.onSuccess(location);
-                        }
-                        fusedLocationClient.removeLocationUpdates(this);
-                    }
-                },
-                Looper.getMainLooper()
-        );
-    }
-
 }

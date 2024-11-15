@@ -37,16 +37,15 @@ public class HomeActivity extends AppCompatActivity {
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
     private static final String TAG = "HomeActivity";
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
     private static final String CONTENT_TYPE_HOSPITALS_JSON = "application/json";
     private static final String HOSPITALS_URL_JSON = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=212769-0-atencion-medica&mgmtid=da7437ac37efb410VgnVCM2000000c205a0aRCRD&preview=full";
     HospitalDatabase hospitalDatabase;
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPref;
     ExecutorService es;
 
-    private BroadcastReceiver crash_receiver, MQTT_receiver;
+    BroadcastReceiver crash_receiver, MQTT_receiver;
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
@@ -54,19 +53,19 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if (!hasLocationPermission(this))
-            requestLocationPermission(this);
+        if (!AppHelper.HasLocationPermission(this))
+            AppHelper.RequestLocationPermission(this);
 
         // SharedPreferences
-        sharedPreferences = this.getSharedPreferences(
+        sharedPref = this.getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         // Check if it is first time signup
         // TODO: Maybe it would be better to put this in a separate helperActivity
         // https://stackoverflow.com/questions/8703065/showing-the-setup-screen-only-on-first-launch-in-android
-        if(sharedPreferences.getBoolean(getString(R.string.first_start_key), true)){
+        if(sharedPref.getBoolean(getString(R.string.first_start_key), true)){
             // Update sharedPref - another start won't be the first
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean(getString(R.string.first_start_key), false);
             editor.apply(); // apply changes
 
@@ -81,15 +80,15 @@ public class HomeActivity extends AppCompatActivity {
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean(getString(R.string.hospitals_status_key), true);
                 editor.apply();
             }
         };
 
         // check if the hospitals list is already downloaded and stored in DB
-        if (!sharedPreferences.getBoolean(getString(R.string.hospitals_status_key), false)) {
-            Log.d("TAG", "downloading hospitals");
+        if (!sharedPref.getBoolean(getString(R.string.hospitals_status_key), false)) {
+            Log.d(TAG, "downloading hospitals");
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
         }
 
@@ -140,7 +139,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Configura il BroadcastReceiver
+        // Setup BroadcastReceiver
         crash_receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -150,21 +149,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
+        // Setup MQTT
         MQTT_receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if ("com.example.MQTT_MESSAGE".equals(intent.getAction())) {
-                    client.publishMessage("hello");
-                    //TODO create the message
+                    client.publishMessage(createMessage());
                 }
             }
         };
 
-        // Registra il receiver
-        IntentFilter filter = new IntentFilter("com.example.CRASH_DETECTED");
-        registerReceiver(crash_receiver, filter, Context.RECEIVER_NOT_EXPORTED);
-        filter = new IntentFilter("com.example.MQTT_MESSAGE");
-        registerReceiver(MQTT_receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        // Register the receiver
+        IntentFilter crash_filter = new IntentFilter("com.example.CRASH_DETECTED");
+        registerReceiver(crash_receiver, crash_filter, Context.RECEIVER_NOT_EXPORTED);
+        IntentFilter mqtt_filter = new IntentFilter("com.example.MQTT_MESSAGE");
+        registerReceiver(MQTT_receiver, mqtt_filter, Context.RECEIVER_NOT_EXPORTED);
     }
 
     private void startAccelerometerService() {
@@ -175,23 +174,6 @@ public class HomeActivity extends AppCompatActivity {
     private void stopAccelerometerService() {
         Intent serviceIntent = new Intent(this, AccelerometerService.class);
         stopService(serviceIntent);
-    }
-
-    private boolean hasLocationPermission(Context context) {
-        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestLocationPermission(Activity activity) {
-        ActivityCompat.requestPermissions(
-                activity,
-                new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                },
-                LOCATION_PERMISSION_REQUEST_CODE
-        );
     }
 
     @Override
@@ -210,6 +192,31 @@ public class HomeActivity extends AppCompatActivity {
         // Disconnect client from the broker
         // TODO: Think where it is better to put this, when we should disconnect to the broker?
         client.disconnectFromBroker();
+    }
+
+    private String createMessage() {
+        // Get user info from shared preferences
+        String nameValue = sharedPref.getString(getString(R.string.name_label), getString(R.string.name_value));
+        String surnameValue = sharedPref.getString(getString(R.string.surname_label), getString(R.string.surname_value));
+        String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), getString(R.string.phone_number_value));
+        String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
+        String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
+        String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
+
+        // TODO: Get actual latitude and longitude
+        float latitude = 12.35f;
+        float longitude = 1.45f;
+
+        return AppHelper.CreateEmergencyMessage(
+                nameValue,
+                surnameValue,
+                phoneNumberValue,
+                genderValue,
+                bloodTypeValue,
+                birthdateValue,
+                latitude,
+                longitude
+        );
     }
 
 }

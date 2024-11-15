@@ -18,7 +18,7 @@ import com.example.crashsimulator.CrashAlertActivity;
 public class AccelerometerService extends Service implements AccelerometerSensor.CrashListener {
     private static final String TAG = "AccelerometerService";
     private static final String CHANNEL_ID = "AccelerometerServiceChannel";
-    private static final String CHANNEL_NAME = "Crash Detection Service Channel";
+    private static final String CHANNEL_NAME = "Crash Detection Service";
     private AccelerometerSensor accelerometerSensor;
     private Thread readingSensorThread;
     public static final int SENSOR_DELAY_MS = 500;
