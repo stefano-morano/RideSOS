@@ -1,109 +1,109 @@
-<!-- popup_question.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="200dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="horizontal"
-    app:cardCornerRadius="16dp"
+    app:cardCornerRadius="@dimen/default_radius"
     app:cardElevation="8dp"
-    android:padding="16dp"
+    android:layout_margin="@dimen/my_big_margin"
     app:cardBackgroundColor="@android:color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/my_big_margin"
+        android:gravity="center_vertical">
 
-        <!-- Title of the question -->
+        <!-- Title and Icon -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <!-- Icon in the top-right corner -->
+            <!-- Title -->
+            <TextView
+                android:id="@+id/question_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Question 1/3"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/normal_text_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
 
-        <!-- Question text -->
+            <!-- Call Icon -->
+            <ImageView
+                android:id="@+id/call_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_call"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                app:tint="@color/text_primary_alt" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Button row for "Pasta", "Pizza", and "Salad" -->
-
-        <TextView
-            android:id="@+id/question_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="96dp"
-            android:layout_marginTop="20dp"
-            android:text="Question 1/3"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/call_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:src="@drawable/ic_call"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="#333333" />
-
+        <!-- Description -->
         <TextView
             android:id="@+id/question_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="What is your favorite food?"
-            android:textColor="#777777"
-            android:textSize="18sp"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/small_text_size"
+            android:layout_marginTop="@dimen/my_smallest_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/question_title" />
 
-        <Button
-            android:id="@+id/answer_1"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="4dp"
-            android:backgroundTint="#DDDDDD"
-            android:text="Pasta"
-            android:textColor="#333333"
-            app:layout_constraintEnd_toStartOf="@id/answer_2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/question_text"
-            app:layout_constraintWidth_percent="0.3" />
+        <!-- Answers -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/my_medium_margin"
+            android:gravity="center"
+            android:weightSum="3"
+            >
 
-        <Button
-            android:id="@+id/answer_2"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="4dp"
-            android:backgroundTint="#DDDDDD"
-            android:text="Pizza"
-            android:textColor="#333333"
-            app:layout_constraintEnd_toStartOf="@id/answer_3"
-            app:layout_constraintStart_toEndOf="@id/answer_1"
-            app:layout_constraintTop_toBottomOf="@id/question_text"
-            app:layout_constraintWidth_percent="0.3" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/answer_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pasta"
+                android:background="@drawable/rounded_button_answer"
+                android:textColor="@color/text_primary_alt" />
 
-        <Button
-            android:id="@+id/answer_3"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="4dp"
-            android:backgroundTint="#DDDDDD"
-            android:text="Salad"
-            android:textColor="#333333"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/answer_2"
-            app:layout_constraintTop_toBottomOf="@id/question_text"
-            app:layout_constraintWidth_percent="0.3" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/answer_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/my_small_margin"
+                android:layout_marginEnd="@dimen/my_small_margin"
+                android:text="Pizza"
+                android:background="@drawable/rounded_button_answer"
+                android:textColor="@color/text_primary_alt" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/answer_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Salad"
+                android:background="@drawable/rounded_button_answer"
+                android:textColor="@color/text_primary_alt" />
+        </LinearLayout>
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

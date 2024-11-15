@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#FFFFFF00</color>
+    <color name="cyan">#FF00FFFF</color>
     <color name="bg">#FFD6CACA</color>
     <color name="container_bg">#FFF3EDF7</color> <!-- or put #FFFFFFFF -->
     <color name="card_bg">#FFEAE8E8</color>
@@ -16,8 +18,8 @@
     <color name="text_primary_alt">#FF333333</color>
     <color name="text_secondary">#FF888888</color>
     <color name="text_button">@color/white</color>
-    <color name="danger_button">#FFB41601</color>
-    <color name="confirm_button">#FF0601B4</color>
+    <color name="danger_button">@color/color_bad</color>
+    <color name="confirm_button">#3F51B5</color>
     <color name="switch_track_off">#FFE6E0E9</color>
     <color name="switch_track_on">#FF65558F</color>
     <color name="switch_thumb_off">#FF79747E</color>
@@ -26,5 +28,7 @@
     <color name="switch_thumb_icon_on">#FF4F378A</color>
     <color name="continue_button">#FF057674</color>
     <color name="questions_bg">#FFECE8F5</color>
-
+    <color name="crash_answers_bg">#FFE3E3E3</color>
+    <color name="color_good">#FF43AE72</color>
+    <color name="color_bad">#FFAE4343</color>
 </resources>

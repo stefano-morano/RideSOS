@@ -13,17 +13,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+
 public class CrashAlertActivity extends Activity {
 
         private Handler colorChangeHandler = new Handler();
         private final int[] backgrounds = {
-            R.drawable.popup_background_white,
-            R.drawable.popup_background_yellow,
-            R.drawable.popup_background_cyan
+                R.color.white,
+                R.color.yellow,
+                R.color.cyan
         };
         private Handler flashHandler = new Handler();
         private boolean isFlashOn = false;
-        LinearLayout popupLayout;
+        CardView popupLayout;
         private int index = 0;
 
         @Override
@@ -44,7 +46,7 @@ public class CrashAlertActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     Intent questionIntent = new Intent(CrashAlertActivity.this, QuestionPopupActivity.class);
-                    questionIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Necessario per avviare l'activity dal Service
+                    questionIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Mandatory to start activity from service
                     startActivity(questionIntent);
                     finish();
                 }
@@ -53,9 +55,9 @@ public class CrashAlertActivity extends Activity {
             btnImNotOkay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Azione se l'utente non sta bene (es. chiamata a un servizio di emergenza)
+                    // Action if user is not fine (ex: call 911, send mqtt message)
                     Toast.makeText(CrashAlertActivity.this, "Calling for help!", Toast.LENGTH_SHORT).show();
-                    // Qui puoi aggiungere la logica per chiamare un numero di emergenza
+                    // Here you can add logic to handle that
                     finish();
                 }
             });
@@ -67,9 +69,9 @@ public class CrashAlertActivity extends Activity {
             colorChangeHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    popupLayout.setBackgroundResource(backgrounds[index]);
+                    popupLayout.setCardBackgroundColor(backgrounds[index]);
                     index = (index + 1) % backgrounds.length;
-                    colorChangeHandler.postDelayed(this, 500); // Cambia colore ogni 500ms
+                    colorChangeHandler.postDelayed(this, 500); // Change colour every 500ms
                 }
             }, 500);
         }
