@@ -232,4 +232,13 @@ public class AppHelper {
                 Looper.getMainLooper()
         );
     }
+
+    static public String Capitalize(final String words) {
+        StringBuilder result = new StringBuilder();
+        for (String word : words.toLowerCase().split("\\s+")) {
+            result.append(word.replaceFirst(".", word.substring(0, 1).toUpperCase())).append(" ");
+        }
+
+        return result.toString();
+    }
 }

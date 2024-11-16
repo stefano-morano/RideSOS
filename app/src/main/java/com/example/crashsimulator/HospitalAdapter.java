@@ -1,7 +1,11 @@
 package com.example.crashsimulator;
+import static android.content.Intent.ACTION_VIEW;
+
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -45,6 +49,10 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             hospitalName.setText(hospital.getName());
             hospitalAddress.setText(hospital.getAddress());
             distanceToHospital.setText(hospital.getDistance() + "km");
+
+            container.setOnClickListener(view -> {
+                view.getContext().startActivity(new Intent(ACTION_VIEW, Uri.parse(hospital.getWebsite())));
+            });
         }
     }
 

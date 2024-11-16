@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {HospitalEntity.class}, version = 2)
+@Database(entities = {HospitalEntity.class}, version = 3)
 public abstract class HospitalDatabase extends RoomDatabase {
     private static volatile HospitalDatabase INSTANCE;
     public abstract HospitalDAO hospitalDAO();

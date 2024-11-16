@@ -76,7 +76,10 @@ public class LoadURLContents implements Runnable {
                     JSONObject hospital = hospitals.getJSONObject(i);
                     String name = hospital.getString("title");
                     JSONObject address = hospital.getJSONObject("address");
-                    String street = address.getString("street-address");
+                    // TODO: Problem with .replace("ntilde;", "ñ")
+                    String street = AppHelper.Capitalize(address.getString("street-address").replace("&amp;", ""));
+                    // Parse website
+                    String website = hospital.getString("relation");
                     JSONObject location = hospital.getJSONObject("location");
                     String latitudeStr = location.optString("latitude", "");
                     String longitudeStr = location.optString("longitude", "");
@@ -99,11 +102,14 @@ public class LoadURLContents implements Runnable {
                         }
 
                         Log.d("LoadURLContents", "Current hospital " + name + " with address " +
-                                street + " - " + latitude + " " + longitude);
-                        HospitalEntity hospitalEntity = new HospitalEntity(name, street, latitude, longitude);
+                                street + " - " + latitude + " " + longitude + " - " + website);
+                        HospitalEntity hospitalEntity = new HospitalEntity(name, street, website, latitude, longitude);
                         hospitalsList.add(hospitalEntity);
                     }
                 }
+
+                // TODO: Clear database before inserting all new
+                hospitalDatabase.hospitalDAO().deleteAllHospitals();
                 hospitalDatabase.hospitalDAO().insertAll(hospitalsList);
                 Log.d("LoadURLContents", String.valueOf(hospitalDatabase.hospitalDAO().getAllHospitals().size()));
             } else {

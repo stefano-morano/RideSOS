@@ -15,6 +15,9 @@ public class HospitalEntity {
     @ColumnInfo(name = "address")
     public String address;
 
+    @ColumnInfo(name = "website")
+    public String website;
+
     @ColumnInfo(name = "latitude")
     public double latitude;
 
@@ -23,9 +26,10 @@ public class HospitalEntity {
 
     private double distance;
 
-    public HospitalEntity(String name, String address, double latitude, double longitude) {
+    public HospitalEntity(String name, String address, String website, double latitude, double longitude) {
         this.name = name;
         this.address = address;
+        this.website = website;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -35,6 +39,9 @@ public class HospitalEntity {
     }
     public String getAddress() {
         return address;
+    }
+    public String getWebsite() {
+        return website;
     }
     public double getLatitude() {
         return latitude;

@@ -9,20 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/my_medium_margin"
-        android:background="@drawable/item_hospitals">
+        android:background="@drawable/item_hospitals"
+        android:layout_weight="3"
+        >
 
         <!-- Hospital Info Layout -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginEnd="@dimen/my_small_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/distance"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintHorizontal_bias="0"
+            >
 
             <TextView
                 android:id="@+id/hospitalName"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hospital Name"
                 android:textSize="18sp"
@@ -30,10 +36,19 @@
 
             <TextView
                 android:id="@+id/hospitalAddress"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hospital Address"
                 android:textSize="14sp" />
+
+            <!-- Could be for phone number but we don't have it -->
+            <!--            <TextView-->
+            <!--                android:id="@+id/hospitalWebsite"-->
+            <!--                android:layout_width="300dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/my_smallest_margin"-->
+            <!--                android:text="www.google.it"-->
+            <!--                android:textSize="14sp" />-->
         </LinearLayout>
 
         <!-- Distance TextView aligned to the right -->
