@@ -24,19 +24,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\anton\AppData\Local\Temp\baseline_edit_24.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/hs/cdlylgv57qj7p_fn5_l9b7nr0000gn/T/ic_android_black_24dp.xml" />
                                                 <entry key="opacityPercent" value="60" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="clipartAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/edit/baseline_edit_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -84,7 +73,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\anton\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/hs/cdlylgv57qj7p_fn5_l9b7nr0000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -96,6 +85,9 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="imagePath" value="$USER_HOME$/Downloads/_a729673a-259e-4c05-8254-5928984face8.jpeg" />
+                                                <entry key="scalingPercent" value="133" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -139,7 +131,20 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\anton\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/hs/cdlylgv57qj7p_fn5_l9b7nr0000gn/T/ic_android_black_24dp.xml" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                                <entry key="imagePath" value="$USER_HOME$/Downloads/_a729673a-259e-4c05-8254-5928984face8.jpeg" />
+                                                <entry key="paddingPercent" value="-10" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -169,6 +174,13 @@
                                       </entry>
                                     </map>
                                   </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="iconShape" value="CIRCLE" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/_a729673a-259e-4c05-8254-5928984face8.jpeg" />
+                                    </map>
+                                  </option>
                                 </PersistentState>
                               </value>
                             </entry>
@@ -183,7 +195,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\anton\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/hs/cdlylgv57qj7p_fn5_l9b7nr0000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -247,7 +259,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\anton\AppData\Local\Temp\ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/hs/cdlylgv57qj7p_fn5_l9b7nr0000gn/T/ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -293,11 +305,6 @@
                             </entry>
                           </map>
                         </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
-                          </map>
-                        </option>
                       </PersistentState>
                     </value>
                   </entry>
@@ -331,8 +338,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_call" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/1608950_thumbs_up_icon.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="motorcycle_svgrepo_com" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/motorcycle-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

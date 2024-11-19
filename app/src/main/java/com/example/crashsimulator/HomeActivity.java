@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +51,8 @@ public class HomeActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MediaPlayer switch_on_sound = MediaPlayer.create(this, R.raw.switch_on);
+        MediaPlayer switch_off_sound = MediaPlayer.create(this, R.raw.switch_off);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -123,6 +126,7 @@ public class HomeActivity extends AppCompatActivity {
         rideSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 Log.d(TAG, "switch on");
+                switch_on_sound.start();
                 noRideTitle.setVisibility(View.INVISIBLE);
                 noRideText.setVisibility(View.INVISIBLE);
                 rideTitle.setVisibility(View.VISIBLE);
@@ -132,6 +136,7 @@ public class HomeActivity extends AppCompatActivity {
                 }).start();
             } else {
                 stopAccelerometerService();
+                switch_off_sound.start();
                 noRideTitle.setVisibility(View.VISIBLE);
                 noRideText.setVisibility(View.VISIBLE);
                 rideTitle.setVisibility(View.INVISIBLE);

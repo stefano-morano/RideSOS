@@ -22,7 +22,13 @@ public class AccelerometerService extends Service implements AccelerometerSensor
     private AccelerometerSensor accelerometerSensor;
     private Thread readingSensorThread;
     public static final int SENSOR_DELAY_MS = 500;
-    private static final float CRASH_THRESHOLD = 30.0f; // Threshold for crash detection (in m/s²)
+    private long lastTime = 0;  // To store the timestamp of the last accelerometer reading
+    private float lastMagnitude = 0;  // To store the magnitude of the last accelerometer reading
+
+    // Assuming CRASH_THRESHOLD is the threshold for a crash and BRAKING_THRESHOLD for a significant deceleration
+    private static final float CRASH_THRESHOLD = 25.0f; // Example threshold for a crash
+    private static final float BRAKING_THRESHOLD = 15.0f; // Example threshold for braking detection
+    private static final long TIME_THRESHOLD = 500; // 500ms
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -32,7 +38,7 @@ public class AccelerometerService extends Service implements AccelerometerSensor
         accelerometerSensor.start();
         readAccelerometerData();
         AppHelper.CreateNotificationChannel(this, CHANNEL_ID, CHANNEL_NAME);
-        Notification notification = AppHelper.CreateNotification(this, CHANNEL_ID, "Crash Detection activated", "Have a safe ride!", R.drawable.ic_profile);
+        Notification notification = AppHelper.CreateNotification(this, CHANNEL_ID, "Crash Detection activated", "Have a safe ride!", R.drawable.motorbike);
 
         startForeground(1, notification);
 
@@ -70,9 +76,10 @@ public class AccelerometerService extends Service implements AccelerometerSensor
                     String data = String.format("X: %.2f, Y: %.2f, Z: %.2f", values[0], values[1], values[2]);
                     Log.d(TAG, data);
                     Thread.sleep(SENSOR_DELAY_MS); // Log every second
-                    if (detectCrash(values)) {
+                    if (detectCrash(values, lastTime)) {
                         Log.d(TAG, "Crash detected!");
                             onCrashDetected();
+                            //TODO implement current time
                     }
                 } catch (InterruptedException e) {
                     isInterrupted = true;
@@ -83,11 +90,19 @@ public class AccelerometerService extends Service implements AccelerometerSensor
         readingSensorThread.start();
     }
 
-    private boolean detectCrash(float[] values) {
+    private boolean detectCrash(float[] values, long currentTime) {
+        // Extract the x, y, and z accelerometer values
         float x = values[0];
         float y = values[1];
         float z = values[2];
+
         float magnitude = (float) Math.sqrt(x * x + y * y + z * z);
+
+        if (currentTime - lastTime >= TIME_THRESHOLD)
+            return (lastMagnitude > BRAKING_THRESHOLD && magnitude < BRAKING_THRESHOLD);
+
+        lastTime = currentTime;
+        lastMagnitude = magnitude;
 
         return magnitude > CRASH_THRESHOLD;
     }
