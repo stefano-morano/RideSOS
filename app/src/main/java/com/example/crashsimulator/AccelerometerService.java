@@ -1,19 +1,13 @@
 package com.example.crashsimulator;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-
-import com.example.crashsimulator.CrashAlertActivity;
 
 public class AccelerometerService extends Service implements AccelerometerSensor.CrashListener {
     private static final String TAG = "AccelerometerService";
@@ -22,13 +16,12 @@ public class AccelerometerService extends Service implements AccelerometerSensor
     private AccelerometerSensor accelerometerSensor;
     private Thread readingSensorThread;
     public static final int SENSOR_DELAY_MS = 500;
-    private long lastTime = 0;  // To store the timestamp of the last accelerometer reading
-    private float lastMagnitude = 0;  // To store the magnitude of the last accelerometer reading
+    private float lastMagnitude = 0;
 
     // Assuming CRASH_THRESHOLD is the threshold for a crash and BRAKING_THRESHOLD for a significant deceleration
-    private static final float CRASH_THRESHOLD = 25.0f; // Example threshold for a crash
-    private static final float BRAKING_THRESHOLD = 15.0f; // Example threshold for braking detection
-    private static final long TIME_THRESHOLD = 500; // 500ms
+    private static final float CRASH_THRESHOLD = 30.0f; // Example threshold for a crash
+    private static final float BRAKING_THRESHOLD = 10.0f; // Example threshold for braking detection
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -44,7 +37,6 @@ public class AccelerometerService extends Service implements AccelerometerSensor
 
         return START_STICKY;
     }
-
 
     @Override
     public void onCrashDetected() {
@@ -62,25 +54,27 @@ public class AccelerometerService extends Service implements AccelerometerSensor
         crashIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(crashIntent);
 
-        Intent intent = new Intent("com.example.CRASH_DETECTED");
-        sendBroadcast(intent);
     }
 
     private void readAccelerometerData() {
         readingSensorThread = new Thread(() -> {
             boolean isInterrupted = false;
             Log.d(TAG, "Reading accelerometer data");
+
             while (!isInterrupted) {
                 try {
                     float[] values = accelerometerSensor.getAccelerometerValues();
                     String data = String.format("X: %.2f, Y: %.2f, Z: %.2f", values[0], values[1], values[2]);
                     Log.d(TAG, data);
-                    Thread.sleep(SENSOR_DELAY_MS); // Log every second
-                    if (detectCrash(values, lastTime)) {
+
+                    if (detectCrash(values, lastMagnitude)) {
                         Log.d(TAG, "Crash detected!");
-                            onCrashDetected();
-                            //TODO implement current time
+                        onCrashDetected();
                     }
+
+                    lastMagnitude = calculateMagnitude(values);
+
+                    Thread.sleep(SENSOR_DELAY_MS);
                 } catch (InterruptedException e) {
                     isInterrupted = true;
                 }
@@ -90,21 +84,24 @@ public class AccelerometerService extends Service implements AccelerometerSensor
         readingSensorThread.start();
     }
 
-    private boolean detectCrash(float[] values, long currentTime) {
-        // Extract the x, y, and z accelerometer values
-        float x = values[0];
-        float y = values[1];
-        float z = values[2];
+    private float calculateMagnitude(float[] values) {
+        return (float) Math.sqrt(values[0] * values[0] + values[1] * values[1] + values[2] * values[2]);
+    }
 
-        float magnitude = (float) Math.sqrt(x * x + y * y + z * z);
+    private boolean detectCrash(float[] values, float lastMagnitude) {
 
-        if (currentTime - lastTime >= TIME_THRESHOLD)
-            return (lastMagnitude > BRAKING_THRESHOLD && magnitude < BRAKING_THRESHOLD);
+        float currentMagnitude = calculateMagnitude(values);
 
-        lastTime = currentTime;
-        lastMagnitude = magnitude;
+        if (lastMagnitude > BRAKING_THRESHOLD && currentMagnitude < BRAKING_THRESHOLD) {
+            return true; // Sudden deceleration detected
+        }
 
-        return magnitude > CRASH_THRESHOLD;
+        // Detect high G-force indicating a crash
+        if (currentMagnitude > CRASH_THRESHOLD) {
+            return true; // Crash detected
+        }
+
+        return false;
     }
 
     @Override

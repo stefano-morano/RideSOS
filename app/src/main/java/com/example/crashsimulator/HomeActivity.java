@@ -2,12 +2,10 @@ package com.example.crashsimulator;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,14 +20,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.Manifest;
 
 public class HomeActivity extends AppCompatActivity {
     MQTTClient client;
@@ -46,22 +42,29 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     ExecutorService es;
 
-    BroadcastReceiver crash_receiver, MQTT_receiver;
+    BroadcastReceiver switch_receiver, MQTT_receiver, close_receiver;
+    MediaPlayer switch_on_sound;
+    MediaPlayer switch_off_sound;
+
+    private static final String SWITCH_STATE_KEY = "switch_state";
+
+    private boolean start_accelerometer = true;
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MediaPlayer switch_on_sound = MediaPlayer.create(this, R.raw.switch_on);
-        MediaPlayer switch_off_sound = MediaPlayer.create(this, R.raw.switch_off);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        switch_off_sound = MediaPlayer.create(this, R.raw.switch_off);
+        switch_on_sound = MediaPlayer.create(this, R.raw.switch_on);
 
         if (!AppHelper.HasLocationPermission(this))
             AppHelper.RequestLocationPermission(this);
 
         // SharedPreferences
-        sharedPref = this.getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         // Check if it is first time signup
         // TODO: Maybe it would be better to put this in a separate helperActivity
@@ -90,10 +93,10 @@ public class HomeActivity extends AppCompatActivity {
         };
 
         // check if the hospitals list is already downloaded and stored in DB
-//        if (!sharedPref.getBoolean(getString(R.string.hospitals_status_key), false)) {
+        if (!sharedPref.getBoolean(getString(R.string.hospitals_status_key), false)) {
             Log.d(TAG, "downloading hospitals");
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
-//        }
+        }
 
         // Bottom navigation bar
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -123,6 +126,12 @@ public class HomeActivity extends AppCompatActivity {
         rideText = findViewById(R.id.textViewMessageActive);
 
         rideSwitch = findViewById(R.id.switchRide);
+
+        if (savedInstanceState != null) {
+            boolean switchState = savedInstanceState.getBoolean(SWITCH_STATE_KEY, false);
+            rideSwitch.setChecked(switchState);
+        }
+
         rideSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 Log.d(TAG, "switch on");
@@ -131,11 +140,15 @@ public class HomeActivity extends AppCompatActivity {
                 noRideText.setVisibility(View.INVISIBLE);
                 rideTitle.setVisibility(View.VISIBLE);
                 rideText.setVisibility(View.VISIBLE);
-                new Thread(() -> {
-                    runOnUiThread(this::startAccelerometerService);
-                }).start();
+                if (start_accelerometer) {
+                    new Thread(() -> {
+                        runOnUiThread(this::startAccelerometerService);
+                    }).start();
+                }
+                start_accelerometer = true;
             } else {
                 stopAccelerometerService();
+                start_accelerometer = true;
                 switch_off_sound.start();
                 noRideTitle.setVisibility(View.VISIBLE);
                 noRideText.setVisibility(View.VISIBLE);
@@ -145,10 +158,10 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Setup BroadcastReceiver
-        crash_receiver = new BroadcastReceiver() {
+        switch_receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if ("com.example.CRASH_DETECTED".equals(intent.getAction())) {
+                if ("com.example.SWITCH_OFF".equals(intent.getAction())) {
                     rideSwitch.setChecked(false);
                 }
             }
@@ -164,11 +177,37 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
+        close_receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if ("com.example.CLOSE_APP".equals(intent.getAction())) {
+                    finish();
+                }
+            }
+        };
+
         // Register the receiver
-        IntentFilter crash_filter = new IntentFilter("com.example.CRASH_DETECTED");
-        registerReceiver(crash_receiver, crash_filter, Context.RECEIVER_NOT_EXPORTED);
+        IntentFilter switch_filter = new IntentFilter("com.example.SWITCH_OFF");
+        registerReceiver(switch_receiver, switch_filter, Context.RECEIVER_NOT_EXPORTED);
         IntentFilter mqtt_filter = new IntentFilter("com.example.MQTT_MESSAGE");
         registerReceiver(MQTT_receiver, mqtt_filter, Context.RECEIVER_NOT_EXPORTED);
+        IntentFilter close_filter = new IntentFilter("com.example.CLOSE_APP");
+        registerReceiver(close_receiver, close_filter, Context.RECEIVER_NOT_EXPORTED);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SWITCH_STATE_KEY, rideSwitch.isChecked());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        boolean switchState = savedInstanceState.getBoolean(SWITCH_STATE_KEY, false);
+        if (switchState)
+            start_accelerometer = false;
+        rideSwitch.setChecked(switchState);
     }
 
     private void startAccelerometerService() {
@@ -193,10 +232,15 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        switch_off_sound.release();
+        switch_on_sound.release();
         // Disconnect client from the broker
         // TODO: Think where it is better to put this, when we should disconnect to the broker?
         client.disconnectFromBroker();
+        // Unregister the receiver
+        unregisterReceiver(switch_receiver);
+        unregisterReceiver(MQTT_receiver);
+        unregisterReceiver(close_receiver);
     }
 
     private String createMessage() {

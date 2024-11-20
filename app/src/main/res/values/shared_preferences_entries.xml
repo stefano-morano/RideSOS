@@ -65,7 +65,6 @@
         <item>Sabrina</item>
     </string-array>
     <string name="q3_answer_default">Anna</string>
-
     <string name="name_label">Name</string>
     <string name="name_value">Miguel</string>
     <string name="surname_label">Surname</string>

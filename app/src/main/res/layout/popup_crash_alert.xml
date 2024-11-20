@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:id="@+id/popup_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,16 +9,17 @@
     android:orientation="horizontal"
     app:cardCornerRadius="@dimen/default_radius"
     app:cardElevation="8dp"
-    android:layout_margin="@dimen/my_big_margin"
-    app:cardBackgroundColor="@color/white"
+
     >
 
     <LinearLayout
+        android:id="@+id/popup_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="397dp"
+        android:background="@drawable/popup_background_white"
+        android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="@dimen/my_big_margin"
-        android:gravity="center_vertical">
+        android:padding="@dimen/my_big_margin">
 
         <!-- Title and Icon -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,10 +59,10 @@
             android:id="@+id/crash_alert_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/my_smallest_margin"
             android:text="@string/alert_text"
             android:textColor="@color/text_secondary"
             android:textSize="@dimen/small_text_size"
-            android:layout_marginTop="@dimen/my_smallest_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/question_title" />
@@ -70,110 +70,46 @@
         <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="225dp"
             android:layout_marginTop="@dimen/my_medium_margin"
             android:gravity="center"
-            >
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_im_fine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="I'm fine"
                 android:background="@drawable/rounded_button_good"
-                android:padding="@dimen/my_big_margin"
                 android:drawableStart="@drawable/thumb_up"
                 android:drawableEnd="@drawable/thumb_up"
                 android:drawableTint="@color/white"
+                android:padding="@dimen/my_big_margin"
+                android:text="I'm fine"
                 android:textColor="@color/white" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_im_not_okay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="I'm not okay"
-                    android:background="@drawable/rounded_button_bad"
-                    android:layout_marginTop="@dimen/my_medium_margin"
-                    android:padding="@dimen/my_big_margin"
-                    android:drawableStart="@drawable/thumb_down"
-                    android:drawableEnd="@drawable/thumb_down"
-                    android:drawableTint="@color/white"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_im_not_okay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/my_medium_margin"
+                android:background="@drawable/rounded_button_bad"
+                android:drawableStart="@drawable/thumb_down"
+                android:drawableEnd="@drawable/thumb_down"
+                android:drawableTint="@color/white"
+                android:padding="@dimen/my_big_margin"
+                android:text="I'm not okay"
+                android:textColor="@color/white" />
+
+            <ImageButton
+                android:id="@+id/call_button"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/rounded_button_answer"
+                android:src="@drawable/ic_call"
+                android:visibility="visible"
+                app:tint="#7C9E34" />
         </LinearLayout>
-
-    <!--<LinearLayout-->
-<!--    android:id="@+id/popup_layout"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="@drawable/popup_background_white"-->
-<!--    android:orientation="vertical"-->
-<!--    android:padding="16dp">-->
-
-<!--    &lt;!&ndash; Titolo e icona di avviso in alto a destra &ndash;&gt;-->
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/crash_alert_title"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Crash Detected"-->
-<!--            android:textColor="#000000"-->
-<!--            android:textSize="20sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/warning_icon"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:src="@drawable/ic_warning"-->
-<!--            app:tint="#000000" />-->
-<!--    </RelativeLayout>-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/crash_alert_message"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:paddingBottom="20dp"-->
-<!--        android:text="@string/alert_text"-->
-<!--        android:textColor="#666666"-->
-<!--        android:textSize="20sp" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/btn_im_fine"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="82dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:backgroundTint="#4CAF50"-->
-<!--        android:drawableLeft="@drawable/thumb_up"-->
-<!--        android:drawableTint="@color/white"-->
-<!--        android:drawablePadding="8dp"-->
-<!--        android:drawableRight="@drawable/thumb_up"-->
-<!--        android:text="@string/okay_button_text"-->
-<!--        android:textSize = "20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="#FFFFFF" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/btn_im_not_okay"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="81dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:backgroundTint="#F44336"-->
-<!--        android:drawableLeft="@drawable/thumb_down"-->
-<!--        android:drawableTint="@color/white"-->
-<!--        android:drawablePadding="8dp"-->
-<!--        android:drawableRight="@drawable/thumb_down"-->
-<!--        android:text="@string/not_okay_button_text"-->
-<!--        android:textSize = "20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="#FFFFFF" />-->
-<!--    </LinearLayout>-->
-</androidx.cardview.widget.CardView>
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>

@@ -28,7 +28,7 @@
 
     <string name="okay_button_text">I\'M FINE</string>
     <string name="not_okay_button_text">I\'M NOT OKAY</string>
-    <string name="alert_text">Your phone is currently blinking and sounding. Please confirm your conditions in 5 seconds, or we will call an ambulance for you.</string>
+    <string name="alert_text">Your phone is currently blinking and sounding. Please confirm your conditions in 20 seconds, or we will call an ambulance for you.</string>
 
     <string name="completed_warning">We suggest you anyway to check the nearest hospital in the application.</string>
 
