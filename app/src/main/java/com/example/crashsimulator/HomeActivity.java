@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     ExecutorService es;
 
-    BroadcastReceiver switch_receiver, MQTT_receiver, close_receiver;
+    BroadcastReceiver crash_receiver;
     MediaPlayer switch_on_sound;
     MediaPlayer switch_off_sound;
 
@@ -158,41 +158,27 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Setup BroadcastReceiver
-        switch_receiver = new BroadcastReceiver() {
+        crash_receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if ("com.example.SWITCH_OFF".equals(intent.getAction())) {
-                    rideSwitch.setChecked(false);
-                }
-            }
-        };
-
-        // Setup MQTT
-        MQTT_receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if ("com.example.MQTT_MESSAGE".equals(intent.getAction())) {
-                    client.publishMessage(createMessage());
-                }
-            }
-        };
-
-        close_receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if ("com.example.CLOSE_APP".equals(intent.getAction())) {
+                if ("com.example.DETECT_CRASH".equals(intent.getAction())) {
+                    stopAccelerometerService();
                     finish();
                 }
             }
         };
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.getBooleanExtra("mqtt", false)) {
+                client.publishMessage(createMessage());
+                Log.d(TAG, "MQTT message sent");
+            }
+        }
+
         // Register the receiver
-        IntentFilter switch_filter = new IntentFilter("com.example.SWITCH_OFF");
-        registerReceiver(switch_receiver, switch_filter, Context.RECEIVER_NOT_EXPORTED);
-        IntentFilter mqtt_filter = new IntentFilter("com.example.MQTT_MESSAGE");
-        registerReceiver(MQTT_receiver, mqtt_filter, Context.RECEIVER_NOT_EXPORTED);
-        IntentFilter close_filter = new IntentFilter("com.example.CLOSE_APP");
-        registerReceiver(close_receiver, close_filter, Context.RECEIVER_NOT_EXPORTED);
+        IntentFilter crash_filter = new IntentFilter("com.example.DETECT_CRASH");
+        registerReceiver(crash_receiver, crash_filter, Context.RECEIVER_NOT_EXPORTED);
     }
 
     @Override
@@ -205,8 +191,19 @@ public class HomeActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         boolean switchState = savedInstanceState.getBoolean(SWITCH_STATE_KEY, false);
-        if (switchState)
+        if (switchState){
+            noRideTitle.setVisibility(View.INVISIBLE);
+            noRideText.setVisibility(View.INVISIBLE);
+            rideTitle.setVisibility(View.VISIBLE);
+            rideText.setVisibility(View.VISIBLE);
             start_accelerometer = false;
+        } else {
+            noRideTitle.setVisibility(View.VISIBLE);
+            noRideText.setVisibility(View.VISIBLE);
+            rideTitle.setVisibility(View.INVISIBLE);
+            rideText.setVisibility(View.INVISIBLE);
+        }
+
         rideSwitch.setChecked(switchState);
     }
 
@@ -238,9 +235,7 @@ public class HomeActivity extends AppCompatActivity {
         // TODO: Think where it is better to put this, when we should disconnect to the broker?
         client.disconnectFromBroker();
         // Unregister the receiver
-        unregisterReceiver(switch_receiver);
-        unregisterReceiver(MQTT_receiver);
-        unregisterReceiver(close_receiver);
+        unregisterReceiver(crash_receiver);
     }
 
     private String createMessage() {

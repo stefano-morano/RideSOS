@@ -19,7 +19,7 @@ public class AccelerometerService extends Service implements AccelerometerSensor
     private float lastMagnitude = 0;
 
     // Assuming CRASH_THRESHOLD is the threshold for a crash and BRAKING_THRESHOLD for a significant deceleration
-    private static final float CRASH_THRESHOLD = 30.0f; // Example threshold for a crash
+    private static final float CRASH_THRESHOLD = 40.0f; // Example threshold for a crash
     private static final float BRAKING_THRESHOLD = 10.0f; // Example threshold for braking detection
 
 
@@ -47,13 +47,15 @@ public class AccelerometerService extends Service implements AccelerometerSensor
                 PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
                 "CrashSimulator::CrashAlertWakeLock"
         );
+
         wakeLock.acquire(10000);
         accelerometerSensor.stop();
         readingSensorThread.interrupt();
         Intent crashIntent = new Intent(this, CrashAlertActivity.class);
         crashIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(crashIntent);
-
+        Intent intent = new Intent("com.example.DETECT_CRASH");
+        sendBroadcast(intent);
     }
 
     private void readAccelerometerData() {
@@ -92,13 +94,8 @@ public class AccelerometerService extends Service implements AccelerometerSensor
 
         float currentMagnitude = calculateMagnitude(values);
 
-        if (lastMagnitude > BRAKING_THRESHOLD && currentMagnitude < BRAKING_THRESHOLD) {
+        if (lastMagnitude > CRASH_THRESHOLD && currentMagnitude < BRAKING_THRESHOLD) {
             return true; // Sudden deceleration detected
-        }
-
-        // Detect high G-force indicating a crash
-        if (currentMagnitude > CRASH_THRESHOLD) {
-            return true; // Crash detected
         }
 
         return false;

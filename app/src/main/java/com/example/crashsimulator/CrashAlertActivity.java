@@ -60,12 +60,10 @@ public class CrashAlertActivity extends Activity {
             });
 
             btnImNotOkay.setOnClickListener(v -> {
-                send_mqtt();
-                stopHandlers();
-                Intent intent = new Intent("com.example.SWITCH_OFF");
-                sendBroadcast(intent);
-                intent = new Intent(CrashAlertActivity.this, HomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("mqtt", true);
                 startActivity(intent);
+                stopHandlers();
                 finish();
             });
 
@@ -81,11 +79,6 @@ public class CrashAlertActivity extends Activity {
             startFlashLight();
             startAlarmBackground();
             startTimer();
-        }
-
-        private void send_mqtt(){
-            Intent intent = new Intent("com.example.MQTT_DETECTED");
-            sendBroadcast(intent);
         }
 
         private void make_call(){
@@ -166,7 +159,9 @@ public class CrashAlertActivity extends Activity {
 
         private void startTimer() {
                 timerHandler.postDelayed(() -> {
-                    send_mqtt();
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.putExtra("mqtt", true);
+                    startActivity(intent);
                     finish();
                 }, 20000);
         }

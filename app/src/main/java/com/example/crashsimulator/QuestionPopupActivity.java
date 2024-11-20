@@ -61,20 +61,14 @@ public class QuestionPopupActivity extends Activity {
 
         answer_1.setOnClickListener(v -> {
             if (completed){
-                Intent intent = new Intent("com.example.SWITCH_OFF");
-                sendBroadcast(intent);
-                intent = new Intent(QuestionPopupActivity.this, HospitalActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), HospitalActivity.class));
                 finish();
             } else check_answer(1);
         });
 
         answer_2.setOnClickListener(v -> {
             if (completed){
-                Intent intent = new Intent("com.example.SWITCH_OFF");
-                sendBroadcast(intent);
-                intent = new Intent(QuestionPopupActivity.this, HomeActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 finish();
             } else check_answer(2);
         });
@@ -82,16 +76,12 @@ public class QuestionPopupActivity extends Activity {
         answer_3.setOnClickListener(v -> {
             if (completed){
                 finish();
-                Intent intent = new Intent("com.example.CLOSE_APP");
-                sendBroadcast(intent);
             } else check_answer(3);
         });
 
         sos_button.setOnClickListener(v -> {
-            send_mqtt();
-            Intent intent = new Intent("com.example.SWITCH_OFF");
-            sendBroadcast(intent);
-            intent = new Intent(QuestionPopupActivity.this, HomeActivity.class);
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            intent.putExtra("mqtt", true);
             startActivity(intent);
             finish();
         });
@@ -158,11 +148,9 @@ public class QuestionPopupActivity extends Activity {
             return;
         }
 
-        send_mqtt();
         wrong_sound.start();
-        Intent intent = new Intent("com.example.SWITCH_OFF");
-        sendBroadcast(intent);
-        intent = new Intent(QuestionPopupActivity.this, HomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        intent.putExtra("mqtt", true);
         startActivity(intent);
         finish();
     }
