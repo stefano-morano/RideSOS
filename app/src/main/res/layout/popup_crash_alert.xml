@@ -8,17 +8,18 @@
     android:layout_gravity="center"
     android:orientation="horizontal"
     app:cardCornerRadius="@dimen/default_radius"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
     app:cardElevation="8dp"
-
     >
 
     <LinearLayout
         android:id="@+id/popup_layout"
         android:layout_width="match_parent"
-        android:layout_height="397dp"
-        android:background="@drawable/popup_background_white"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
+        android:background="@drawable/popup_background_white"
         android:padding="@dimen/my_big_margin">
 
         <!-- Title and Icon -->
