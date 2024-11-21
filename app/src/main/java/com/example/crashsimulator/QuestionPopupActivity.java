@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -216,9 +217,9 @@ public class QuestionPopupActivity extends Activity {
         question_text.setText(getString(R.string.completed_warning));
         answer_1.setBackgroundResource(R.drawable.rounded_button_black);
         answer_1.setTextColor(AppCompatResources.getColorStateList(this, R.color.white));
-        answer_1.setText("Hospital");
-        answer_2.setText("Main");
-        answer_3.setText("Close App");
+        answer_1.setText("Show me");
+        answer_2.setVisibility(View.GONE);
+        answer_3.setText("Close");
     }
 
     @Override

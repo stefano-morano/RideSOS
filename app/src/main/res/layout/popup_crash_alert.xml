@@ -8,8 +8,8 @@
     android:layout_gravity="center"
     android:orientation="horizontal"
     app:cardCornerRadius="@dimen/default_radius"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
+    app:cardUseCompatPadding="false"
+    app:cardPreventCornerOverlap="false"
     app:cardElevation="8dp"
     >
 
@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:background="@drawable/popup_background_white"
         android:padding="@dimen/my_big_margin">
 
         <!-- Title and Icon -->
@@ -44,8 +44,8 @@
             <!-- Warning Icon -->
             <ImageView
                 android:id="@+id/warning_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_warning"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
