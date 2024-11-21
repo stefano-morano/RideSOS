@@ -161,6 +161,7 @@ public class QuestionPopupActivity extends Activity {
             return;
         }
 
+        send_mqtt();
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         finish();
@@ -230,11 +231,6 @@ public class QuestionPopupActivity extends Activity {
         answer_1.setText("Show me");
         answer_2.setVisibility(View.GONE);
         answer_3.setText("Close");
-        //set switch to off
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean("switch_on", false);
-        editor.apply();
-
     }
 
     @Override
