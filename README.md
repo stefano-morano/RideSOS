@@ -32,38 +32,28 @@ Download Ride SOS APK from GitHub and install it on your android device.
 
 ## Activities
 
-### Home
+### 🏠 Home
+This is the main page of the application. There's the main big switch inside that activates or deactivates the crash detector. The application will work in background also with the phone locked. 
 
-### Hospital
+### 🇭 Hospital
+In this page you can find the list of hospitals (Madrid) that is getting updated every time you open the app. The hospital are sorted on a distance order. You can also search an hospital thanks to the search bar on the upside.
 
-### 
+### 👤 Profile
+In this page you can see your already set-up profile and change informations whenever you need it.
+
+### 🚨 Alarm
 
 
 ## Crash Detection Algorithm:
 
 Continuously monitors motion patterns using built-in sensors.
 Detects abnormal deceleration, sudden stops, or high-impact movements.
-Alert Activation:
 
-Triggers an emergency alert if a crash is detected.
-Initiates the countdown timer, allowing the user to cancel false alarms.
-Emergency Notification:
+Every 500ms the process read the accellerometers value and calculate each magnitude. 
+When the last magnitude exceed an `CRASH_THRESHOLD` and the current magnitude is lower 
+than a `BREAK_TRESHOLD` (istant break after 500ms) the algorithm detect a crash.
 
-Sends an SMS or push notification to your emergency contacts.
-Includes crash details such as time, location, and severity.
-Safety Tips
-Always ensure your emergency contacts are updated.
-Test the app regularly to ensure functionality.
-Avoid setting the sensitivity too high to minimize false alarms.
-Support
-For help or inquiries, contact our support team at support@ridesosapp.com or visit our Support Page.
-
-## Privacy & Security
-Your safety and privacy are our top priorities. Ride SOS ensures:
-
-Data encryption for all stored and transmitted information.
-Location tracking only during active rides or emergencies.
-License
-Ride SOS is available under the MIT License. See the LICENSE file for more details.
+## Disclaimer
+This is a student project made by Antonio Franzoso, Ana Daria Corpaci and Stefano Morano for the Mobile Programming course in Universidad Politecnica de Madrid
 
 Ride safely with Ride SOS—your trusted companion on the road. 🚴‍♂️🚗🛵
