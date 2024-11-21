@@ -1,4 +1,7 @@
 # Ride SOS - Crash Detection & Emergency Alert App
+
+![Logo](app/src/main/res/logo.png)
+
 ## Overview
 Ride SOS is a life-saving smartphone application designed to detect accidents and notify emergency contacts in real time. Whether you're a motorcyclist, cyclist, or driver, Ride SOS provides an added layer of safety during your travels by using advanced sensors in your smartphone to detect crashes and respond quickly.
 
