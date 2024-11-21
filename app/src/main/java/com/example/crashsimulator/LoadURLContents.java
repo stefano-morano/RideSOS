@@ -108,10 +108,14 @@ public class LoadURLContents implements Runnable {
                     }
                 }
 
-                // TODO: Clear database before inserting all new
                 hospitalDatabase.hospitalDAO().deleteAllHospitals();
                 hospitalDatabase.hospitalDAO().insertAll(hospitalsList);
                 Log.d("LoadURLContents", String.valueOf(hospitalDatabase.hospitalDAO().getAllHospitals().size()));
+
+                // Send msg only when hospitals downloaded
+                msg_data.putString("text", "url downloaded7");
+                Log.d("LoadURLContents", "Sending message to main thread");
+                msg.sendToTarget();
             } else {
                 response = "Actual content type different from expected ("+ actualContentType + " vs " + expectedContentType + ")";
             }
@@ -120,12 +124,6 @@ public class LoadURLContents implements Runnable {
             Log.d("LoadURLContents", e.getMessage());
             response = e.toString();
         }
-
-        if ("".equals(response) == false) {
-            msg_data.putString("text", "url downloaded7");
-            Log.d("LoadURLContents", "Sending message to main thread");
-        }
-        msg.sendToTarget();
     }
 
     public boolean isValidDMS(String value) {

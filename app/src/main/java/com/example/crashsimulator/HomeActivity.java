@@ -85,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, 100);
         }
 
+        // Hospital parsing
         hospitalDatabase = HospitalDatabase.getInstance(this);
         es = Executors.newSingleThreadExecutor();
 
@@ -92,12 +93,15 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 SharedPreferences.Editor editor = sharedPref.edit();
+                Log.d(TAG, "got msg");
                 editor.putBoolean(getString(R.string.hospitals_status_key), true);
                 editor.apply();
             }
         };
 
         // check if the hospitals list is already downloaded and stored in DB
+        Log.d(TAG, "downloaded hospitals: " + sharedPref.getBoolean(getString(R.string.hospitals_status_key), false));
+
         if (!sharedPref.getBoolean(getString(R.string.hospitals_status_key), false)) {
             Log.d(TAG, "downloading hospitals");
             es.execute(new LoadURLContents(handler, hospitalDatabase, HOSPITALS_URL_JSON, CONTENT_TYPE_HOSPITALS_JSON));
@@ -222,9 +226,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Connect client to broker
-        // TODO: Think where it is better to put this, when we should connect to the broker?
-        //client.connectToBroker();
     }
 
     @Override
@@ -232,9 +233,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onDestroy();
         switch_off_sound.release();
         switch_on_sound.release();
-        // Disconnect client from the broker
-        // TODO: Think where it is better to put this, when we should disconnect to the broker?
-        //client.disconnectFromBroker();
         // Unregister the receiver
         unregisterReceiver(crash_receiver);
     }
