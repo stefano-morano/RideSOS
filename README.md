@@ -13,8 +13,9 @@ Utilizes your smartphone’s accelerometer and GPS sensors to detect sudden impa
 ### 📡 MQTT Emergency Alerts
 Automatically sends an SOS message to the Hospital MQTT server containing the crash location and the information of the user.
 ### 📍 Ambulance calling
+During the question activity after a crash, you can automatically call an ambulance by only pressing the phone icon.
 ### ❓ Personal Quiz 
-
+When the app detect a crash, it will automatically open a pop-up that start the emergency services.
 
 ## Getting Started
 
@@ -42,7 +43,17 @@ In this page you can find the list of hospitals (Madrid) that is getting updated
 In this page you can see your already set-up profile and change informations whenever you need it.
 
 ### 🚨 Alarm
+When the app detect a crash, it will open a pop-up showing two button: `I'm not okay` or `I'm fine`. 
 
+If you wait up to 20 seconds or you click on the `I'm not okay` button, the app will send the Emergency MQTT message.
+
+In the other case, the app will open the quiz pop-up, where you have to answers to your personal question. This service is meant to be sure that you has not a loss of consciusness.
+
+If the answer wrong or you press the `SOS` button, the app will send the Emergency MQTT message.
+
+In every pop-up there's also a `PHONE ICON` that calls automatically the 112.
+
+Every pop-up will be showned also if the phone is locked or you are using another application.
 
 ## Crash Detection Algorithm:
 
