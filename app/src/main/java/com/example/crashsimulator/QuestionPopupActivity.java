@@ -29,7 +29,6 @@ public class QuestionPopupActivity extends Activity {
     SharedPreferences sharedPref;
     boolean completed = false;
     private MediaPlayer correct_sound;
-    private MediaPlayer wrong_sound;
     private static final String NUMBER = "question_number";
 
     @Override
@@ -44,7 +43,6 @@ public class QuestionPopupActivity extends Activity {
         question_number = findViewById(R.id.question_title);
         question_text = findViewById(R.id.question_text);
         correct_sound = MediaPlayer.create(this, R.raw.correct);
-        wrong_sound = MediaPlayer.create(this, R.raw.wrong);
 
         sharedPref = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
 
@@ -61,7 +59,6 @@ public class QuestionPopupActivity extends Activity {
         set_answer();
 
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        intent.putExtra("is_accident", true);
         answer_1.setOnClickListener(v -> {
             if (completed){
                 startActivity(intent);
@@ -83,7 +80,6 @@ public class QuestionPopupActivity extends Activity {
         });
 
         sos_button.setOnClickListener(v -> {
-            // send mqtt message
             send_mqtt();
             startActivity(intent);
             finish();
@@ -131,9 +127,9 @@ public class QuestionPopupActivity extends Activity {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:112"));
         if (ActivityCompat.checkSelfPermission(QuestionPopupActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(QuestionPopupActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, 1);
-        }
-        startActivity(callIntent);
+            ActivityCompat.requestPermissions(QuestionPopupActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, 100);
+            finish();
+        } else startActivity(callIntent);
     }
 
     private void check_answer(int selection){
@@ -165,9 +161,7 @@ public class QuestionPopupActivity extends Activity {
             return;
         }
 
-        wrong_sound.start();
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        intent.putExtra("is_accident", true);
         startActivity(intent);
         finish();
     }
@@ -247,13 +241,11 @@ public class QuestionPopupActivity extends Activity {
     public void onStop() {
         super.onStop();
         correct_sound.release();
-        wrong_sound.release();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         correct_sound.release();
-        wrong_sound.release();
     }
 }

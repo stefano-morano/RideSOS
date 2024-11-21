@@ -94,7 +94,7 @@ public class CrashAlertActivity extends Activity {
             finish();
         });
 
-        //setMaxVolume();
+        setMaxVolume();
 
         startFlashingBackground();
         startFlashLight();
@@ -106,9 +106,9 @@ public class CrashAlertActivity extends Activity {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:112"));
         if (ActivityCompat.checkSelfPermission(CrashAlertActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(CrashAlertActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, 1);
-        }
-        startActivity(callIntent);
+            ActivityCompat.requestPermissions(CrashAlertActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, 100);
+            finish();
+        } else startActivity(callIntent);
     }
 
     private void setMaxVolume() {

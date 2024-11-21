@@ -64,6 +64,7 @@ public class SignupActivity extends AppCompatActivity {
 
             saveChanges();
             startActivity(new Intent(getApplicationContext(), SetQuestionsActivity.class));
+            finish();
         });
     }
 

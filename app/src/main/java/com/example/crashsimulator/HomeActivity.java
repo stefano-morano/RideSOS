@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -47,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     MediaPlayer switch_off_sound;
 
     private boolean start_accelerometer = true;
+    private static final String SWITCH_STATE_KEY = "switch_state";
 
     @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
@@ -76,6 +79,10 @@ public class HomeActivity extends AppCompatActivity {
             // first start, show your dialog
             startActivity(new Intent(getApplicationContext(), SignupActivity.class));
             finish();
+        }
+
+        if (ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{android.Manifest.permission.CALL_PHONE}, 100);
         }
 
         hospitalDatabase = HospitalDatabase.getInstance(this);
@@ -125,21 +132,9 @@ public class HomeActivity extends AppCompatActivity {
 
         rideSwitch = findViewById(R.id.switchRide);
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            if (intent.getBooleanExtra("is_accident", false)) {
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("switch_on", false);
-                editor.apply();
-            }
-        }
-
-        if (sharedPref.getBoolean("switch_on", false)) {
-            rideSwitch.setChecked(true);
-            noRideTitle.setVisibility(View.INVISIBLE);
-            noRideText.setVisibility(View.INVISIBLE);
-            rideTitle.setVisibility(View.VISIBLE);
-            rideText.setVisibility(View.VISIBLE);
+        if (savedInstanceState != null) {
+            boolean switchState = savedInstanceState.getBoolean(SWITCH_STATE_KEY, false);
+            rideSwitch.setChecked(switchState);
         }
 
         rideSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -151,16 +146,13 @@ public class HomeActivity extends AppCompatActivity {
                 noRideText.setVisibility(View.INVISIBLE);
                 rideTitle.setVisibility(View.VISIBLE);
                 rideText.setVisibility(View.VISIBLE);
+                Log.d(TAG, "Start accellerometer in switch: " + start_accelerometer);
                 if (start_accelerometer) {
                     new Thread(() -> {
                         runOnUiThread(this::startAccelerometerService);
                     }).start();
                 }
                 start_accelerometer = true;
-
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("switch_on", true);
-                editor.apply();
             } else {
                 client.disconnectFromBroker();
                 stopAccelerometerService();
@@ -170,10 +162,6 @@ public class HomeActivity extends AppCompatActivity {
                 noRideText.setVisibility(View.VISIBLE);
                 rideTitle.setVisibility(View.INVISIBLE);
                 rideText.setVisibility(View.INVISIBLE);
-
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("switch_on", false);
-                editor.apply();
             }
         });
 
@@ -181,7 +169,7 @@ public class HomeActivity extends AppCompatActivity {
         crash_receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if ("com.example.DETECT_CRASH".equals(intent.getAction())) {
+                if ("com.example.DETECT_CRASH".equals(intent.getAction())) {;
                     stopAccelerometerService();
                     finish();
                 }
@@ -191,6 +179,32 @@ public class HomeActivity extends AppCompatActivity {
         // Register the receiver
         IntentFilter crash_filter = new IntentFilter("com.example.DETECT_CRASH");
         registerReceiver(crash_receiver, crash_filter, Context.RECEIVER_NOT_EXPORTED);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SWITCH_STATE_KEY, rideSwitch.isChecked());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        boolean switchState = savedInstanceState.getBoolean(SWITCH_STATE_KEY, false);
+        if (switchState){
+            noRideTitle.setVisibility(View.INVISIBLE);
+            noRideText.setVisibility(View.INVISIBLE);
+            rideTitle.setVisibility(View.VISIBLE);
+            rideText.setVisibility(View.VISIBLE);
+            start_accelerometer = false;
+        } else {
+            noRideTitle.setVisibility(View.VISIBLE);
+            noRideText.setVisibility(View.VISIBLE);
+            rideTitle.setVisibility(View.INVISIBLE);
+            rideText.setVisibility(View.INVISIBLE);
+        }
+
+        rideSwitch.setChecked(switchState);
     }
 
     private void startAccelerometerService() {
@@ -206,7 +220,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         // Connect client to broker
         // TODO: Think where it is better to put this, when we should connect to the broker?
         //client.connectToBroker();
@@ -222,31 +235,6 @@ public class HomeActivity extends AppCompatActivity {
         //client.disconnectFromBroker();
         // Unregister the receiver
         unregisterReceiver(crash_receiver);
-    }
-
-    private String createMessage() {
-        // Get user info from shared preferences
-        String nameValue = sharedPref.getString(getString(R.string.name_label), getString(R.string.name_value));
-        String surnameValue = sharedPref.getString(getString(R.string.surname_label), getString(R.string.surname_value));
-        String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), getString(R.string.phone_number_value));
-        String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
-        String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
-        String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
-
-        // TODO: Get actual latitude and longitude
-        float latitude = 12.35f;
-        float longitude = 1.45f;
-
-        return AppHelper.CreateEmergencyMessage(
-                nameValue,
-                surnameValue,
-                phoneNumberValue,
-                genderValue,
-                bloodTypeValue,
-                birthdateValue,
-                latitude,
-                longitude
-        );
     }
 
 }
