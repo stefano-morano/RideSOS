@@ -1,23 +1,20 @@
 # Ride SOS - Crash Detection & Emergency Alert App
 
-![Logo](app/src/main/res/logo.png)
+<div align="center">
+    <img src="app/src/main/res/drawable/logo.png" alt="Description" width="300"/>
+</div>
 
 ## Overview
 Ride SOS is a life-saving smartphone application designed to detect accidents and notify emergency contacts in real time. Whether you're a motorcyclist, cyclist, or driver, Ride SOS provides an added layer of safety during your travels by using advanced sensors in your smartphone to detect crashes and respond quickly.
 
 ## Features
 ### 🚨 Crash Detection
-Utilizes your smartphone’s accelerometer, gyroscope, and GPS sensors to detect sudden impacts or abnormal movements associated with crashes.
-Configurable sensitivity settings to suit different vehicles and riding conditions.
-### 📡 Emergency Alerts
-Automatically sends an SOS message to your emergency contacts upon detecting a crash.
-Includes real-time location (GPS coordinates) in the alert for accurate assistance.
-### ⏳ Countdown Timer for False Alarms
-Allows a brief countdown after detecting a crash, giving users time to cancel the alert if the detection is false.
-Customizable timer duration to fit user needs.
-### 📍 Real-Time Location Sharing
-Shares your trip progress and current location with trusted contacts for added safety.
-Works even in remote areas with minimal network coverage.
+Utilizes your smartphone’s accelerometer and GPS sensors to detect sudden impacts or abnormal movements associated with crashes.
+### 📡 MQTT Emergency Alerts
+Automatically sends an SOS message to the Hospital MQTT server containing the crash location and the information of the user.
+### 📍 Ambulance calling
+### ❓ Personal Quiz 
+
 
 ## Getting Started
 
@@ -55,6 +52,8 @@ Detects abnormal deceleration, sudden stops, or high-impact movements.
 Every 500ms the process read the accellerometers value and calculate each magnitude. 
 When the last magnitude exceed an `CRASH_THRESHOLD` and the current magnitude is lower 
 than a `BREAK_TRESHOLD` (istant break after 500ms) the algorithm detect a crash.
+
+## Running MQTT server
 
 ## Disclaimer
 This is a student project made by Antonio Franzoso, Ana Daria Corpaci and Stefano Morano for the Mobile Programming course in Universidad Politecnica de Madrid
