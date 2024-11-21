@@ -60,9 +60,11 @@ public class QuestionPopupActivity extends Activity {
 
         set_answer();
 
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        intent.putExtra("is_accident", true);
         answer_1.setOnClickListener(v -> {
             if (completed){
-                startActivity(new Intent(getApplicationContext(), HospitalActivity.class));
+                startActivity(intent);
                 finish();
             } else check_answer(1);
         });
@@ -81,8 +83,8 @@ public class QuestionPopupActivity extends Activity {
         });
 
         sos_button.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            intent.putExtra("mqtt", true);
+            // send mqtt message
+            send_mqtt();
             startActivity(intent);
             finish();
         });
@@ -107,8 +109,22 @@ public class QuestionPopupActivity extends Activity {
     }
 
     private void send_mqtt(){
-        Intent intent = new Intent("com.example.MQTT_DETECTED");
-        sendBroadcast(intent);
+        String nameValue = sharedPref.getString(getString(R.string.name_label), getString(R.string.name_value));
+        String surnameValue = sharedPref.getString(getString(R.string.surname_label), getString(R.string.surname_value));
+        String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), getString(R.string.phone_number_value));
+        String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
+        String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
+        String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
+        String emergencyMessage = AppHelper.CreateEmergencyMessage(
+                nameValue,
+                surnameValue,
+                phoneNumberValue,
+                genderValue,
+                bloodTypeValue,
+                birthdateValue,
+                0, 0
+        );
+        HomeActivity.client.publishMessage(emergencyMessage);
     }
 
     private void make_call(){
@@ -151,7 +167,7 @@ public class QuestionPopupActivity extends Activity {
 
         wrong_sound.start();
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        intent.putExtra("mqtt", true);
+        intent.putExtra("is_accident", true);
         startActivity(intent);
         finish();
     }
@@ -220,6 +236,11 @@ public class QuestionPopupActivity extends Activity {
         answer_1.setText("Show me");
         answer_2.setVisibility(View.GONE);
         answer_3.setText("Close");
+        //set switch to off
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("switch_on", false);
+        editor.apply();
+
     }
 
     @Override
