@@ -3,6 +3,7 @@ package com.example.crashsimulator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -18,6 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     Button btn;
     ImageView editProfileView;
+    ImageView profileImage;
 
     TextView profile_name;
     TextInputEditText phone_number, birthdate;
@@ -56,6 +58,11 @@ public class ProfileActivity extends AppCompatActivity {
         birthdate = findViewById(R.id.birthdate);
         gender = findViewById(R.id.gender);
         blood_type = findViewById(R.id.bloodType);
+        profileImage = findViewById(R.id.profileImage);
+
+        String profileImageUriString = sharedPref.getString(getString(R.string.profile_image_uri), "");
+        if (!(profileImageUriString.isEmpty()))
+            profileImage.setImageURI(Uri.parse(profileImageUriString));
 
         // Main content
         editProfileView = findViewById(R.id.editIcon);

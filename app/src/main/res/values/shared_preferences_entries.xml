@@ -71,6 +71,7 @@
     <string name="surname_value">Cervantes</string>
     <string name="gender_label">Gender</string>
     <string name="gender_value">Male</string>
+    <string name="profile_image_uri">""</string>
     <string-array name="gender_values">
         <item>@string/gender_value</item>
         <item>Female</item>

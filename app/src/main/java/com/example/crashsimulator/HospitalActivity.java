@@ -51,6 +51,7 @@ public class HospitalActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
+        Log.d("Location", "Hospital activity1");
 
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
@@ -61,6 +62,7 @@ public class HospitalActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        Log.d("Location", "Hospital activity");
         // Try to get locations
         if (AppHelper.CheckLocationPermissionsGuaranteed(this)) {
             final double[] currentLatitude = new double[1];
@@ -90,20 +92,20 @@ public class HospitalActivity extends AppCompatActivity {
         }
 
         // Search View
-        searchView = findViewById(R.id.searchView);
-        searchView.clearFocus();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                hospitalAdapter.setFilteredList(newText);
-                return false;
-            }
-        });
+//        searchView = findViewById(R.id.searchView);
+//        searchView.clearFocus();
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                hospitalAdapter.setFilteredList(newText);
+//                return false;
+//            }
+//        });
 
 
         // Bottom navigation bar

@@ -17,9 +17,6 @@ public class MQTTClient {
     private static final String CHANNEL_ID = "MQTTClientChannel";
     private static final String CHANNEL_NAME = "Ambulance Updates";
 
-    // Set host of “VirtualBox Host-Only Ethernet Adapter” ,
-    // To find it, type “ipconfig /all” and look for the adapter with that name
-    //String serverHost = "192.168.56.1";
     String serverHost = "10.0.2.2";
     int serverPort = 1883;
     String subscriptionTopic = "hospital/dispatch";

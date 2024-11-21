@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
 
 
 public class HomeActivity extends AppCompatActivity {
-    MQTTClient client;
+    static MQTTClient client;
     BottomNavigationView bottomNavigationView;
     TextView noRideTitle, noRideText, rideTitle, rideText;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -127,14 +127,27 @@ public class HomeActivity extends AppCompatActivity {
 
         rideSwitch = findViewById(R.id.switchRide);
 
-        if (savedInstanceState != null) {
-            boolean switchState = savedInstanceState.getBoolean(SWITCH_STATE_KEY, false);
-            rideSwitch.setChecked(switchState);
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.getBooleanExtra("is_accident", false)) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("switch_on", false);
+                editor.apply();
+            }
+        }
+
+        if (sharedPref.getBoolean("switch_on", false)) {
+            rideSwitch.setChecked(true);
+            noRideTitle.setVisibility(View.INVISIBLE);
+            noRideText.setVisibility(View.INVISIBLE);
+            rideTitle.setVisibility(View.VISIBLE);
+            rideText.setVisibility(View.VISIBLE);
         }
 
         rideSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 Log.d(TAG, "switch on");
+                client.connectToBroker();
                 switch_on_sound.start();
                 noRideTitle.setVisibility(View.INVISIBLE);
                 noRideText.setVisibility(View.INVISIBLE);
@@ -146,7 +159,12 @@ public class HomeActivity extends AppCompatActivity {
                     }).start();
                 }
                 start_accelerometer = true;
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("switch_on", true);
+                editor.apply();
             } else {
+                client.disconnectFromBroker();
                 stopAccelerometerService();
                 start_accelerometer = true;
                 switch_off_sound.start();
@@ -154,6 +172,10 @@ public class HomeActivity extends AppCompatActivity {
                 noRideText.setVisibility(View.VISIBLE);
                 rideTitle.setVisibility(View.INVISIBLE);
                 rideText.setVisibility(View.INVISIBLE);
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("switch_on", false);
+                editor.apply();
             }
         });
 
@@ -168,43 +190,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            if (intent.getBooleanExtra("mqtt", false)) {
-                client.publishMessage(createMessage());
-                Log.d(TAG, "MQTT message sent");
-            }
-        }
-
         // Register the receiver
         IntentFilter crash_filter = new IntentFilter("com.example.DETECT_CRASH");
         registerReceiver(crash_receiver, crash_filter, Context.RECEIVER_NOT_EXPORTED);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(SWITCH_STATE_KEY, rideSwitch.isChecked());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        boolean switchState = savedInstanceState.getBoolean(SWITCH_STATE_KEY, false);
-        if (switchState){
-            noRideTitle.setVisibility(View.INVISIBLE);
-            noRideText.setVisibility(View.INVISIBLE);
-            rideTitle.setVisibility(View.VISIBLE);
-            rideText.setVisibility(View.VISIBLE);
-            start_accelerometer = false;
-        } else {
-            noRideTitle.setVisibility(View.VISIBLE);
-            noRideText.setVisibility(View.VISIBLE);
-            rideTitle.setVisibility(View.INVISIBLE);
-            rideText.setVisibility(View.INVISIBLE);
-        }
-
-        rideSwitch.setChecked(switchState);
     }
 
     private void startAccelerometerService() {
@@ -223,7 +211,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Connect client to broker
         // TODO: Think where it is better to put this, when we should connect to the broker?
-        client.connectToBroker();
+        //client.connectToBroker();
     }
 
     @Override
@@ -233,7 +221,7 @@ public class HomeActivity extends AppCompatActivity {
         switch_on_sound.release();
         // Disconnect client from the broker
         // TODO: Think where it is better to put this, when we should disconnect to the broker?
-        client.disconnectFromBroker();
+        //client.disconnectFromBroker();
         // Unregister the receiver
         unregisterReceiver(crash_receiver);
     }
