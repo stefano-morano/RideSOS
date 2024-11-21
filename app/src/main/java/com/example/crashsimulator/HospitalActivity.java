@@ -1,38 +1,20 @@
 package com.example.crashsimulator;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.Priority;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import android.Manifest;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class HospitalActivity extends AppCompatActivity {
 
@@ -51,8 +33,6 @@ public class HospitalActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
-        Log.d("Location", "Hospital activity1");
-
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
 
@@ -62,7 +42,10 @@ public class HospitalActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        Log.d("Location", "Hospital activity");
+        // Search View
+        searchView = findViewById(R.id.searchView);
+        searchView.clearFocus();
+
         // Try to get locations
         if (AppHelper.CheckLocationPermissionsGuaranteed(this)) {
             final double[] currentLatitude = new double[1];
@@ -74,7 +57,22 @@ public class HospitalActivity extends AppCompatActivity {
                     Log.d("Location", "Lat: " + currentLatitude[0] +
                             ", Lon: " + currentLongitude[0]);
                     // Create adapter
-                    hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0]);
+                    hospitalAdapter = new HospitalAdapter(database, currentLatitude[0], currentLongitude[0], () -> {
+                        hospitalAdapter.setFilteredList(searchView.getQuery().toString());
+
+                        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                            @Override
+                            public boolean onQueryTextSubmit(String query) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onQueryTextChange(String newText) {
+                                hospitalAdapter.setFilteredList(newText);
+                                return false;
+                            }
+                        });
+                    });
                     recyclerView.setAdapter(hospitalAdapter);
                     progressBar.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
@@ -85,28 +83,27 @@ public class HospitalActivity extends AppCompatActivity {
         } else {
             Log.d("Location", "can't read location");
             // Create adapter
-            hospitalAdapter = new HospitalAdapter(database, 0.0, 0.0);
+            hospitalAdapter = new HospitalAdapter(database, 0.0, 0.0, () -> {
+                // To fix bug that after orientation changes, query will not persisting
+                hospitalAdapter.setFilteredList(searchView.getQuery().toString());
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        hospitalAdapter.setFilteredList(newText);
+                        return false;
+                    }
+                });
+            });
             recyclerView.setAdapter(hospitalAdapter);
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-
-        // Search View
-//        searchView = findViewById(R.id.searchView);
-//        searchView.clearFocus();
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                hospitalAdapter.setFilteredList(newText);
-//                return false;
-//            }
-//        });
-
 
         // Bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

@@ -57,7 +57,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public HospitalAdapter(HospitalDatabase hospitalDatabase, double currentLatitude, double currentLongitude) {
+    public HospitalAdapter(HospitalDatabase hospitalDatabase, double currentLatitude, double currentLongitude, OnInitializationCompleteListener listener) {
         super();
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -85,7 +85,12 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
             fullHospitalList.addAll(hospitals);
             hospitalList.addAll(hospitals);
-            new Handler(Looper.getMainLooper()).post(this::notifyDataSetChanged);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                notifyDataSetChanged();
+                if (listener != null) {
+                    listener.onInitializationComplete();
+                }
+            });
         });
     }
 
@@ -95,9 +100,13 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
         // Clear hospitalList
         hospitalList.clear();
 
-        for (HospitalEntity item : fullHospitalList) {
-            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
-                hospitalList.add(item);
+        if (text.isEmpty()) {
+            hospitalList.addAll(fullHospitalList);
+        } else {
+            for (HospitalEntity item : fullHospitalList) {
+                if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                    hospitalList.add(item);
+                }
             }
         }
 
