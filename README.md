@@ -55,6 +55,22 @@ than a `BREAK_TRESHOLD` (istant break after 500ms) the algorithm detect a crash.
 
 ## Running MQTT server
 
+## ✅ Implemented Feauteres and ⏩️ Future enhancements
+| Features            | State |
+|:--------------------|:-----:|
+| Crash Detector      |   ✅   |
+| Location            |   ✅   |
+| MQTT service        |   ✅   |
+| Shared Preferences  |   ✅   |
+| JSON parsing        |   ✅   |
+| Background service  |   ✅   |
+| Wake and pop-up     |   ✅   |
+| Text-to-speech      |   ⏩️   |
+| Watch-os            |   ⏩️   |
+| Database upgrande   |   ⏩️   |
+| MQTT upgrade        |   ⏩️   |
+| AI crash detector   |   ⏩️   |
+
 ## Disclaimer
 This is a student project made by Antonio Franzoso, Ana Daria Corpaci and Stefano Morano for the Mobile Programming course in Universidad Politecnica de Madrid
 
