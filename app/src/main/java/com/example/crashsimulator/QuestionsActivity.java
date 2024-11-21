@@ -35,10 +35,12 @@ public class QuestionsActivity extends AppCompatActivity {
             if (x == R.id.navigation_hospital) {
                 startActivity(new Intent(getApplicationContext(), HospitalActivity.class));
                 overridePendingTransition(0, 0);
+                finish();
                 return true;
             } else if (x == R.id.navigation_home) {
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 overridePendingTransition(0, 0);
+                finish();
                 return true;
             } else return x == R.id.navigation_profile;
         });

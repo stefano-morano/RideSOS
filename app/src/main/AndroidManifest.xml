@@ -50,7 +50,8 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".QuestionsActivity"
-            android:parentActivityName=".ProfileActivity" /> <!-- Service declaration -->
+            android:parentActivityName=".ProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".CrashAlertActivity"
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
         <service
