@@ -180,8 +180,23 @@ public class CrashAlertActivity extends Activity {
 
     private void startTimer() {
             timerHandler.postDelayed(() -> {
+                String nameValue = sharedPref.getString(getString(R.string.name_label), getString(R.string.name_value));
+                String surnameValue = sharedPref.getString(getString(R.string.surname_label), getString(R.string.surname_value));
+                String phoneNumberValue = sharedPref.getString(getString(R.string.phone_number_label), getString(R.string.phone_number_value));
+                String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
+                String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
+                String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
+                String emergencyMessage = AppHelper.CreateEmergencyMessage(
+                        nameValue,
+                        surnameValue,
+                        phoneNumberValue,
+                        genderValue,
+                        bloodTypeValue,
+                        birthdateValue,
+                        0, 0
+                );
+                HomeActivity.client.publishMessage(emergencyMessage);
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.putExtra("mqtt", true);
                 startActivity(intent);
                 finish();
             }, 20000);
