@@ -77,8 +77,7 @@ public class CrashAlertActivity extends Activity {
                     phoneNumberValue,
                     genderValue,
                     bloodTypeValue,
-                    birthdateValue,
-                    0, 0
+                    birthdateValue
             );
             HomeActivity.client.publishMessage(emergencyMessage);
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -186,14 +185,14 @@ public class CrashAlertActivity extends Activity {
                 String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
                 String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
                 String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
+
                 String emergencyMessage = AppHelper.CreateEmergencyMessage(
                         nameValue,
                         surnameValue,
                         phoneNumberValue,
                         genderValue,
                         bloodTypeValue,
-                        birthdateValue,
-                        0, 0
+                        birthdateValue
                 );
                 HomeActivity.client.publishMessage(emergencyMessage);
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

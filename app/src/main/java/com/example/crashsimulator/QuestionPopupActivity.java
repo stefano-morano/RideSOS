@@ -117,8 +117,7 @@ public class QuestionPopupActivity extends Activity {
                 phoneNumberValue,
                 genderValue,
                 bloodTypeValue,
-                birthdateValue,
-                0, 0
+                birthdateValue
         );
         HomeActivity.client.publishMessage(emergencyMessage);
     }

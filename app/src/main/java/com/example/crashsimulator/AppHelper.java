@@ -137,8 +137,12 @@ public class AppHelper {
     }
 
     static public String CreateEmergencyMessage(String name, String surname, String phoneNumber,
-                                         String gender, String bloodType, String birthdate,
-                                         float latitude, float longitude) {
+                                         String gender, String bloodType, String birthdate) {
+
+        // TODO: Get actual location
+        float latitude = 0f;
+        float longitude = 0f;
+
         try {
             // Create main JSON object
             JSONObject messageJson = new JSONObject();
