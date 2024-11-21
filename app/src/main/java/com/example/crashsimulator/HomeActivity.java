@@ -28,15 +28,15 @@ import java.util.concurrent.Executors;
 
 
 public class HomeActivity extends AppCompatActivity {
+    private static final String TAG = "HomeActivity";
+
+    private static final String CONTENT_TYPE_HOSPITALS_JSON = "application/json";
+    private static final String HOSPITALS_URL_JSON = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=212769-0-atencion-medica&mgmtid=da7437ac37efb410VgnVCM2000000c205a0aRCRD&preview=full";
     static MQTTClient client;
     BottomNavigationView bottomNavigationView;
     TextView noRideTitle, noRideText, rideTitle, rideText;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch rideSwitch;
-    private static final String TAG = "HomeActivity";
-
-    private static final String CONTENT_TYPE_HOSPITALS_JSON = "application/json";
-    private static final String HOSPITALS_URL_JSON = "https://datos.madrid.es/portal/site/egob/menuitem.ac61933d6ee3c31cae77ae7784f1a5a0/?vgnextoid=00149033f2201410VgnVCM100000171f5a0aRCRD&format=json&file=0&filename=212769-0-atencion-medica&mgmtid=da7437ac37efb410VgnVCM2000000c205a0aRCRD&preview=full";
     HospitalDatabase hospitalDatabase;
 
     SharedPreferences sharedPref;
@@ -45,8 +45,6 @@ public class HomeActivity extends AppCompatActivity {
     BroadcastReceiver crash_receiver;
     MediaPlayer switch_on_sound;
     MediaPlayer switch_off_sound;
-
-    private static final String SWITCH_STATE_KEY = "switch_state";
 
     private boolean start_accelerometer = true;
 

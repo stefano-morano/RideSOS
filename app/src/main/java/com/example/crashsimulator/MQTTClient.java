@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.core.app.NotificationManagerCompat;
 
+import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 import com.hivemq.client.mqtt.MqttClient;
 
@@ -77,7 +78,7 @@ public class MQTTClient {
                     Log.d(TAG, received_text);
                     messagesReceived.add(received_text);
                     Notification notification = AppHelper.CreateNotification(ctx,
-                            CHANNEL_ID, CHANNEL_NAME, msg_payload, R.drawable.ic_profile);
+                            CHANNEL_ID, CHANNEL_NAME, msg_payload, R.drawable.emergency_notification);
                     NotificationManager manager = ctx.getSystemService(NotificationManager.class);
                     manager.notify(1, notification);
                 })
@@ -95,10 +96,10 @@ public class MQTTClient {
     }
 
     void publishMessage(String msg_payload) {
-
         client.publishWith()
                 .topic(publishingTopic)
                 .payload(msg_payload.getBytes())
+                .qos(MqttQos.fromCode(2))
                 .send()
                 .whenComplete((publish, throwable) -> {
                     if (throwable != null) {
@@ -114,7 +115,7 @@ public class MQTTClient {
                         messagesSent.add(published_text);
 
                         Notification notification = AppHelper.CreateNotification(ctx,
-                                CHANNEL_ID, CHANNEL_NAME, msg_payload, R.drawable.ic_profile);
+                                CHANNEL_ID, CHANNEL_NAME, "An ambulance will soon help you!", R.drawable.emergency_notification);
                         NotificationManager manager = ctx.getSystemService(NotificationManager.class);
                         manager.notify(1, notification);
                     }

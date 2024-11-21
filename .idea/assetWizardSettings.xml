@@ -328,7 +328,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/add_call/baseline_add_call_24.xml" />
+                                      <entry key="url" value="file:/$PROJECT_DIR$/../../../../../../../../../Daria%20Corpaci/AppData/Local/Android/Sdk/icons/material/materialicons/emergency/baseline_emergency_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -338,9 +338,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="sos" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/sos.svg" />
+                            <entry key="outputName" value="emergency_notification" />
+                            <entry key="sourceFile" value="C:\Users\Daria Corpaci\Downloads\sos.svg" />
                           </map>
                         </option>
                       </PersistentState>
