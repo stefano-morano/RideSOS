@@ -19,8 +19,22 @@ When the app detect a crash, it will automatically open a pop-up that start the 
 
 ## Getting Started
 
+### Pre-Requisites
+In order to have MQTT functionalities, you need to:
+- Download and start an MQTT Broker in your pc (we used Windows version of [Mosquitto](https://mosquitto.org/download/))
+- Download and start [Gnirehtet](https://github.com/Genymobile/gnirehtet) for providing reverse tethering between pc-Android phone.
+- Have python installed, along with paho-mqtt package. You can install it through:
+  ```
+  pip install paho-mqtt
+  ```
+
 ### Installation
-Download Ride SOS APK from GitHub and install it on your android device.
+0. Connect your Android device with your computer and start Gnirehtet reverse tethering service.
+1. Download _fake_hospital_mqtt.py_ script from this repository and run it from your terminal.
+
+   > Make sure to start your MQTT broker before or it will not work!
+2. Download _RideSOS.apk_ from this repository and install it on your android device.
+3. Run _RideSOS_ application granting it the following permissions.
 
 ### Grant necessary permissions:
 1. Location Services
@@ -64,7 +78,18 @@ Every 500ms the process reads the accellerometers value and calculates each magn
 When the last magnitude exceeds an `CRASH_THRESHOLD` and the current magnitude is lower 
 than a `BREAK_TRESHOLD` (istant break after 500ms) the algorithm detects a crash.
 
-## Running MQTT server
+## MQTT server
+
+Application has MQTT functionalities that allows it to act both as publisher and subscriber.
+
+Under the conditions written before, the application can send an Emergency MQTT message on a specific topic called `hospital/emergencies`.
+
+At the same time, app is designed to always listen for messages coming from the `hospital/dispatch` topic.
+
+If you setup everything like mentioned in the **Getting Started** section, MQTT workflow will be the following:
+1. App detect crash and user select option that lead to sending an Emergency MQTT message -> message is sent and user receives notification
+2. Hospital mqtt server (simulated by the python script) receive that message and after 10s it sends another message to the topic the application is subscribed to (telling him that ambulance is on its way)
+3. App will receive that message and it will be displayed through a push notification
 
 ## ✅ Implemented Feauteres and ⏩️ Future enhancements
 | Features            | State |
