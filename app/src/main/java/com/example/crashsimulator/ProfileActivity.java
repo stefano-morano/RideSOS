@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -62,10 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
         blood_type = findViewById(R.id.bloodType);
         profileImage = findViewById(R.id.profileImage);
 
-        String profileImageUriString = sharedPref.getString(getString(R.string.profile_image_uri), "");
-        if (!(profileImageUriString.isEmpty()))
-            profileImage.setImageURI(Uri.parse(profileImageUriString));
-
         // Main content
         editProfileView = findViewById(R.id.editIcon);
         editProfileView.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), EditProfileActivity.class)));
@@ -78,6 +75,19 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // Get uri of default icon
+        Uri path = Uri.parse("android.resource://com.example.crashsimulator/" + R.drawable.ic_profile);
+        String imgPath = path.toString();
+
+        // Save values of everything that changed pushing it in the sharedPreferences
+        SharedPreferences.Editor editor = sharedPref.edit();
+        // Set default if not set
+        String profileImageUriDefault = sharedPref.getString(getString(R.string.profile_image_uri_default_key), "");
+        if (profileImageUriDefault.isEmpty()) {
+            editor.putString(getString(R.string.profile_image_uri_default_key), imgPath);
+            editor.apply();
+        }
+
         readSharedPreferences();
     }
 
@@ -88,11 +98,14 @@ public class ProfileActivity extends AppCompatActivity {
         String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
         String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
         String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
+        String profileImageUriDefault = sharedPref.getString(getString(R.string.profile_image_uri_default_key), "");
+        String profileImageUri = sharedPref.getString(getString(R.string.profile_image_uri_key), profileImageUriDefault);
 
         profile_name.setText(String.format("%s %s", nameValue, surnameValue));
         phone_number.setText(phoneNumberValue);
         gender.setText(genderValue, false);
         blood_type.setText(bloodTypeValue, false);
         birthdate.setText(birthdateValue);
+        profileImage.setImageURI(Uri.parse(profileImageUri));
     }
 }

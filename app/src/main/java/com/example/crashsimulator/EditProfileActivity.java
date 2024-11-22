@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -71,6 +72,7 @@ public class EditProfileActivity extends AppCompatActivity {
         AppHelper.CreateDropdown(this, findViewById(R.id.bloodType), R.array.blood_type_values);
 
         // Bind UI
+        profileImage = findViewById(R.id.profileImage);
         name = findViewById(R.id.name);
         surname = findViewById(R.id.surname);
         phone_number = findViewById(R.id.phoneNumber);
@@ -103,11 +105,6 @@ public class EditProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        profileImage = findViewById(R.id.profileImage);
-        String profileImageUriString = sharedPref.getString(getString(R.string.profile_image_uri), "");
-        if (!(profileImageUriString.isEmpty()))
-            profileImage.setImageURI(Uri.parse(profileImageUriString));
-
         profileImage.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
@@ -129,8 +126,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 int newHeight = 300;
 
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, false);
+
                 profileImage.setImageBitmap(resizedBitmap);
                 newProfileImageUri = bitmapToUri(resizedBitmap, this);
+                Log.d("TEST", "changed (temp) profileImageUri to: " + String.valueOf(newProfileImageUri));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -151,7 +150,6 @@ public class EditProfileActivity extends AppCompatActivity {
         return null; // Return null if an error occurs
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -167,6 +165,8 @@ public class EditProfileActivity extends AppCompatActivity {
         String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
         String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
         String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
+        String profileImageUriDefault = sharedPref.getString(getString(R.string.profile_image_uri_default_key), "");
+        String profileImageUri = sharedPref.getString(getString(R.string.profile_image_uri_key), profileImageUriDefault);
 
         name.setText(nameValue);
         surname.setText(surnameValue);
@@ -174,6 +174,7 @@ public class EditProfileActivity extends AppCompatActivity {
         gender.setText(genderValue, false);
         blood_type.setText(bloodTypeValue, false);
         birthdate.setText(birthdateValue);
+        profileImage.setImageURI(Uri.parse(profileImageUri));
     }
 
     boolean checkInput() {
@@ -195,9 +196,7 @@ public class EditProfileActivity extends AppCompatActivity {
         AppHelper.PutString(editor, getString(R.string.gender_label), gender);
         AppHelper.PutString(editor, getString(R.string.blood_type_label), blood_type);
         AppHelper.PutString(editor, getString(R.string.birthdate_label), birthdate);
-
-        if (newProfileImageUri != null)
-            editor.putString(getString(R.string.profile_image_uri), String.valueOf(newProfileImageUri));
+        AppHelper.PutStringString(editor, getString(R.string.profile_image_uri_key), String.valueOf(newProfileImageUri));
 
         // Confirm
         editor.apply();

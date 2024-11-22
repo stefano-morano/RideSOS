@@ -62,6 +62,12 @@ public class AppHelper {
         }
     }
 
+    static public void PutStringString(SharedPreferences.Editor editor, String entry_key, String text) {
+        if (hasTextCharSequence(text)) {
+            editor.putString(entry_key, text);
+        }
+    }
+
     static public void PutStringHint(SharedPreferences.Editor editor, String entry_key, EditText text) {
         if (HasTextHint(text)) {
             editor.putString(entry_key, String.valueOf(text.getHint()));
