@@ -67,7 +67,7 @@ public class AccelerometerService extends Service implements AccelerometerSensor
                     float[] values = accelerometerSensor.getAccelerometerValues();
                     String data = String.format("X: %.2f, Y: %.2f, Z: %.2f", values[0], values[1], values[2]);
                     Log.d(TAG, data);
-
+                    
                     if (detectCrash(values, lastMagnitude)) {
                         Log.d(TAG, "Crash detected!");
                         onCrashDetected();

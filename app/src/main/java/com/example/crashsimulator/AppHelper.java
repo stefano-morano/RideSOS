@@ -14,10 +14,12 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
@@ -30,7 +32,9 @@ import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.Instant;
@@ -142,13 +146,56 @@ public class AppHelper {
                 .build();
     }
 
-    static public String CreateEmergencyMessage(String name, String surname, String phoneNumber,
+    static public void SendEmergencyMessage(Context cxt, MQTTClient client, String name, String surname, String phoneNumber,
                                          String gender, String bloodType, String birthdate) {
 
-        // TODO: Get actual location
-        float latitude = 0f;
-        float longitude = 0f;
+        // Create location JSON object
+        JSONObject locationJson = new JSONObject();
 
+        final String[] msg = {""};
+
+        // Try to get locations
+        if (AppHelper.CheckLocationPermissionsGuaranteed(cxt)) {
+            AppHelper.GetCurrentLocation(cxt, location -> {
+                if (location != null) {
+                    try {
+                        locationJson.put("latitude", location.getLatitude());
+                        locationJson.put("longitude", location.getLongitude());
+                        Log.d("Location", locationJson.toString());
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    try {
+                        locationJson.put("latitude", 0.0);
+                        locationJson.put("longitude", 0.0);
+                        Log.d("Location", "Failed to get location");
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                // Create msg
+                msg[0] = AppHelper.createEmergencyMessageRaw(name, surname, phoneNumber, gender, bloodType, birthdate, locationJson);
+                client.publishMessage(msg[0]);
+            });
+        } else {
+            try {
+                locationJson.put("latitude", 0.0);
+                locationJson.put("longitude", 0.0);
+                Log.d("Location", "Can't read location");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Create msg
+            msg[0] = AppHelper.createEmergencyMessageRaw(name, surname, phoneNumber, gender, bloodType, birthdate, locationJson);
+            client.publishMessage(msg[0]);
+        }
+    }
+
+    static private String createEmergencyMessageRaw(String name, String surname, String phoneNumber,
+                                                  String gender, String bloodType, String birthdate, JSONObject locationJson) {
         try {
             // Create main JSON object
             JSONObject messageJson = new JSONObject();
@@ -171,12 +218,6 @@ public class AppHelper {
             // Add user info to the main JSON object
             messageJson.put("user", userJson);
 
-            // Create location JSON object
-            JSONObject locationJson = new JSONObject();
-            locationJson.put("latitude", latitude);
-            locationJson.put("longitude", longitude);
-            locationJson.put("accuracy", "5m"); // TODO: Example accuracy
-
             // Add location info to the main JSON object
             messageJson.put("location", locationJson);
 
@@ -186,11 +227,21 @@ public class AppHelper {
             // Convert the JSONObject to a String for MQTT transmission
             return messageJson.toString();
         } catch (Exception e) {
+            double latitude = 0.0;
+            double longitude = 0.0;
+            try {
+                latitude = locationJson.getDouble("latitude");
+                longitude = locationJson.getDouble("longitude");
+            } catch (Exception ex) {
+                latitude = 0.0;
+                longitude = 0.0;
+            }
+
             return String.format(
                     "Emergency: %s %s has fallen from their bike.\n" +
-                    "Contact: %s\nGender: %s\nBlood Type: %s\nBirthdate: %s\n" +
-                    "Location: (%.6f, %.6f)\n" +
-                    "Urgent assistance needed",
+                            "Contact: %s\nGender: %s\nBlood Type: %s\nBirthdate: %s\n" +
+                            "Location: (%.6f, %.6f)\n" +
+                            "Urgent assistance needed",
                     name, surname, phoneNumber, gender, bloodType, birthdate, latitude, longitude);
         }
     }

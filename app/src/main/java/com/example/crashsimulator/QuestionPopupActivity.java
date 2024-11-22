@@ -111,7 +111,10 @@ public class QuestionPopupActivity extends Activity {
         String genderValue = sharedPref.getString(getString(R.string.gender_label), getString(R.string.gender_value));
         String bloodTypeValue = sharedPref.getString(getString(R.string.blood_type_label), getString(R.string.blood_type_value));
         String birthdateValue = sharedPref.getString(getString(R.string.birthdate_label), getString(R.string.birthdate_value));
-        String emergencyMessage = AppHelper.CreateEmergencyMessage(
+
+        AppHelper.SendEmergencyMessage(
+                this,
+                HomeActivity.client,
                 nameValue,
                 surnameValue,
                 phoneNumberValue,
@@ -119,7 +122,6 @@ public class QuestionPopupActivity extends Activity {
                 bloodTypeValue,
                 birthdateValue
         );
-        HomeActivity.client.publishMessage(emergencyMessage);
     }
 
     private void make_call(){
