@@ -32,14 +32,16 @@
                 android:layout_height="wrap_content"
                 android:text="Hospital Name"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/hospitalAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hospital Address"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/black" />
 
             <!-- Could be for phone number but we don't have it -->
             <!--            <TextView-->
@@ -58,6 +60,7 @@
             android:layout_height="wrap_content"
             android:text="km"
             android:textSize="16sp"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

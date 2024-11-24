@@ -87,7 +87,17 @@ public class ProfileActivity extends AppCompatActivity {
             editor.putString(getString(R.string.profile_image_uri_default_key), imgPath);
             editor.apply();
         }
+        readSharedPreferences();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         readSharedPreferences();
     }
 

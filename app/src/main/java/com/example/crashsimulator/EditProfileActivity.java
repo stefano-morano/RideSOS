@@ -132,7 +132,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, false);
 
                 profileImage.setImageBitmap(resizedBitmap);
-                newProfileImageUri = bitmapToUri(resizedBitmap, this);
+                newProfileImageUri = bitmapToUri(resizedBitmap, "profile_pic_"+counter+".png", this);
+                counter++;
                 Log.d("TEST", "changed (temp) profileImageUri to: " + String.valueOf(newProfileImageUri));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -140,9 +141,9 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
-    public Uri bitmapToUri(Bitmap bitmap, Context context) {
+    public Uri bitmapToUri(Bitmap bitmap, String filename, Context context) {
         File outputDir = context.getCacheDir(); // Use internal storage (you can also use external storage if needed)
-        File outputFile = new File(outputDir, "profile_pic_"+counter+".png"); // You can set your own name for the image file
+        File outputFile = new File(outputDir, filename); // You can set your own name for the image file
 
         try (FileOutputStream out = new FileOutputStream(outputFile)) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // Save bitmap as PNG
@@ -200,7 +201,9 @@ public class EditProfileActivity extends AppCompatActivity {
         AppHelper.PutString(editor, getString(R.string.blood_type_label), blood_type);
         AppHelper.PutString(editor, getString(R.string.birthdate_label), birthdate);
 
-        Log.d("TEST", "saving profile image: " + String.valueOf(newProfileImageUri));
+
+        // Create other time the file with the default name now
+        Log.d("TEST", "saved profileImageUri to: " + String.valueOf(newProfileImageUri));
         AppHelper.PutStringString(editor, getString(R.string.profile_image_uri_key), String.valueOf(newProfileImageUri));
 
         // Confirm
