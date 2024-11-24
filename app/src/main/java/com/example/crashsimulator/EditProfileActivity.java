@@ -34,6 +34,7 @@ public class EditProfileActivity extends AppCompatActivity {
     AutoCompleteTextView gender, blood_type;
     TextInputLayout l_name, l_surname, l_phone_number, l_birthdate, l_gender, l_blood_type;
     Uri newProfileImageUri;
+    int counter = 0;
 
     private static final int PICK_IMAGE_REQUEST_CODE = 1001;
 
@@ -94,6 +95,9 @@ public class EditProfileActivity extends AppCompatActivity {
         AppHelper.SetTextChangedListener(gender, l_gender);
         AppHelper.SetTextChangedListener(blood_type, l_blood_type);
 
+        // Restore SharedPreferences
+        readSharedPreferences();
+
         // Save changes button
         btn = findViewById(R.id.button);
         btn.setOnClickListener(view -> {
@@ -138,7 +142,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public Uri bitmapToUri(Bitmap bitmap, Context context) {
         File outputDir = context.getCacheDir(); // Use internal storage (you can also use external storage if needed)
-        File outputFile = new File(outputDir, "profile_pic.png"); // You can set your own name for the image file
+        File outputFile = new File(outputDir, "profile_pic_"+counter+".png"); // You can set your own name for the image file
 
         try (FileOutputStream out = new FileOutputStream(outputFile)) {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // Save bitmap as PNG
@@ -153,9 +157,6 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        // Restore SharedPreferences
-        readSharedPreferences();
     }
 
     void readSharedPreferences() {
@@ -174,6 +175,8 @@ public class EditProfileActivity extends AppCompatActivity {
         gender.setText(genderValue, false);
         blood_type.setText(bloodTypeValue, false);
         birthdate.setText(birthdateValue);
+
+        Log.d("TEST", "Reading profile image: " + String.valueOf(profileImageUri));
         profileImage.setImageURI(Uri.parse(profileImageUri));
     }
 
@@ -196,6 +199,8 @@ public class EditProfileActivity extends AppCompatActivity {
         AppHelper.PutString(editor, getString(R.string.gender_label), gender);
         AppHelper.PutString(editor, getString(R.string.blood_type_label), blood_type);
         AppHelper.PutString(editor, getString(R.string.birthdate_label), birthdate);
+
+        Log.d("TEST", "saving profile image: " + String.valueOf(newProfileImageUri));
         AppHelper.PutStringString(editor, getString(R.string.profile_image_uri_key), String.valueOf(newProfileImageUri));
 
         // Confirm

@@ -106,6 +106,8 @@ public class ProfileActivity extends AppCompatActivity {
         gender.setText(genderValue, false);
         blood_type.setText(bloodTypeValue, false);
         birthdate.setText(birthdateValue);
+
+        Log.d("TEST", "Reading profile image: " + String.valueOf(profileImageUri));
         profileImage.setImageURI(Uri.parse(profileImageUri));
     }
 }
